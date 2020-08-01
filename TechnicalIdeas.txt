@@ -1,1 +1,4 @@
+Hver karakter som et objekt. Med en syd::vector som holder alle Sprite states. De skal kunne oversættes gennem en enum
 
+
+Vinduet skal styres gennem et custom lib, som kan kalde vindue funktioner baseret på operativsystemet
