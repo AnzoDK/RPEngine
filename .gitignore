@@ -4,4 +4,4 @@ sound.ogg
 rpengine
 include/RPAudio/*
 *.o
-.kdev4
+.kdev4/*
