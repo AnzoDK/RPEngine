@@ -1,12 +1,12 @@
 #pragma once
-#include "../includes/RPAudio.h"
+#include "RPAudio/rpaudio.h"
 #ifdef __CPP17__
 #include <filesystem>
 #endif
 #ifdef _WIN32
 #include <windows.h>
 #endif
-#ifndef
+#ifndef _WIN32
 #endif
 #include <iostream>
 namespace rp{
@@ -18,7 +18,7 @@ struct CharacterSprite
   private:
     uint8_t* buffer;
     
-}
+};
 
 enum CharacterState{Default=0,Smiling,Crying,Annoyed,Sad};
 
@@ -35,7 +35,7 @@ class CharacterObject
     int currState;
     //Holds the characters sprites for different states - Should always be ordered in the same way as CharacterState (i.e Default sprite would be in slot 0 and so on)
     std::vector<CharacterSprite*> chrStates;
-}
+};
 
 class Scene
 {
