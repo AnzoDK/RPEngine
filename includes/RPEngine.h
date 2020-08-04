@@ -48,9 +48,10 @@ class RosenoernEngine
   RosenoernEngine();
   ~RosenoernEngine();
   void init();
-  RosenoernAudio* audio;
+  RosenoernAudio& GetAudioController();
+  
   private:
-    
+    RosenoernAudio* audio;
 };
 
 

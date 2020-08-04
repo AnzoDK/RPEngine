@@ -53,4 +53,7 @@ void RosenoernEngine::init()
     audio = new RosenoernAudio(0,5);
     audio->init();
 }
-
+RosenoernAudio& RosenoernEngine::GetAudioController()
+{
+ return *audio;   
+}

@@ -8,7 +8,7 @@ SRC := ./src
 
 release: main.o
 	g++ $(CXX_FLAGS) $(INCLUDES) $(SO_DIRS) -o rpengine $(OBJECTS) $(LINK)
-	clean
+	make clean
 
 main.o: rpengine.o
 	g++ -c $(CXX_FLAGS) $(INCLUDES) $(SO_DIRS) main.cpp -o main.o

@@ -55,8 +55,9 @@ int main()
 {
     rp::RosenoernEngine* re = new rp::RosenoernEngine();
     re->init();
-    re->audio->AddToQueue("sound.ogg");
-    re->audio->PlayFromQueue();
+    rp::RosenoernAudio& audioController = re->GetAudioController();
+    audioController.AddToQueue("sound.ogg");
+    audioController.PlayFromQueue();
     std::string input;
     std::cin >> input;
     delete(re);
