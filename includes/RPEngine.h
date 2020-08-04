@@ -1,8 +1,6 @@
 #pragma once
 #include "RPAudio/rpaudio.h"
-#ifdef __CPP17__
 #include <filesystem>
-#endif
 #ifdef _WIN32
 #include <windows.h>
 #endif
@@ -14,6 +12,7 @@ namespace rp{
 struct CharacterSprite
 {
   public:
+    CharacterSprite(std::string path);
     std::string path;
   private:
     uint8_t* buffer;
@@ -49,8 +48,9 @@ class RosenoernEngine
   RosenoernEngine();
   ~RosenoernEngine();
   void init();
+  RosenoernAudio* audio;
   private:
-    RosenoernAudio* audio;
+    
 };
 
 
