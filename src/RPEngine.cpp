@@ -3,6 +3,36 @@ using namespace rp;
 namespace fs = std::filesystem;
 #include <fstream>
 
+
+GameObject::GameObject()
+{
+    pos = Position(); 
+}
+
+
+AnimationSheet::AnimationSheet(std::string _path)
+{
+    path = _path;
+}
+
+std::vector<CharacterSprite*> AnimationSheet::ProcessSheet(Position frameSize=Position(300,500))
+{
+  PngFile png = PngFile(path);
+  if(png.IsValid())
+  {
+    
+  }
+      
+}
+
+
+SpriteAnimation::SpriteAnimation(int _FPS, std::string animSheet)
+{
+  playbackFPS = _FPS;
+  AnimationSheet sheet = AnimationSheet(animSheet);
+  sprites = sheet.ProcessSheet();
+}
+
 CharacterSprite::CharacterSprite(std::string path)
 {
   std::ifstream reader = std::ifstream(path,std::ios::binary | std::ios::ate);
@@ -16,6 +46,26 @@ CharacterSprite::CharacterSprite(std::string path)
     buffer[i] = ch_buffer[i];
   }
   delete[] ch_buffer;
+}
+
+CharacterSprite::~CharacterSprite()
+{
+  delete[] buffer;  
+}
+
+
+
+void CharacterObject::Update()
+{
+    
+}
+
+CharacterObject::~CharacterObject()
+{
+    for(unsigned int i = 0; i < chrStates.size();i++)
+    {
+        delete(chrStates.at(i));
+    }
 }
 
 CharacterObject::CharacterObject()
@@ -40,18 +90,22 @@ CharacterState CharacterObject::GetState()
 {
   return static_cast<CharacterState>(currState);
 }
-RosenoernEngine::RosenoernEngine()
+RosenoernEngine::RosenoernEngine(bool _debug,int buffers)
 {
-    
+    audio = new RosenoernAudio(_debug,buffers);
 }
 RosenoernEngine::~RosenoernEngine()
 {
     delete(audio);
+    for(unsigned int i = 0; i < objs.size();i++)
+    {
+        delete(objs.at(i));
+    }
 }
 void RosenoernEngine::init()
 {
-    audio = new RosenoernAudio(0,5);
     audio->init();
+    objs = std::vector<GameObject*>();
 }
 RosenoernAudio& RosenoernEngine::GetAudioController()
 {
