@@ -10,6 +10,9 @@
 #include "RPPng.h"
 namespace rp{
 
+enum CharacterState{Default=0,Smiling,Crying,Annoyed,Sad,Suprised};
+enum AnimationState{Idle=0};
+    
 struct Position
 {
     template<typename T, typename std::enable_if<std::is_arithmetic<T>::value>::type* = nullptr>
@@ -34,7 +37,7 @@ struct CharacterSprite
     std::string path;
     ~CharacterSprite();
   private:
-    uint8_t* buffer;
+    PngFile* file;
     
 };
 
@@ -59,7 +62,7 @@ struct SpriteAnimation
 
 
 
-enum CharacterState{Default=0,Smiling,Crying,Annoyed,Sad,Suprised};
+
 
 class GameObject
 {
@@ -73,12 +76,15 @@ class GameObject
         
         virtual ~GameObject(){}
         virtual void Update(){}
+        void SetSprite(CharacterSprite* sprite);
+        void SetSprite(std::string spritePath);
     private:
         Position pos;
+        CharacterSprite* currSprite;
 };
 
 
-class CharacterObject : GameObject
+class CharacterObject : public GameObject
 {
   public:
     //Takes a folder and reads all files in the folder as sprites - as of now it uses the CharacterState as namingscheme. so 0.png would be default for the character
@@ -92,6 +98,7 @@ class CharacterObject : GameObject
     int currState;
     //Holds the characters sprites for different states - Should always be ordered in the same way as CharacterState (i.e Default sprite would be in slot 0 and so on)
     std::vector<CharacterSprite*> chrStates;
+    std::vector<SpriteAnimation*> animations;
 };
 
 class Scene

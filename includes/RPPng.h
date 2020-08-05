@@ -4,6 +4,8 @@
 #include <vector>
 #include "RPCtools.h"
 
+//TODO Rethink Chunks - https://vivaxyblog.github.io/2019/11/07/decode-a-png-image-with-javascript.html
+
 struct PngChunk
 {
   PngChunk(unsigned int _length, uint8_t* type, uint8_t* data, uint8_t* _CRC);
@@ -22,9 +24,13 @@ class PngFile
         PngFile(std::string path);
         ~PngFile();
         int IsValid();
-        
+        uint8_t* GetBuffer();
     private:
+        void DecodeScanlines();
+        int AlphaCalc(int alpha, int background, int foreground);
         void GenerateChunkVector();
+        int LocateChunk(uint8_t* bytes);
+        void IHDRAnalyze(int offset);
         uint8_t* buffer;
         std::string path;
         long unsigned int bufferSize;

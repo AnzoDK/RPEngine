@@ -5,3 +5,4 @@ rpengine
 include/RPAudio/*
 *.o
 .kdev4/*
+testImg.png

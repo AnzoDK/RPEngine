@@ -53,11 +53,14 @@ int main(int argc, char **argv)
 */
 int main()
 {
+    
     rp::RosenoernEngine* re = new rp::RosenoernEngine(1,10);
     re->init();
     rp::RosenoernAudio& audioController = re->GetAudioController();
     audioController.AddToQueue("sound.ogg");
     audioController.PlayFromQueue();
+    rp::CharacterObject testObj = rp::CharacterObject();
+    testObj.SetSprite("testImg.png");
     std::string input;
     std::cin >> input;
     delete(re);

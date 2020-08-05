@@ -8,7 +8,15 @@ GameObject::GameObject()
 {
     pos = Position(); 
 }
-
+void GameObject::SetSprite(std::string spritePath)
+{
+    CharacterSprite* sprite = new CharacterSprite(spritePath);
+    currSprite = sprite;
+}
+void GameObject::SetSprite(CharacterSprite* sprite)
+{
+    currSprite = sprite;
+}
 
 AnimationSheet::AnimationSheet(std::string _path)
 {
@@ -35,22 +43,17 @@ SpriteAnimation::SpriteAnimation(int _FPS, std::string animSheet)
 
 CharacterSprite::CharacterSprite(std::string path)
 {
-  std::ifstream reader = std::ifstream(path,std::ios::binary | std::ios::ate);
-  unsigned int bufferSize = reader.tellg();
-  char* ch_buffer = new char[bufferSize];
-  reader.read(ch_buffer,bufferSize);
-  reader.close();
-  buffer = new uint8_t[bufferSize];
-  for(int i = 0; i < bufferSize;i++)
+  file = new PngFile(path);
+  if(!file->IsValid())
   {
-    buffer[i] = ch_buffer[i];
+      //Throw some error at some point
   }
-  delete[] ch_buffer;
+  //Valid :)
 }
 
 CharacterSprite::~CharacterSprite()
 {
-  delete[] buffer;  
+  delete(file);
 }
 
 
@@ -70,7 +73,8 @@ CharacterObject::~CharacterObject()
 
 CharacterObject::CharacterObject()
 {
- std::vector<CharacterSprite*> chrStates = std::vector<CharacterSprite*>(); 
+ chrStates = std::vector<CharacterSprite*>();
+ animations = std::vector<SpriteAnimation*>();
 }
 void CharacterObject::ChangeState(CharacterState state)
 {

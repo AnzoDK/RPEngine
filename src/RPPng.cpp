@@ -22,7 +22,9 @@ PngFile::PngFile(std::string _path)
     chunks = std::vector<PngChunk*>();
     path = _path;
     std::ifstream file = std::ifstream(path,std::ios::binary | std::ios::ate);
-    bufferSize = file.tellg();
+    std::streamsize size = file.tellg();
+    bufferSize = size;
+    file.seekg(0, std::ios::beg);
     char* ch_buffer = new char[bufferSize];
     buffer = new uint8_t[bufferSize];
     file.read(ch_buffer,bufferSize);
@@ -35,7 +37,6 @@ PngFile::PngFile(std::string _path)
     if(SanityCheck())
     {
         //File is valid PNG
-        valid = 1;
         GenerateChunkVector();
     }
     else
@@ -85,79 +86,210 @@ void PngFile::GenerateChunkVector()
 {
     //We have to keep track of the 3 critical chunks IHDR - IDAT - IEND
     bool done = 0;
-    //The chunk "length" property is not counting itself - thus we add 4 bytes to our offeset in the end
+    //The chunk "length" property is not counting itself - thus we add 4 bytes to our offeset in the end - When indexing for chunks like IHDR, we need to
+    //Remember that it is the 4 bytes before the chunktype i.e IHDR
     int extraOffset = 4;
     int headerOffset = 8;
     PngChunk* tmpChunk;
-    int counter = 0;
-    int newChunkOffset = 0;
-    while(!done)
-    {
-        if(counter == 0)
-        {
+    bool scanlineFilterByte = 0;
+    int IHDROffset,IDATOffset,IENDOffset;
+    unsigned int IHDRLength,IDATLength,IENDLength;
             uint8_t* IHDR = new uint8_t[4];
             IHDR[0] = 0x49;
             IHDR[1] = 0x48;
             IHDR[2] = 0x44;
             IHDR[3] = 0x52;
+            
+            uint8_t* IDAT = new uint8_t[4];
+            IDAT[0] = 0x49;
+            IDAT[1] = 0x44;
+            IDAT[2] = 0x41;
+            IDAT[3] = 0x54;
+            
+            uint8_t* IEND = new uint8_t[4];
+            IEND[0] = 0x49;
+            IEND[1] = 0x45;
+            IEND[2] = 0x4E;
+            IEND[3] = 0x44;
             //First chunk must be the IHDR chunk - FIND IT!
-            bool found = 0;
-            int foundOffset = 0;
-            int c = 0;
-            while(!found)
-            {
-                uint8_t* tmpData = new uint8_t[4];
-                for(unsigned int i = 0; i < 4; i++)
-                {
-                    tmpData[i] = buffer[i+c];
-                }
-                if(CTools::compareArray(IHDR,tmpData,4))
-                {
-                  found = 1;
-                  foundOffset = c;
-                }
-              c++;
-              delete[] tmpData;
-            }
+            
+            IHDROffset = LocateChunk(IHDR);
+            IDATOffset = LocateChunk(IDAT);
+            IENDOffset = LocateChunk(IEND);
+            
+            
             delete[] IHDR;
-        }
-        //Locate length
-        uint8_t* lengthBytes = new uint8_t[4];
-        for(int i = 0; i < 4;i++)
-        {
-            lengthBytes[i] = buffer[newChunkOffset+i];
-        }
-        unsigned int length = 0;
-        length = (lengthBytes[0] << 24) | (lengthBytes[1] << 16) | (lengthBytes[2] << 8) | lengthBytes[3];
-        delete[] lengthBytes;
-        //Locate ChunkType
-        uint8_t* chunkTypeBytes = new uint8_t[4];
-        uint8_t* chunkDataBytes = new uint8_t[length];
-        uint8_t* CRCBytes = new uint8_t[4];
-        for(int i = 0; i < 4;i++)
-        {
-            chunkTypeBytes[i] = buffer[newChunkOffset+i+extraOffset];
-        }
-        int ChunkDataOffeset = newChunkOffset+4+extraOffset;
-        for(int i = 0; i < length;i++)
-        {
-            chunkTypeBytes[i] = buffer[ChunkDataOffeset+i];
-        }
-        int CRCOffset = ChunkDataOffeset+length;
-        for(int i = 0; i < 4;i++)
-        {
-            chunkTypeBytes[i] = buffer[CRCOffset+i];
-        }
-        newChunkOffset = CRCOffset+4;
-        tmpChunk = new PngChunk(length, chunkTypeBytes, chunkDataBytes,CRCBytes);
-        chunks.push_back(tmpChunk);
-        
-        
-        
-        counter++;
-        
-    }
+            delete[] IDAT;
+            delete[] IEND;
+            
+            if(IHDROffset != 0 && IDATOffset != 0 && IENDOffset != 0)
+            {
+                //Valid PNG file !!!
+                
+                //The byte offset is due to our memory address for the IHDR IDAT and IEND all being at the I - Thus to get the data after the letters we have to offset it by 4, which is the amount of bytes making up the chunktype
+                int byteOffset = 4;
+                IHDRAnalyze(IHDROffset+byteOffset);
+            }
+            else
+            {
+               //Invalid File
+               valid = 0;
+               return; 
+            }
+            //Locate length
+            uint8_t* IHDRLengthBytes = new uint8_t[4];
+            uint8_t* IDATLengthBytes = new uint8_t[4];
+            uint8_t* IENDLengthBytes = new uint8_t[4];
+            for(int i = 0; i < 4;i++)
+            {
+                IHDRLengthBytes[i] = buffer[IHDROffset-4+i];
+                IDATLengthBytes[i] = buffer[IDATOffset-4+i];
+                IENDLengthBytes[i] = buffer[IENDOffset-4+i];
+            }
+            IHDRLength = (IHDRLengthBytes[0] << 24) | (IHDRLengthBytes[1] << 16) | (IHDRLengthBytes[2] << 8) | IHDRLengthBytes[3];
+            IDATLength = (IDATLengthBytes[0] << 24) | (IDATLengthBytes[1] << 16) | (IDATLengthBytes[2] << 8) | IDATLengthBytes[3];
+            IENDLength = (IENDLengthBytes[0] << 24) | (IENDLengthBytes[1] << 16) | (IENDLengthBytes[2] << 8) | IENDLengthBytes[3];
+            delete[] IHDRLengthBytes;
+            delete[] IDATLengthBytes;
+            delete[] IENDLengthBytes;
+            //Locate ChunkType
+            uint8_t* IDATDataBytes = new uint8_t[IDATLength];
+            for(int i = 0; i < IDATLength;i++)
+            {
+                IDATDataBytes[i] = buffer[IDATOffset+4+i];
+            }
+            
+            
 }
+int PngFile::LocateChunk(uint8_t* bytes)
+{
+    bool found = 0;
+    int foundOffset = 0;
+    unsigned long int c = 0;
+
+    while(!found)
+    {
+        if(c > bufferSize)
+        {
+            //could not be found
+            break;
+        }
+        uint8_t* tmpData = new uint8_t[4];
+        for(unsigned int i = 0; i < 4; i++)
+        {
+            tmpData[i] = buffer[i+c];
+        }
+        if(CTools::compareArray(bytes,tmpData,4))
+        {
+            found = 1;
+            foundOffset = c;
+        }
+        c++;
+        delete[] tmpData;
+    }
+    return foundOffset;
+}
+void PngFile::IHDRAnalyze(int offset)
+{
+    uint8_t* widthBytes = new uint8_t[4];
+    uint8_t* heightBytes = new uint8_t[4];
+    uint8_t bitDepthByte = buffer[offset+8];
+    uint8_t colorTypehByte = buffer[offset+9];
+    uint8_t compressionByte = buffer[offset+10];
+    uint8_t filterByte = buffer[offset+11];
+    uint8_t interlaceByte = buffer[offset+12];
+    
+    for(int i = 0; i < 4;i++)
+    {
+        widthBytes[i] = buffer[offset+i];
+        heightBytes[i] = buffer[offset+4+i];
+    }
+    
+    unsigned int _width = 0;
+    unsigned int _height = 0;
+    _width = (widthBytes[0] << 24) | (widthBytes[1] << 16) | (widthBytes[2] << 8) | widthBytes[3];
+    _height = (heightBytes[0] << 24) | (heightBytes[1] << 16) | (heightBytes[2] << 8) | heightBytes[3];
+    width = _width;
+    height = _height;
+    
+    bitdepth = bitDepthByte;
+    colorType = colorTypehByte;
+    compressionMethod = compressionByte;
+    filterMethod = filterByte;
+    interlaceMethod = interlaceByte;
+    delete[] widthBytes;
+    delete[] heightBytes;
+}
+uint8_t* PngFile::GetBuffer()
+{
+    return buffer;
+}
+int PngFile::AlphaCalc(int alpha, int background, int foreground)
+{
+    return alpha * foreground + (1-alpha) * background;
+}
+void PngFile::DecodeScanlines(int IDAToffset, int IDATLength)
+{
+    //As of now there is only one fitler mode (mode 0) - Therefore we just set scanlineFilterByte to 1
+    int scanlineFilterByte = 1;
+    int scanlineSize = 0;
+    int maxAlpha = 0;
+    switch(filterMethod)
+    {
+        case 0:
+            //none
+        break;
+    }
+    switch(interlaceMethod)
+    {
+        case 0:
+            //Not interlaced
+        break;
+    }
+    switch(colorType)
+    {
+        default:
+            //Undefined
+        break;
+                
+        case 0:
+            //Greyscale sample
+        break;
+                
+        case 2:
+            //Normal RGB triple
+        break;
+                
+        case 3:
+            //PLTE Index
+        break;
+                
+        case 4:
+            //Greyscale sample followed by alpha sample
+            maxAlpha = 2^bitdepth;
+        break;
+                
+        case 6:
+            //RGB triple followed by alpha sample
+            maxAlpha = 2^bitdepth;
+        break;
+    }
+    switch(compressionMethod)
+    {
+        default:
+            //Undefined
+        break;
+                
+        case 0:
+            //zlib deflation
+                    
+        break;
+    }
+    scanlineSize = width*bitdepth;
+}
+
+
+
 
 
 
