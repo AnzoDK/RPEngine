@@ -2,6 +2,6 @@ main.cpp
 RPengine.kdev4
 sound.ogg
 rpengine
-include/RPAudio/*
+includes/RPAudio/*
 *.o
 .kdev4/*
