@@ -10,6 +10,7 @@
 #include "RPPng.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+
 #include "RPUI.h"
 namespace rp{
 
@@ -105,6 +106,7 @@ class Scene
         void SceneUpdate();
     private:
         std::vector<Base*> objsInScene;
+   
 };
 
 

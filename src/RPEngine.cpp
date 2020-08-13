@@ -154,12 +154,12 @@ int RosenoernEngine::CreateMainWindow(std::string windowName, Uint32 flags)
         SDL_ShowWindow(RosenoernEngine::mainWin);
         SDL_SetRenderDrawColor(RosenoernEngine::mainRender,255,0,0,255);
         isRunning = 1;
-        return 1;
     }
     else
     {
       return 0;  
     }
+
 }
 void RosenoernEngine::SDLHandle()
 {
@@ -235,3 +235,4 @@ Scene::~Scene()
       delete(objsInScene.at(i));  
     }
 }
+
