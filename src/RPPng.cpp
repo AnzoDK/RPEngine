@@ -21,7 +21,7 @@ PngFile::PngFile(std::string _path)
 {
     chunks = std::vector<PngChunk*>();
     path = _path;
-    std::ifstream file = std::ifstream(path,std::ios::binary | std::ios::ate);
+    /*std::ifstream file = std::ifstream(path,std::ios::binary | std::ios::ate);
     std::streamsize size = file.tellg();
     bufferSize = size;
     file.seekg(0, std::ios::beg);
@@ -37,7 +37,8 @@ PngFile::PngFile(std::string _path)
     if(SanityCheck())
     {
         //File is valid PNG
-        GenerateChunkVector();
+        //GenerateChunkVector();
+        valid = 1;
     }
     else
     {
@@ -45,7 +46,7 @@ PngFile::PngFile(std::string _path)
       delete[] buffer;
       valid = 0;
       return;
-    }
+    }*/
 }
 PngFile::~PngFile()
 {
@@ -286,6 +287,10 @@ void PngFile::DecodeScanlines(int IDAToffset, int IDATLength)
         break;
     }
     scanlineSize = width*bitdepth;
+}
+std::string PngFile::GetPath()
+{
+    return path;
 }
 
 

@@ -25,8 +25,9 @@ class PngFile
         ~PngFile();
         int IsValid();
         uint8_t* GetBuffer();
+        std::string GetPath();
     private:
-        void DecodeScanlines();
+        void DecodeScanlines(int idatoffset, int idatlength);
         int AlphaCalc(int alpha, int background, int foreground);
         void GenerateChunkVector();
         int LocateChunk(uint8_t* bytes);

@@ -2,6 +2,8 @@
 #include <future>
 #include <chrono>
 #include "includes/RPEngine.h"
+
+#define MR rp::RosenoernEngine::mainRender
 /*
 std::string readCin()
 {
@@ -51,18 +53,33 @@ int main(int argc, char **argv)
     return 0;
 }
 */
+
+
 int main()
 {
-    
+    rp::Scene* mainMenu = new rp::Scene();
     rp::RosenoernEngine* re = new rp::RosenoernEngine(1,10);
     re->init();
     rp::RosenoernAudio& audioController = re->GetAudioController();
     audioController.AddToQueue("sound.ogg");
     audioController.PlayFromQueue();
-    rp::CharacterObject testObj = rp::CharacterObject();
-    testObj.SetSprite("testImg.png");
+    using namespace rp;
+    
+    //audioController.PlayFromQueue();
+    if(!re->CreateMainWindow("Project VN",NULL))
+    {
+        delete(re);
+        std::cout << "Could not create window" << std::endl;
+        return 1;
+    }
+    while(re->isRunning)
+    {
+        re->Update();
+    }
+    /*
     std::string input;
     std::cin >> input;
+    */
     delete(re);
     return 0;
 }

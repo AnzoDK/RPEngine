@@ -8,26 +8,13 @@
 #endif
 #include <iostream>
 #include "RPPng.h"
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
+#include "RPUI.h"
 namespace rp{
 
 enum CharacterState{Default=0,Smiling,Crying,Annoyed,Sad,Suprised};
 enum AnimationState{Idle=0};
-    
-struct Position
-{
-    template<typename T, typename std::enable_if<std::is_arithmetic<T>::value>::type* = nullptr>
-    Position(T _x, T _y)
-    {
-      x = _x;
-      y = _y;
-    }
-    Position()
-    {
-      x = 0;
-      y = 0;
-    }
-    float x,y;
-};
 
     
 struct CharacterSprite
@@ -36,6 +23,7 @@ struct CharacterSprite
     CharacterSprite(std::string path);
     std::string path;
     ~CharacterSprite();
+    PngFile* GetFile();
   private:
     PngFile* file;
     
@@ -45,7 +33,7 @@ struct AnimationSheet
 {
     public:
         AnimationSheet(std::string _path);
-        std::vector<CharacterSprite*> ProcessSheet(Position frameSize);
+        std::vector<CharacterSprite*> ProcessSheet(FullPos2D frameSize);
     private:
         std::string path;
 };
@@ -64,22 +52,27 @@ struct SpriteAnimation
 
 
 
-class GameObject
+class GameObject : public Base
 {
     public:
         GameObject();
         template<typename T, typename std::enable_if<std::is_arithmetic<T>::value>::type* = nullptr>
-        GameObject(T x, T y)
+        GameObject(T x, T y, T h, T w)
         {
-            pos = Position(x,y);
+            rect = new SDL_Rect();
+            rect->h = h;
+            rect->w = w;
+            rect->x = x;
+            rect->y = y;
         }
         
-        virtual ~GameObject(){}
-        virtual void Update(){}
+        virtual ~GameObject(){delete(rect);}
+        virtual void Draw() override;
+        virtual void Update() override;
         void SetSprite(CharacterSprite* sprite);
         void SetSprite(std::string spritePath);
     private:
-        Position pos;
+        SDL_Rect* rect;
         CharacterSprite* currSprite;
 };
 
@@ -103,7 +96,15 @@ class CharacterObject : public GameObject
 
 class Scene
 {
-
+    public:
+        Scene();
+        ~Scene();
+        void AddObject(Base* obj);
+        void RemoveObject(int id);
+        void RemoveObject(std::string name);
+        void SceneUpdate();
+    private:
+        std::vector<Base*> objsInScene;
 };
 
 
@@ -113,11 +114,20 @@ class RosenoernEngine
   RosenoernEngine(bool _debug=0,int buffers=5);
   ~RosenoernEngine();
   void init();
+  void SDLHandle();
   RosenoernAudio& GetAudioController();
+  int CreateMainWindow(std::string name, Uint32 flags);
+  static SDL_Window* mainWin;
+  static SDL_Renderer* mainRender;
+  void SetScene(Scene* s);
+  void Update();
+  bool isRunning;
+  
   
   private:
     RosenoernAudio* audio;
     std::vector<GameObject*> objs;
+    Scene* currScene;
     
 };
 
