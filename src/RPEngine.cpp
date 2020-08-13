@@ -101,6 +101,9 @@ RosenoernEngine::~RosenoernEngine()
     {
         delete(objs.at(i));
     }
+    SDL_DestroyRenderer(mainRender);
+    SDL_DestroyWindow(mainWin);
+    SDL_Quit();
 }
 void RosenoernEngine::init()
 {
@@ -110,4 +113,17 @@ void RosenoernEngine::init()
 RosenoernAudio& RosenoernEngine::GetAudioController()
 {
  return *audio;   
+}
+int RosenoernEngine::CreateMainWindow(std::string windowName, Uint32 flags)
+{
+    if(SDL_CreateWindowAndRenderer(1024,720,flags,&mainWin,&mainRender))
+    {
+        SDL_SetWindowTitle(mainWin,windowName.c_str());
+        SDL_ShowWindow(mainWin);
+        return 1;
+    }
+    else
+    {
+      return 0;  
+    }
 }

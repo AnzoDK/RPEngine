@@ -8,6 +8,8 @@
 #endif
 #include <iostream>
 #include "RPPng.h"
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 namespace rp{
 
 struct Position
@@ -96,7 +98,7 @@ class CharacterObject : GameObject
 
 class Scene
 {
-
+    
 };
 
 
@@ -107,8 +109,12 @@ class RosenoernEngine
   ~RosenoernEngine();
   void init();
   RosenoernAudio& GetAudioController();
+  int CreateMainWindow(std::string name, Uint32 flags);
+  
   
   private:
+    SDL_Window* mainWin;
+    SDL_Renderer* mainRender;
     RosenoernAudio* audio;
     std::vector<GameObject*> objs;
     

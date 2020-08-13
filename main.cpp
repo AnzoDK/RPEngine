@@ -57,7 +57,13 @@ int main()
     re->init();
     rp::RosenoernAudio& audioController = re->GetAudioController();
     audioController.AddToQueue("sound.ogg");
-    audioController.PlayFromQueue();
+    //audioController.PlayFromQueue();
+    if(!re->CreateMainWindow("Project VN",NULL))
+    {
+        delete(re);
+        std::cout << "Could not create window" << std::endl;
+        return 0;
+    }
     std::string input;
     std::cin >> input;
     delete(re);

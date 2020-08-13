@@ -3,7 +3,7 @@ SO_DIRS := -Wl,-rpath,./includes/RPAudio -L./includes/RPAudio
 OBJECTS := main.o rpengine.o rppng.o
 INCLUDES := -I./includes
 CXX_FLAGS := -std=c++17 -Wall -pthread
-LINK := -lrpaudio
+LINK := -lrpaudio -lSDL2 -lSDL2_image
 SRC := ./src
 
 release: main.o
