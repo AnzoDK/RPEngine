@@ -6,3 +6,4 @@ includes/RPAudio/*
 *.o
 .kdev4/*
 testImg.png
+rpengine.so
