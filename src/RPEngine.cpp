@@ -34,14 +34,6 @@ void GameObject::Draw()
 };
 void GameObject::Update()
 {
-    if(IsEnabled())
-    {
-        SetEnabled(false);
-    }
-    else
-    {
-        SetEnabled(true);
-    }
     
     
 }
