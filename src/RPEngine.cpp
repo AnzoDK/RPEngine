@@ -22,16 +22,28 @@ void GameObject::SetSprite(CharacterSprite* sprite)
 }
 void GameObject::Draw()
 {
-    SDL_Surface* tmpSurf = IMG_Load(currSprite->GetFile()->GetPath().c_str());
-    //SDL_Surface* tmpSurf = IMG_Load("testImg.png");
-    SDL_Texture* tex = SDL_CreateTextureFromSurface(RosenoernEngine::mainRender,tmpSurf);
-    SDL_RenderCopy(RosenoernEngine::mainRender,tex, NULL,rect);
-    SDL_FreeSurface(tmpSurf);
-    SDL_DestroyTexture(tex);
+    if(IsEnabled())
+    {
+        SDL_Surface* tmpSurf = IMG_Load(currSprite->GetFile()->GetPath().c_str());
+        //SDL_Surface* tmpSurf = IMG_Load("testImg.png");
+        SDL_Texture* tex = SDL_CreateTextureFromSurface(RosenoernEngine::mainRender,tmpSurf);
+        SDL_RenderCopy(RosenoernEngine::mainRender,tex, NULL,rect);
+        SDL_FreeSurface(tmpSurf);
+        SDL_DestroyTexture(tex);
+    }
 };
 void GameObject::Update()
 {
-    rect->x = rect->x+1;
+    if(IsEnabled())
+    {
+        SetEnabled(false);
+    }
+    else
+    {
+        SetEnabled(true);
+    }
+    
+    
 }
 
 //AnimationSheet
@@ -191,9 +203,10 @@ void RosenoernEngine::SetScene(Scene* s)
 }
 void RosenoernEngine::Update()
 {
-    SDLHandle();
+    
     SDL_RenderClear(MR);
     currScene->SceneUpdate();
+    SDLHandle();
     SDL_RenderPresent(MR);
 }
 

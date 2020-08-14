@@ -57,13 +57,18 @@ int main(int argc, char **argv)
 
 int main()
 {
-    rp::Scene* mainMenu = new rp::Scene();
     rp::RosenoernEngine* re = new rp::RosenoernEngine(1,10);
     re->init();
     rp::RosenoernAudio& audioController = re->GetAudioController();
-    audioController.AddToQueue("sound.ogg");
-    audioController.PlayFromQueue();
+    //audioController.AddToQueue("sound.ogg");
+    //audioController.PlayFromQueue();
     using namespace rp;
+    Scene* mainMenu = new Scene();
+    GameObject* testObj = new GameObject(10,10,300,300);
+    testObj->SetSprite("testImg.png");
+    mainMenu->AddObject(testObj);
+    re->SetScene(mainMenu);
+    
     
     //audioController.PlayFromQueue();
     if(!re->CreateMainWindow("Project VN",NULL))

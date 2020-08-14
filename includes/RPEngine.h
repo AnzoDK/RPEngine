@@ -106,6 +106,7 @@ class Scene
         void SceneUpdate();
     private:
         std::vector<Base*> objsInScene;
+        
    
 };
 
