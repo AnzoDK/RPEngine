@@ -1,0 +1,9 @@
+main.cpp
+RPengine.kdev4
+sound.ogg
+rpengine
+includes/RPAudio/*
+*.o
+.kdev4/*
+testImg.png
+rpengine.so
