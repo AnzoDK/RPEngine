@@ -16,6 +16,11 @@ namespace rp{
 enum CharacterState{Default=0,Smiling,Crying,Annoyed,Sad,Suprised};
 enum AnimationState{Idle=0};
 
+struct ScreenSize
+{
+  int width = 0;
+  int height = 0;
+};
     
 struct CharacterSprite
 {
@@ -121,8 +126,11 @@ class RosenoernEngine
   int CreateMainWindow(std::string name, Uint32 flags);
   static SDL_Window* mainWin;
   static SDL_Renderer* mainRender;
+  static int width;
+  static int height;
   void SetScene(Scene* s);
   void Update();
+  ScreenSize GetScreenSize();
   bool isRunning;
   
   

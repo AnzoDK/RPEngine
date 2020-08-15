@@ -6,6 +6,8 @@ namespace fs = std::filesystem;
     //To fix some static declare issues
     SDL_Renderer* RosenoernEngine::mainRender = nullptr;
     SDL_Window* RosenoernEngine::mainWin = nullptr;
+    int RosenoernEngine::height = 0;
+    int RosenoernEngine::width = 0;
 //GameObject
 GameObject::GameObject()
 {
@@ -124,6 +126,13 @@ RosenoernEngine::RosenoernEngine(bool _debug,int buffers)
 {
     audio = new RosenoernAudio(_debug,buffers);
 }
+ScreenSize RosenoernEngine::GetScreenSize()
+{
+  ScreenSize s = ScreenSize();
+  
+  SDL_GetWindowSize(RosenoernEngine::mainWin,&s.width,&s.height);
+  return s;
+}
 RosenoernEngine::~RosenoernEngine()
 {
     delete(audio);
@@ -157,6 +166,7 @@ int RosenoernEngine::CreateMainWindow(std::string windowName, Uint32 flags)
         SDL_SetWindowTitle(RosenoernEngine::mainWin,windowName.c_str());
         SDL_ShowWindow(RosenoernEngine::mainWin);
         SDL_SetRenderDrawColor(RosenoernEngine::mainRender,255,0,0,255);
+        SDL_GetWindowSize(RosenoernEngine::mainWin,&RosenoernEngine::width,&RosenoernEngine::height);
         isRunning = 1;
     }
     else
