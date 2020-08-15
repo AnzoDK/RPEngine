@@ -8,6 +8,7 @@ namespace fs = std::filesystem;
     SDL_Window* RosenoernEngine::mainWin = nullptr;
     int RosenoernEngine::height = 0;
     int RosenoernEngine::width = 0;
+    int RosenoernEngine::FPS = 0;
 //GameObject
 GameObject::GameObject()
 {
@@ -152,6 +153,8 @@ void RosenoernEngine::init()
     audio->init();
     isRunning = false;
     currScene = new Scene();
+    RosenoernEngine::FPS = 60;
+    frameDelay = 1000/RosenoernEngine::FPS;
     SDL_Init(SDL_INIT_EVERYTHING);
     IMG_Init(IMG_INIT_PNG);
     TTF_Init(); // <<-- Important to remember...
@@ -207,11 +210,15 @@ void RosenoernEngine::SetScene(Scene* s)
 }
 void RosenoernEngine::Update()
 {
-    
+    u_int32_t frameStart;
+    int frameTime;
+    frameStart = SDL_GetTicks();
     SDL_RenderClear(MR);
     currScene->SceneUpdate();
-    SDLHandle();
     SDL_RenderPresent(MR);
+    SDLHandle();
+
+    frameTime = SDL_GetTicks() - frameStart;
 }
 
 //Scene

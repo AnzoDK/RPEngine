@@ -132,12 +132,13 @@ class RosenoernEngine
   void Update();
   ScreenSize GetScreenSize();
   bool isRunning;
-  
+  static int FPS;
   
   private:
     RosenoernAudio* audio;
     std::vector<GameObject*> objs;
     Scene* currScene;
+    int frameDelay;
     
 };
 
