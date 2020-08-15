@@ -194,7 +194,7 @@ void UIText::SetFont(std::string path)
 //Button
 Button::Button()
 {
-    txt = UIText("");
+    txt = UIText();
     SetGraphic(defaultBtnTexturePath);
 }
 Button::Button(std::string btnTxt)
