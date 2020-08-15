@@ -78,7 +78,7 @@ namespace rp
     {
         public:
             UIText();
-            virtual ~UIText(){delete(rgb);}
+            virtual ~UIText(){}
             UIText(std::string fontpath, std::string text);
             UIText(std::string text);
             void LoadText(std::string fontpath, std::string text);
@@ -136,7 +136,7 @@ namespace rp
     {
         public:
             Button();
-            virtual ~Button(){}
+            virtual ~Button(){delete(txt)}
             Button(std::string btnTxt);
             void Draw() override;
             void onClick() override;
