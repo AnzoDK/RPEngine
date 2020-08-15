@@ -265,18 +265,27 @@ RGB::RGB(CommonColor cc)
         
         case CommonColor::Black:
             a = 255;
+            r = 0;
+            b = 0;
+            g = 0;
         break;
         
         case CommonColor::Red:
             r = 255;
+            g = 0;
+            b = 0;
         break;
         
         case CommonColor::Green:
             g = 255;
+            r = 0;
+            b = 0;
         break;
         
         case CommonColor::Blue:
             b = 225;
+            r = 0;
+            g = 0;
         break;
     }
     a = 255;
