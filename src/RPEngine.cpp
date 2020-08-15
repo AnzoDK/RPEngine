@@ -213,12 +213,16 @@ void RosenoernEngine::Update()
     u_int32_t frameStart;
     int frameTime;
     frameStart = SDL_GetTicks();
+    SDLHandle();
     SDL_RenderClear(MR);
     currScene->SceneUpdate();
     SDL_RenderPresent(MR);
-    SDLHandle();
 
     frameTime = SDL_GetTicks() - frameStart;
+    if(frameDelay > frameTime)
+    {
+        SDL_Delay(frameDelay-frameTime);
+    }
 }
 
 //Scene
