@@ -136,7 +136,7 @@ namespace rp
     {
         public:
             Button();
-            virtual ~Button(){delete(txt)}
+            virtual ~Button(){delete(txt);}
             Button(std::string btnTxt);
             void Draw() override;
             void onClick() override;
