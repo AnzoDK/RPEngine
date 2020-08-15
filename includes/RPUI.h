@@ -112,14 +112,15 @@ namespace rp
     {
         public:
             UIBase();
-            UIBase(UIGraphic uig);
+            virtual ~UIBase(){delete(ug);}
+            UIBase(UIGraphic* uig);
             UIBase(std::string path);
-            void SetGraphic(UIGraphic uig);
+            void SetGraphic(UIGraphic* uig);
             void SetGraphic(std::string path);
-            UIGraphic GetGraphic();
+            UIGraphic* GetGraphic();
             virtual void onClick();
         private:
-            UIGraphic ug;
+            UIGraphic* ug;
             
             
     };
@@ -128,6 +129,7 @@ namespace rp
     {
         public:
             Button();
+            virtual ~Button(){}
             Button(std::string btnTxt);
             void Draw() override;
             void onClick() override;

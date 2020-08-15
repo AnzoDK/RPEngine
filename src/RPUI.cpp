@@ -88,7 +88,7 @@ PngFile* UIGraphic::GetFile()
 }
 UIGraphic::UIGraphic(std::string _path)
 {
-    LoadGraphic(_path);
+   pf = new PngFile(_path);
 }
 void UIGraphic::LoadGraphic(std::string path)
 {
@@ -98,13 +98,13 @@ void UIGraphic::LoadGraphic(std::string path)
 //UIBase
 UIBase::UIBase()
 {
-    ug = UIGraphic();
+    ug = new UIGraphic();
 }
 void UIBase::onClick()
 {
     
 }
-UIBase::UIBase(UIGraphic uig)
+UIBase::UIBase(UIGraphic* uig)
 {
     SetGraphic(uig);
 }
@@ -112,15 +112,15 @@ UIBase::UIBase(std::string path)
 {
     SetGraphic(path);
 }
-void UIBase::SetGraphic(UIGraphic uig)
+void UIBase::SetGraphic(UIGraphic* uig)
 {
     ug = uig;
 }
 void UIBase::SetGraphic(std::string path)
 {
-    ug = UIGraphic(path);
+    ug = new UIGraphic(path);
 }
-UIGraphic UIBase::GetGraphic()
+UIGraphic* UIBase::GetGraphic()
 {
   return ug;  
 }
@@ -176,12 +176,12 @@ void UIText::SetFont(std::string path)
 Button::Button()
 {
     txt = UIText("");
-    GetGraphic().LoadGraphic(defaultBtnTexturePath);
+    SetGraphic(defaultBtnTexturePath);
 }
 Button::Button(std::string btnTxt)
 {
     txt = UIText(btnTxt);
-    GetGraphic().LoadGraphic(defaultBtnTexturePath);
+    SetGraphic(defaultBtnTexturePath);
 }
 void Button::SetFont(std::string fontpath)
 {
