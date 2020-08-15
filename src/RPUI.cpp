@@ -193,28 +193,28 @@ void UIText::SetFont(std::string path)
 //Button
 Button::Button()
 {
-    txt = UIText();
+    txt = new UIText();
     SetGraphic(defaultBtnTexturePath);
 }
 Button::Button(std::string btnTxt)
 {
-    txt = UIText(btnTxt);
+    txt = new UIText(btnTxt);
     SetGraphic(defaultBtnTexturePath);
 }
 void Button::SetFont(std::string fontpath)
 {
-  txt.SetFont(fontpath);
+  txt->SetFont(fontpath);
 }
 
-UIText Button::GetUIText()
+UIText* Button::GetUIText()
 {
     return txt;
 }
 void Button::SetUIText(std::string text)
 {
-   txt.LoadText(text); 
+   txt->LoadText(text); 
 }
-void Button::SetUIText(UIText text)
+void Button::SetUIText(UIText* text)
 {
     txt = text;
 }

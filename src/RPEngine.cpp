@@ -271,8 +271,8 @@ void Button::Draw()
         rr->w = GetRect()->w*0.8;
         rr->x = GetRect()->x + (GetRect()->x*0.2);
         rr->x = GetRect()->y + (GetRect()->y*0.2);
-        GetUIText().SetRect(rr);
-        GetUIText().Draw();
+        GetUIText()->SetRect(rr);
+        GetUIText()->Draw();
     }  
 }
 //UIText Draw

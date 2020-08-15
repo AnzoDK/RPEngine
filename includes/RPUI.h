@@ -11,6 +11,7 @@ namespace rp
     struct RGB
     {
         RGB();
+        ~RGB(){}
         RGB(CommonColor cc);
         RGB(unsigned int _r, unsigned int _g, unsigned int _b, unsigned int _a);
         unsigned int r;
@@ -139,12 +140,12 @@ namespace rp
             Button(std::string btnTxt);
             void Draw() override;
             void onClick() override;
-            UIText GetUIText();
-            void SetUIText(UIText txt);
+            UIText* GetUIText();
+            void SetUIText(UIText* txt);
             void SetUIText(std::string txt);
             void SetFont(std::string fontpath);
         private:
-            UIText txt;
+            UIText* txt;
             
         
       
