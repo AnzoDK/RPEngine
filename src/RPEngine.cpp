@@ -247,7 +247,7 @@ Scene::~Scene()
 {
     for(unsigned int i = 0; i < objsInScene.size();i++)
     {
-      delete(objsInScene.at(i));  
+      delete(objsInScene.at(i)); //<<--- Deletion causes crashes, when no window is created and program attempts to delete a nullptr due to no scene being created, not even the "protection scene" which is an empty scene that is assigned to the currScene slot, when the window is created
     }
 }
 

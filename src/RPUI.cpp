@@ -181,6 +181,7 @@ Button::Button()
 Button::Button(std::string btnTxt)
 {
     txt = UIText(btnTxt);
+    GetGraphic().LoadGraphic(defaultBtnTexturePath);
 }
 void Button::SetFont(std::string fontpath)
 {
