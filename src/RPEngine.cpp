@@ -145,6 +145,7 @@ RosenoernEngine::~RosenoernEngine()
     delete(currScene);
     IMG_Quit();
     SDL_Quit();
+    TTF_Quit();
 }
 void RosenoernEngine::init()
 {
@@ -153,6 +154,7 @@ void RosenoernEngine::init()
     currScene = new Scene();
     SDL_Init(SDL_INIT_EVERYTHING);
     IMG_Init(IMG_INIT_PNG);
+    TTF_Init(); // <<-- Important to remember...
     objs = std::vector<GameObject*>();
 }
 RosenoernAudio& RosenoernEngine::GetAudioController()
@@ -276,6 +278,7 @@ void Button::Draw()
 //UIText Draw
 void UIText::Draw()
 {
+    //std::cout << "Text:" << text << " Font: " + fontPath + " Size: " + std::to_string(fontSize) << std::endl;
     TTF_Font* font = TTF_OpenFont(fontPath.c_str(),fontSize);
     SDL_Color clr = {static_cast<Uint8>(rgb.r),static_cast<Uint8>(rgb.g),static_cast<Uint8>(rgb.b),static_cast<Uint8>(rgb.a)};
     SDL_Surface* surf = TTF_RenderText_Solid(font, text.c_str(), clr);
