@@ -286,6 +286,7 @@ void UIText::Draw()
     SDL_FreeSurface(surf);
     SDL_RenderCopy(RosenoernEngine::mainRender,tex,NULL,GetRect());
     SDL_DestroyTexture(tex);
+    TTF_CloseFont(font); // <<--- Also very Important. If this isn't done it will crash after a few updates
     
     
 }
