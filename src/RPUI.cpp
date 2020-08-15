@@ -144,11 +144,18 @@ int UIText::GetFontSize()
 }
 UIText::UIText(std::string txt)
 {
+    fontPath = defaultFontPath;
+    text = "";
+    fontSize = defaultFontSize;
+    rgb = RGB();
     LoadText(txt);
 }
 UIText::UIText(std::string path, std::string txt)
 {
+    fontSize = defaultFontSize;
+    rgb = RGB();
     LoadText(path,txt);
+    
 }
 void UIText::LoadText(std::string fontpath, std::string _text)
 {
