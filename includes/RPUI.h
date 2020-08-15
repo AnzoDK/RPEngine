@@ -145,6 +145,7 @@ namespace rp
     {
         public:
             UIMenu();
+            virtual ~UIMenu(){}
         private:
             
     };

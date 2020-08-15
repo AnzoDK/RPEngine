@@ -233,4 +233,10 @@ RGB::RGB(unsigned int _r, unsigned int _g, unsigned int _b)
  b = _b;
 }
 
+//UIMenu
+UIMenu::UIMenu()
+{
+    
+}
+
 
