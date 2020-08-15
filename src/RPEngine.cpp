@@ -257,7 +257,7 @@ void Button::Draw()
 {
   if(IsEnabled())
     {
-        std::cout << "Path for resource is: " + GetGraphic()->GetFile()->GetPath() << std::endl;
+        /*std::cout << "Path for resource is: " + GetGraphic()->GetFile()->GetPath() << std::endl;*/
         SDL_Surface* tmpSurf = IMG_Load(GetGraphic()->GetFile()->GetPath().c_str());
         //SDL_Surface* tmpSurf = IMG_Load("testImg.png");
         SDL_Texture* tex = SDL_CreateTextureFromSurface(RosenoernEngine::mainRender,tmpSurf);
@@ -267,8 +267,8 @@ void Button::Draw()
         SDL_Rect* rr = new SDL_Rect();
         rr->h = GetRect()->h*0.8;
         rr->w = GetRect()->w*0.8;
-        rr->x = GetRect()->x*0.1+GetRect()->x;
-        rr->x = GetRect()->y*0.1+GetRect()->y;
+        rr->x = GetRect()->x + (GetRect()->x*0.2);
+        rr->x = GetRect()->y + (GetRect()->y*0.2);
         GetUIText().SetRect(rr);
         GetUIText().Draw();
     }  
