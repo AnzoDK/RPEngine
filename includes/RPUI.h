@@ -77,6 +77,7 @@ namespace rp
     {
         public:
             UIText();
+            virtual ~UIText(){delete(rgb);}
             UIText(std::string fontpath, std::string text);
             UIText(std::string text);
             void LoadText(std::string fontpath, std::string text);
@@ -91,7 +92,7 @@ namespace rp
             void SetTextColor(int r, int g, int b);
             void SetTextColor(int r, int g, int b, int a);
             void SetTextColor(CommonColor cc);
-            RGB rgb;
+            RGB* rgb;
         private:
             std::string fontPath;
             std::string text;

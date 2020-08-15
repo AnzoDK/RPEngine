@@ -131,9 +131,8 @@ UIText::UIText()
   fontPath = defaultFontPath;
   text = "";
   fontSize = defaultFontSize;
-  rgb = RGB();
+  rgb = new RGB();
 }
-
 void UIText::SetFontSize(int size)
 {
   fontSize = size;  
@@ -147,13 +146,13 @@ UIText::UIText(std::string txt)
     fontPath = defaultFontPath;
     text = "";
     fontSize = defaultFontSize;
-    rgb = RGB();
+    rgb = new RGB();
     LoadText(txt);
 }
 UIText::UIText(std::string path, std::string txt)
 {
     fontSize = defaultFontSize;
-    rgb = RGB();
+    rgb = new RGB();
     LoadText(path,txt);
     
 }
@@ -176,15 +175,15 @@ std::string UIText::GetText()
 }
 void UIText::SetTextColor(int r, int g, int b)
 {
-    rgb = RGB(r,g,b,255);
+    rgb = new RGB(r,g,b,255);
 }
 void UIText::SetTextColor(int r, int g, int b, int a)
 {
-    rgb = RGB(r,g,b,a);
+    rgb = new RGB(r,g,b,a);
 }
 void UIText::SetTextColor(CommonColor cc)
 {
-    rgb = RGB(cc);
+    rgb = new RGB(cc);
 }
 void UIText::SetFont(std::string path)
 {

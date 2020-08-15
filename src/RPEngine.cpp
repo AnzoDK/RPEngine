@@ -280,7 +280,7 @@ void UIText::Draw()
 {
     //std::cout << "Text:" << text << " Font: " + fontPath + " Size: " + std::to_string(fontSize) << std::endl;
     TTF_Font* font = TTF_OpenFont(fontPath.c_str(),fontSize);
-    SDL_Color clr = {static_cast<Uint8>(rgb.r),static_cast<Uint8>(rgb.g),static_cast<Uint8>(rgb.b),static_cast<Uint8>(rgb.a)};
+    SDL_Color clr = {static_cast<Uint8>(rgb->r),static_cast<Uint8>(rgb->g),static_cast<Uint8>(rgb->b),static_cast<Uint8>(rgb->a)};
     SDL_Surface* surf = TTF_RenderText_Solid(font, text.c_str(), clr);
     SDL_Texture* tex = SDL_CreateTextureFromSurface(RosenoernEngine::mainRender,surf);
     SDL_FreeSurface(surf);
