@@ -1,5 +1,5 @@
 #include "../includes/RPUI.h"
-#include <SDL2/SDL_ttf.h>
+#include <SDL2/SDL_image.h>
 using namespace rp;
 
 
@@ -120,12 +120,27 @@ void UIBase::SetGraphic(std::string path)
 {
     ug = UIGraphic(path);
 }
+UIGraphic UIBase::GetGraphic()
+{
+  return ug;  
+}
 
 //UIText
 UIText::UIText()
 {
   fontPath = defaultFontPath;
   text = "";
+  fontSize = defaultFontSize;
+  rgb = RGB();
+}
+
+void UIText::SetFontSize(int size)
+{
+  fontSize = size;  
+}
+int UIText::GetFontSize()
+{
+  return fontSize;  
 }
 UIText::UIText(std::string txt)
 {
@@ -161,6 +176,7 @@ void UIText::SetFont(std::string path)
 Button::Button()
 {
     txt = UIText("");
+    GetGraphic().LoadGraphic(defaultBtnTexturePath);
 }
 Button::Button(std::string btnTxt)
 {
@@ -175,8 +191,46 @@ UIText Button::GetUIText()
 {
     return txt;
 }
+void Button::SetUIText(std::string text)
+{
+   txt.LoadText(text); 
+}
+void Button::SetUIText(UIText text)
+{
+    txt = text;
+}
 
 void Button::onClick()
 {
     
 }
+
+//PosBase
+PosBase::PosBase()
+{
+    rect = new SDL_Rect();
+}
+SDL_Rect* PosBase::GetRect()
+{
+    return rect;
+}
+void rp::PosBase::SetRect(SDL_Rect* _rect)
+{
+    rect = _rect;
+}
+
+//RGB
+RGB::RGB()
+{
+ r = 0;
+ g = 0;
+ b = 0;
+}
+RGB::RGB(unsigned int _r, unsigned int _g, unsigned int _b)
+{
+ r = _r;
+ g = _g;
+ b = _b;
+}
+
+

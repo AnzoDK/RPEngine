@@ -241,3 +241,38 @@ Scene::~Scene()
     }
 }
 
+//More UIstuff - mainly drawing
+//Button Draw
+void Button::Draw()
+{
+  if(IsEnabled())
+    {
+        SDL_Surface* tmpSurf = IMG_Load(GetGraphic().GetFile()->GetPath().c_str());
+        //SDL_Surface* tmpSurf = IMG_Load("testImg.png");
+        SDL_Texture* tex = SDL_CreateTextureFromSurface(RosenoernEngine::mainRender,tmpSurf);
+        SDL_RenderCopy(RosenoernEngine::mainRender,tex, NULL,GetRect());
+        SDL_FreeSurface(tmpSurf);
+        SDL_DestroyTexture(tex);
+        SDL_Rect* rr = new SDL_Rect();
+        rr->h = GetRect()->h*0.8;
+        rr->w = GetRect()->w*0.8;
+        rr->x = GetRect()->x*0.1+GetRect()->x;
+        rr->x = GetRect()->y*0.1+GetRect()->y;
+        GetUIText().SetRect(rr);
+        GetUIText().Draw();
+    }  
+}
+//UIText Draw
+void UIText::Draw()
+{
+    TTF_Font* font = TTF_OpenFont(GetPath().c_str(),GetFontSize());
+    SDL_Color clr = {static_cast<Uint8>(rgb.r),static_cast<Uint8>(rgb.g),static_cast<Uint8>(rgb.b)};
+    SDL_Surface* surf = TTF_RenderText_Solid(font, GetText().c_str(), clr);
+    SDL_Texture* tex = SDL_CreateTextureFromSurface(RosenoernEngine::mainRender,surf);
+    SDL_FreeSurface(surf);
+    SDL_RenderCopy(RosenoernEngine::mainRender,tex,NULL,GetRect());
+    SDL_DestroyTexture(tex);
+    
+    
+}
+

@@ -1,9 +1,22 @@
 #pragma once
 #include <iostream>
 #include "RPPng.h"
+#include <SDL2/SDL_ttf.h>
 #define defaultFontPath "Resources/fonts/default.ttf"
+#define defaultFontSize 24
+#define defaultBtnTexturePath "Resources/textures/btnDefault.png"
 namespace rp
 {
+    
+    struct RGB
+    {
+        RGB();
+        RGB(unsigned int r, unsigned int g, unsigned int b);
+        unsigned int r;
+        unsigned int g;
+        unsigned int b;
+    };
+    
     struct Rotation
     {
         Rotation(float _x, float _y, float _z);
@@ -27,7 +40,19 @@ namespace rp
         
     };
     
-    class Base
+    class PosBase
+    {
+        public:
+            PosBase();
+            virtual ~PosBase(){delete(rect);}
+            SDL_Rect* GetRect();
+            void SetRect(SDL_Rect* _rect);
+        private:
+            SDL_Rect* rect;
+            
+    };
+    
+    class Base : public PosBase
     {
         public:
             Base(){enabled = true;}
@@ -45,10 +70,6 @@ namespace rp
             
     };
     
-    class UIMenu : public Base //Could also be called a canvas I guess
-    {
-        
-    };
     
     class UIText : public Base
     {
@@ -62,9 +83,14 @@ namespace rp
             void LoadText(std::string text);
             std::string GetPath();
             std::string GetText();
+            void Draw() override;
+            void SetFontSize(int size);
+            int GetFontSize();
+            RGB rgb;
         private:
             std::string fontPath;
             std::string text;
+            int fontSize;
     };
     
     class UIGraphic
@@ -90,9 +116,11 @@ namespace rp
             UIBase(std::string path);
             void SetGraphic(UIGraphic uig);
             void SetGraphic(std::string path);
+            UIGraphic GetGraphic();
             virtual void onClick();
         private:
             UIGraphic ug;
+            
             
     };
 
@@ -101,12 +129,24 @@ namespace rp
         public:
             Button();
             Button(std::string btnTxt);
+            void Draw() override;
             void onClick() override;
             UIText GetUIText();
+            void SetUIText(UIText txt);
+            void SetUIText(std::string txt);
             void SetFont(std::string fontpath);
         private:
             UIText txt;
+            
         
       
     };
+        class UIMenu : public Base //Could also be called a canvas I guess
+    {
+        public:
+            UIMenu();
+        private:
+            
+    };
 }
+

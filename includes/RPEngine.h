@@ -10,7 +10,6 @@
 #include "RPPng.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-
 #include "RPUI.h"
 namespace rp{
 
@@ -67,7 +66,7 @@ class GameObject : public Base
             rect->y = y;
         }
         
-        virtual ~GameObject(){delete(rect);}
+        virtual ~GameObject(){delete(rect); delete(currSprite);}
         virtual void Draw() override;
         virtual void Update() override;
         void SetSprite(CharacterSprite* sprite);
