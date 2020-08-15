@@ -277,7 +277,7 @@ void Button::Draw()
 void UIText::Draw()
 {
     TTF_Font* font = TTF_OpenFont(GetPath().c_str(),GetFontSize());
-    SDL_Color clr = {static_cast<Uint8>(rgb.r),static_cast<Uint8>(rgb.g),static_cast<Uint8>(rgb.b)};
+    SDL_Color clr = {static_cast<Uint8>(rgb.r),static_cast<Uint8>(rgb.g),static_cast<Uint8>(rgb.b),static_cast<Uint8>(rgb.a)};
     SDL_Surface* surf = TTF_RenderText_Solid(font, GetText().c_str(), clr);
     SDL_Texture* tex = SDL_CreateTextureFromSurface(RosenoernEngine::mainRender,surf);
     SDL_FreeSurface(surf);

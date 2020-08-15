@@ -167,6 +167,18 @@ std::string UIText::GetText()
 {
     return text;
 }
+void UIText::SetTextColor(int r, int g, int b)
+{
+    rgb = RGB(r,g,b,255);
+}
+void UIText::SetTextColor(int r, int g, int b, int a)
+{
+    rgb = RGB(r,g,b,a);
+}
+void UIText::SetTextColor(CommonColor cc)
+{
+    rgb = RGB(cc);
+}
 void UIText::SetFont(std::string path)
 {
     fontPath = path;
@@ -226,13 +238,44 @@ RGB::RGB()
  r = 0;
  g = 0;
  b = 0;
+ a = 0;
 }
-RGB::RGB(unsigned int _r, unsigned int _g, unsigned int _b)
+RGB::RGB(unsigned int _r, unsigned int _g, unsigned int _b, unsigned int _a)
 {
  r = _r;
  g = _g;
  b = _b;
+ a = _a;
 }
+RGB::RGB(CommonColor cc)
+{
+    switch(static_cast<int>(cc))
+    {
+        case CommonColor::White:
+            r = 255;
+            g = 255;
+            b = 255;
+        break;
+        
+        case CommonColor::Black:
+            a = 255;
+        break;
+        
+        case CommonColor::Red:
+            r = 255;
+        break;
+        
+        case CommonColor::Green:
+            g = 255;
+        break;
+        
+        case CommonColor::Blue:
+            b = 225;
+        break;
+    }
+    a = 255;
+}
+
 
 //UIMenu
 UIMenu::UIMenu()

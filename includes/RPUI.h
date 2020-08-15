@@ -7,14 +7,16 @@
 #define defaultBtnTexturePath "Resources/textures/btnDefault.png"
 namespace rp
 {
-    
+    enum CommonColor{White,Red,Green,Blue,Black};
     struct RGB
     {
         RGB();
-        RGB(unsigned int r, unsigned int g, unsigned int b);
+        RGB(CommonColor cc);
+        RGB(unsigned int _r, unsigned int _g, unsigned int _b, unsigned int _a);
         unsigned int r;
         unsigned int g;
         unsigned int b;
+        unsigned int a;
     };
     
     struct Rotation
@@ -86,6 +88,9 @@ namespace rp
             void Draw() override;
             void SetFontSize(int size);
             int GetFontSize();
+            void SetTextColor(int r, int g, int b);
+            void SetTextColor(int r, int g, int b, int a);
+            void SetTextColor(CommonColor cc);
             RGB rgb;
         private:
             std::string fontPath;
