@@ -158,8 +158,10 @@ namespace rp
             void SetUIText(UIText* txt);
             void SetUIText(std::string txt);
             void SetFont(std::string fontpath);
+            void SetFunction(int (*funptr)());
         private:
             UIText* txt;
+            int (*funPtr)();
             
         
       

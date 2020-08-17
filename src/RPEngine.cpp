@@ -335,9 +335,10 @@ void Button::Update()
     {
         if(RosenoernEngine::InHand->GetMouseButton().button == SDL_BUTTON_LEFT)
         {
-            std::cout << "Clicked!" << std::endl;
+            //std::cout << "Clicked!" << std::endl;
+            (*funPtr)();
         }
-        onHover();
+        //onHover();
     }
 }
 

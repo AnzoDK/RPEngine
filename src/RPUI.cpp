@@ -202,10 +202,12 @@ void UIText::SetFont(std::string path)
 Button::Button()
 {
     txt = new UIText();
+    funPtr = nullptr;
     SetGraphic(defaultBtnTexturePath);
 }
 Button::Button(std::string btnTxt)
 {
+    funPtr = nullptr;
     txt = new UIText(btnTxt);
     SetGraphic(defaultBtnTexturePath);
 }
@@ -231,7 +233,10 @@ void Button::onClick()
 {
     
 }
-
+void Button::SetFunction(int (*funptr)())
+{
+    funPtr = funptr;
+}
 
 
 //PosBase
