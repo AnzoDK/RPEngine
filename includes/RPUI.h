@@ -58,7 +58,7 @@ namespace rp
     class Base : public PosBase
     {
         public:
-            Base(){enabled = true;z=0;}
+            Base(){enabled = true;z=0;name="";}
             virtual ~Base(){}
             virtual void Update(){}
             virtual void Draw(){}
