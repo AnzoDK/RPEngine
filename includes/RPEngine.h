@@ -10,13 +10,18 @@
 #include "RPPng.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-
 #include "RPUI.h"
+#include <algorithm>
 namespace rp{
 
 enum CharacterState{Default=0,Smiling,Crying,Annoyed,Sad,Suprised};
 enum AnimationState{Idle=0};
 
+struct ScreenSize
+{
+  int width = 0;
+  int height = 0;
+};
     
 struct CharacterSprite
 {
@@ -67,7 +72,7 @@ class GameObject : public Base
             rect->y = y;
         }
         
-        virtual ~GameObject(){delete(rect);}
+        virtual ~GameObject(){delete(rect); delete(currSprite);}
         virtual void Draw() override;
         virtual void Update() override;
         void SetSprite(CharacterSprite* sprite);
@@ -111,6 +116,19 @@ class Scene
 };
 
 
+class InputHandler
+{
+    public:
+        InputHandler(){}
+        SDL_MouseButtonEvent GetMouseButton();
+        SDL_KeyboardEvent GetKey();
+        void SetMouseButton(SDL_Event _evt);
+        void SetKey(SDL_Event _evt);
+        void Clear();
+    private:
+        SDL_Event evt;
+};
+
 class RosenoernEngine
 {
   public:
@@ -122,15 +140,21 @@ class RosenoernEngine
   int CreateMainWindow(std::string name, Uint32 flags);
   static SDL_Window* mainWin;
   static SDL_Renderer* mainRender;
+  static int width;
+  static int height;
   void SetScene(Scene* s);
   void Update();
+  ScreenSize GetScreenSize();
   bool isRunning;
-  
-  
+  static int FPS;
+  static int mouseX;
+  static int mouseY;
+  static InputHandler* InHand;
   private:
     RosenoernAudio* audio;
     std::vector<GameObject*> objs;
     Scene* currScene;
+    int frameDelay;
     
 };
 

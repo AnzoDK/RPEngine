@@ -1,9 +1,25 @@
 #pragma once
 #include <iostream>
 #include "RPPng.h"
+#include <SDL2/SDL_ttf.h>
 #define defaultFontPath "Resources/fonts/default.ttf"
+#define defaultFontSize 24
+#define defaultBtnTexturePath "Resources/textures/btnDefault.png"
 namespace rp
 {
+    enum CommonColor{White,Red,Green,Blue,Black};
+    struct RGB
+    {
+        RGB();
+        ~RGB(){}
+        RGB(CommonColor cc);
+        RGB(unsigned int _r, unsigned int _g, unsigned int _b, unsigned int _a);
+        unsigned int r;
+        unsigned int g;
+        unsigned int b;
+        unsigned int a;
+    };
+    
     struct Rotation
     {
         Rotation(float _x, float _y, float _z);
@@ -27,10 +43,22 @@ namespace rp
         
     };
     
-    class Base
+    class PosBase
     {
         public:
-            Base(){enabled = true;}
+            PosBase();
+            virtual ~PosBase(){/*delete(rect);*/ /*<<--- Seems like SDL auto clears these...*/}
+            SDL_Rect* GetRect();
+            void SetRect(SDL_Rect* _rect);
+        private:
+            SDL_Rect* rect;
+            
+    };
+    
+    class Base : public PosBase
+    {
+        public:
+            Base(){enabled = true;z=0;name="";}
             virtual ~Base(){}
             virtual void Update(){}
             virtual void Draw(){}
@@ -39,21 +67,29 @@ namespace rp
             void SetEnabled(bool state);
             std::string GetName();
             void SetName(std::string name);
+            int GetZ();
+            void SetZ(int _z);
+            bool operator <(Base& bo)
+            {
+                return (z < bo.GetZ());
+            }
+            bool operator >(Base& bo)
+            {
+                return (z > bo.GetZ());
+            }
         private:
+            int z;
             bool enabled;
             std::string name;
             
     };
     
-    class UIMenu : public Base //Could also be called a canvas I guess
-    {
-        
-    };
     
     class UIText : public Base
     {
         public:
             UIText();
+            virtual ~UIText(){}
             UIText(std::string fontpath, std::string text);
             UIText(std::string text);
             void LoadText(std::string fontpath, std::string text);
@@ -62,9 +98,17 @@ namespace rp
             void LoadText(std::string text);
             std::string GetPath();
             std::string GetText();
+            void Draw() override;
+            void SetFontSize(int size);
+            int GetFontSize();
+            void SetTextColor(int r, int g, int b);
+            void SetTextColor(int r, int g, int b, int a);
+            void SetTextColor(CommonColor cc);
+            RGB* rgb;
         private:
             std::string fontPath;
             std::string text;
+            int fontSize;
     };
     
     class UIGraphic
@@ -86,13 +130,17 @@ namespace rp
     {
         public:
             UIBase();
-            UIBase(UIGraphic uig);
+            virtual ~UIBase(){delete(ug);}
+            UIBase(UIGraphic* uig);
             UIBase(std::string path);
-            void SetGraphic(UIGraphic uig);
+            void SetGraphic(UIGraphic* uig);
             void SetGraphic(std::string path);
+            UIGraphic* GetGraphic();
             virtual void onClick();
+            virtual void onHover(){}
         private:
-            UIGraphic ug;
+            UIGraphic* ug;
+            
             
     };
 
@@ -100,13 +148,47 @@ namespace rp
     {
         public:
             Button();
+            virtual ~Button(){delete(txt);}
             Button(std::string btnTxt);
+            void Draw() override;
+            void Update() override;
             void onClick() override;
-            UIText GetUIText();
+            void onHover() override{}
+            UIText* GetUIText();
+            void SetUIText(UIText* txt);
+            void SetUIText(std::string txt);
             void SetFont(std::string fontpath);
+            void SetFunction(void (*funptr)());
+            static void empty(){}
         private:
-            UIText txt;
+
+            UIText* txt;
+            void (*funPtr)();
+            
         
       
     };
+        class UIMenu : public Base //Could also be called a canvas I guess
+    {
+        public:
+            UIMenu();
+            UIGraphic* GetBackground();
+            //void Draw() override;
+            void SetBackground(std::string path);
+            void SetBackground(UIGraphic* graphic);
+            virtual ~UIMenu(){/*delete(bg);*/}
+        private:
+            
+    };
+        class Background : public UIBase
+        {
+            public:
+                Background();
+                Background(std::string path);
+                void Draw() override;
+            private:
+                
+        };
 }
+
+

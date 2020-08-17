@@ -6,6 +6,12 @@ namespace fs = std::filesystem;
     //To fix some static declare issues
     SDL_Renderer* RosenoernEngine::mainRender = nullptr;
     SDL_Window* RosenoernEngine::mainWin = nullptr;
+    int RosenoernEngine::height = 0;
+    int RosenoernEngine::width = 0;
+    int RosenoernEngine::FPS = 0;
+    int RosenoernEngine::mouseX = 0;
+    int RosenoernEngine::mouseY = 0;
+    InputHandler* RosenoernEngine::InHand = nullptr;
 //GameObject
 GameObject::GameObject()
 {
@@ -34,14 +40,6 @@ void GameObject::Draw()
 };
 void GameObject::Update()
 {
-    if(IsEnabled())
-    {
-        SetEnabled(false);
-    }
-    else
-    {
-        SetEnabled(true);
-    }
     
     
 }
@@ -127,10 +125,41 @@ CharacterState CharacterObject::GetState()
   return static_cast<CharacterState>(currState);
 }
 
+//InputHandler
+SDL_MouseButtonEvent InputHandler::GetMouseButton()
+{
+    return evt.button;
+}
+SDL_KeyboardEvent InputHandler::GetKey()
+{
+    
+   return evt.key; 
+}
+void InputHandler::SetMouseButton(SDL_Event _evt)
+{
+    evt = _evt;
+}
+void InputHandler::Clear()
+{
+  evt = SDL_Event();  
+}
+void InputHandler::SetKey(SDL_Event _evt)
+{
+     evt = _evt;
+}
+
+
 //RosenoernEngine
 RosenoernEngine::RosenoernEngine(bool _debug,int buffers)
 {
     audio = new RosenoernAudio(_debug,buffers);
+}
+ScreenSize RosenoernEngine::GetScreenSize()
+{
+  ScreenSize s = ScreenSize();
+  
+  SDL_GetWindowSize(RosenoernEngine::mainWin,&s.width,&s.height);
+  return s;
 }
 RosenoernEngine::~RosenoernEngine()
 {
@@ -142,16 +171,22 @@ RosenoernEngine::~RosenoernEngine()
     SDL_DestroyRenderer(mainRender);
     SDL_DestroyWindow(mainWin);
     delete(currScene);
+    delete(InHand);
     IMG_Quit();
     SDL_Quit();
+    TTF_Quit();
 }
 void RosenoernEngine::init()
 {
     audio->init();
+    RosenoernEngine::InHand = new InputHandler();
     isRunning = false;
     currScene = new Scene();
+    RosenoernEngine::FPS = 60;
+    frameDelay = 1000/RosenoernEngine::FPS;
     SDL_Init(SDL_INIT_EVERYTHING);
     IMG_Init(IMG_INIT_PNG);
+    TTF_Init(); // <<-- Important to remember...
     objs = std::vector<GameObject*>();
 }
 RosenoernAudio& RosenoernEngine::GetAudioController()
@@ -165,6 +200,7 @@ int RosenoernEngine::CreateMainWindow(std::string windowName, Uint32 flags)
         SDL_SetWindowTitle(RosenoernEngine::mainWin,windowName.c_str());
         SDL_ShowWindow(RosenoernEngine::mainWin);
         SDL_SetRenderDrawColor(RosenoernEngine::mainRender,255,0,0,255);
+        SDL_GetWindowSize(RosenoernEngine::mainWin,&RosenoernEngine::width,&RosenoernEngine::height);
         isRunning = 1;
     }
     else
@@ -176,7 +212,9 @@ int RosenoernEngine::CreateMainWindow(std::string windowName, Uint32 flags)
 void RosenoernEngine::SDLHandle()
 {
     SDL_Event currEvent = SDL_Event();
-    SDL_PollEvent(&currEvent);
+    InHand->Clear();
+    while(SDL_PollEvent(&currEvent))
+    {
     switch (currEvent.type) 
     {
         case SDL_WINDOWEVENT:
@@ -191,10 +229,18 @@ void RosenoernEngine::SDLHandle()
             }
         break;
         
+        case SDL_MOUSEBUTTONDOWN:
+            RosenoernEngine::InHand->SetMouseButton(currEvent);
+        break;
+        
+        case SDL_KEYDOWN:
+            RosenoernEngine::InHand->SetKey(currEvent);
+        
         default:
         break;
     }
 
+}
 }
 void RosenoernEngine::SetScene(Scene* s)
 {
@@ -203,11 +249,20 @@ void RosenoernEngine::SetScene(Scene* s)
 }
 void RosenoernEngine::Update()
 {
-    
+    SDL_GetMouseState(&mouseX,&mouseY);
+    u_int32_t frameStart;
+    int frameTime;
+    frameStart = SDL_GetTicks();
+    SDLHandle();
     SDL_RenderClear(MR);
     currScene->SceneUpdate();
-    SDLHandle();
     SDL_RenderPresent(MR);
+
+    frameTime = SDL_GetTicks() - frameStart;
+    if(frameDelay > frameTime)
+    {
+        SDL_Delay(frameDelay-frameTime);
+    }
 }
 
 //Scene
@@ -235,6 +290,7 @@ void Scene::RemoveObject(std::string name)
 }
 void Scene::SceneUpdate()
 {
+    std::sort(objsInScene.begin(),objsInScene.end());
     for(unsigned int i = 0; i < objsInScene.size();i++)
     {
         objsInScene.at(i)->Update();
@@ -245,7 +301,100 @@ Scene::~Scene()
 {
     for(unsigned int i = 0; i < objsInScene.size();i++)
     {
-      delete(objsInScene.at(i));  
+      delete(objsInScene.at(i)); //<<--- Deletion causes crashes, when no window is created and program attempts to delete a nullptr due to no scene being created, not even the "protection scene" which is an empty scene that is assigned to the currScene slot, when the window is created
     }
+}
+
+//More UIstuff - mainly drawing
+//Button Draw
+void Button::Draw()
+{
+  if(IsEnabled())
+    {
+        /*std::cout << "Path for resource is: " + GetGraphic()->GetFile()->GetPath() << std::endl;*/
+        SDL_Surface* tmpSurf = IMG_Load(GetGraphic()->GetFile()->GetPath().c_str());
+        //SDL_Surface* tmpSurf = IMG_Load("testImg.png");
+        SDL_Texture* tex = SDL_CreateTextureFromSurface(RosenoernEngine::mainRender,tmpSurf);
+        SDL_RenderCopy(RosenoernEngine::mainRender,tex, NULL,GetRect());
+        SDL_FreeSurface(tmpSurf);
+        SDL_DestroyTexture(tex);
+        SDL_Rect* rr = new SDL_Rect();
+        rr->h = GetRect()->h*0.8;
+        rr->w = GetRect()->w*0.8;
+        rr->x = GetRect()->x + (GetRect()->w/8);
+        rr->y = GetRect()->y + (GetRect()->h/8);
+        GetUIText()->SetRect(rr);
+        GetUIText()->Draw();
+    }  
+}
+//Button Update
+void Button::Update()
+{
+    
+    if(RosenoernEngine::mouseX > GetRect()->x && RosenoernEngine::mouseX < (GetRect()->w+GetRect()->x) && RosenoernEngine::mouseY > GetRect()->y && RosenoernEngine::mouseY < (GetRect()->h+ GetRect()->y))
+    {
+        if(RosenoernEngine::InHand->GetMouseButton().button == SDL_BUTTON_LEFT)
+        {
+            //std::cout << "Clicked!" << std::endl;
+            (*funPtr)();
+        }
+        //onHover();
+    }
+}
+
+//UIText Draw
+void UIText::Draw()
+{
+    //std::cout << "Text:" << text << " Font: " + fontPath + " Size: " + std::to_string(fontSize) << std::endl;
+    TTF_Font* font = TTF_OpenFont(fontPath.c_str(),fontSize);
+    SDL_Color clr = {static_cast<Uint8>(rgb->r),static_cast<Uint8>(rgb->g),static_cast<Uint8>(rgb->b),static_cast<Uint8>(rgb->a)};
+    SDL_Surface* surf = TTF_RenderText_Solid(font, text.c_str(), clr);
+    SDL_Texture* tex = SDL_CreateTextureFromSurface(RosenoernEngine::mainRender,surf);
+    SDL_FreeSurface(surf);
+    SDL_RenderCopy(RosenoernEngine::mainRender,tex,NULL,GetRect());
+    SDL_DestroyTexture(tex);
+    TTF_CloseFont(font); // <<--- Also very Important. If this isn't done it will crash after a few updates
+    
+    
+}
+//UIMenu Draw
+/*void UIMenu::Draw()
+{
+    SDL_Surface* tmpSurf = IMG_Load(bg->GetFile()->GetPath().c_str());
+    SDL_Texture* tex = SDL_CreateTextureFromSurface(RosenoernEngine::mainRender,tmpSurf);
+    SDL_RenderCopy(RosenoernEngine::mainRender,tex, NULL,GetRect());
+    SDL_FreeSurface(tmpSurf);
+    SDL_DestroyTexture(tex);
+}*/
+//Background
+Background::Background()
+{
+    SDL_Rect* _rect = new SDL_Rect();
+    _rect->h = RosenoernEngine::height;
+    _rect->w = RosenoernEngine::width;
+    SetRect(_rect);
+}
+Background::Background(std::string path)
+{
+    SDL_Rect* _rect = new SDL_Rect();
+    _rect->h = RosenoernEngine::height;
+    _rect->w = RosenoernEngine::width;
+    SetRect(_rect);
+    SetZ(-1);
+    SetGraphic(path);
+}
+
+//Background Draw
+void Background::Draw()
+{
+    if(IsEnabled())
+    {
+        SDL_Surface* tmpSurf = IMG_Load(GetGraphic()->GetFile()->GetPath().c_str());
+        //SDL_Surface* tmpSurf = IMG_Load("testImg.png");
+        SDL_Texture* tex = SDL_CreateTextureFromSurface(RosenoernEngine::mainRender,tmpSurf);
+        SDL_RenderCopy(RosenoernEngine::mainRender,tex, NULL,GetRect());
+        SDL_FreeSurface(tmpSurf);
+        SDL_DestroyTexture(tex);
+    }  
 }
 
