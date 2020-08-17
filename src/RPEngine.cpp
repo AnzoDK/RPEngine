@@ -271,9 +271,6 @@ void Button::Draw()
 {
   if(IsEnabled())
     {
-        std::cout << "Object name: " << GetName() << " Z index: ";
-        std::cout << GetZ();
-        std:: cout << std::endl;
         /*std::cout << "Path for resource is: " + GetGraphic()->GetFile()->GetPath() << std::endl;*/
         SDL_Surface* tmpSurf = IMG_Load(GetGraphic()->GetFile()->GetPath().c_str());
         //SDL_Surface* tmpSurf = IMG_Load("testImg.png");
