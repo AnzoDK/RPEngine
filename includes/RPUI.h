@@ -137,7 +137,7 @@ namespace rp
             void SetGraphic(std::string path);
             UIGraphic* GetGraphic();
             virtual void onClick();
-            virtual void onHover();
+            virtual void onHover(){}
         private:
             UIGraphic* ug;
             
@@ -153,7 +153,7 @@ namespace rp
             void Draw() override;
             void Update() override;
             void onClick() override;
-            void onHover()override {}
+            void onHover() override{}
             UIText* GetUIText();
             void SetUIText(UIText* txt);
             void SetUIText(std::string txt);
