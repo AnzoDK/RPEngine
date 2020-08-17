@@ -280,8 +280,8 @@ void Button::Draw()
         SDL_Rect* rr = new SDL_Rect();
         rr->h = GetRect()->h*0.8;
         rr->w = GetRect()->w*0.8;
-        rr->x = GetRect()->x;// + (GetRect()->x/5);
-        rr->y = GetRect()->y;// + (GetRect()->y/5);
+        rr->x = GetRect()->x + (GetRect()->w/5);
+        rr->y = GetRect()->y + (GetRect()->h/5);
         GetUIText()->SetRect(rr);
         GetUIText()->Draw();
     }  
