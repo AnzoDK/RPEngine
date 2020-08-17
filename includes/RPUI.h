@@ -58,7 +58,7 @@ namespace rp
     class Base : public PosBase
     {
         public:
-            Base(){enabled = true;}
+            Base(){enabled = true;z=0;}
             virtual ~Base(){}
             virtual void Update(){}
             virtual void Draw(){}
@@ -67,7 +67,14 @@ namespace rp
             void SetEnabled(bool state);
             std::string GetName();
             void SetName(std::string name);
+            int GetZ();
+            void SetZ(int _z);
+            bool operator <(Base& bo, Base& bt)
+            {
+                return (bo.z < bt.z);
+            }
         private:
+            int z;
             bool enabled;
             std::string name;
             
@@ -162,5 +169,15 @@ namespace rp
         private:
             
     };
+        class Background : public UIBase
+        {
+            public:
+                Background();
+                Background(std::string path);
+                void Draw() override;
+            private:
+                
+        };
 }
+
 

@@ -250,6 +250,7 @@ void Scene::RemoveObject(std::string name)
 }
 void Scene::SceneUpdate()
 {
+    std::sort(objsInScene.begin(),objsInScene.end());
     for(unsigned int i = 0; i < objsInScene.size();i++)
     {
         objsInScene.at(i)->Update();
@@ -310,5 +311,36 @@ void UIText::Draw()
     SDL_FreeSurface(tmpSurf);
     SDL_DestroyTexture(tex);
 }*/
+//Background
+Background::Background()
+{
+    SDL_Rect* _rect = new SDL_Rect();
+    _rect->h = RosenoernEngine::height;
+    _rect->w = RosenoernEngine::width;
+    SetRect(_rect);
+}
+Background::Background(std::string path)
+{
+    SDL_Rect* _rect = new SDL_Rect();
+    _rect->h = RosenoernEngine::height;
+    _rect->w = RosenoernEngine::width;
+    SetRect(_rect);
+    SetZ(-1);
+    SetGraphic(path);
+}
+
+//Background Draw
+void Background::Draw()
+{
+    if(IsEnabled())
+    {
+        SDL_Surface* tmpSurf = IMG_Load(GetGraphic()->GetFile()->GetPath().c_str());
+        //SDL_Surface* tmpSurf = IMG_Load("testImg.png");
+        SDL_Texture* tex = SDL_CreateTextureFromSurface(RosenoernEngine::mainRender,tmpSurf);
+        SDL_RenderCopy(RosenoernEngine::mainRender,tex, NULL,GetRect());
+        SDL_FreeSurface(tmpSurf);
+        SDL_DestroyTexture(tex);
+    }  
+}
 
 

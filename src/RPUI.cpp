@@ -57,7 +57,14 @@ std::string Base::GetName()
 {
     return name;
 }
-
+void Base::SetZ(int _z)
+{
+   z = _z; 
+}
+int Base::GetZ()
+{
+    return z;
+}
 
 //UIGraphic
 UIGraphic::UIGraphic()
