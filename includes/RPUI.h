@@ -69,9 +69,13 @@ namespace rp
             void SetName(std::string name);
             int GetZ();
             void SetZ(int _z);
-            bool operator <(Base& bo, Base& bt)
+            bool operator <(Base& bo)
             {
-                return (bo.z < bt.z);
+                return (z < bo.z);
+            }
+            bool operator >(Base& bo)
+            {
+                return (z > bo.z);
             }
         private:
             int z;
