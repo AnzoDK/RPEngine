@@ -106,6 +106,7 @@ void UIGraphic::LoadGraphic(std::string path)
 UIBase::UIBase()
 {
     ug = new UIGraphic();
+    SetName("new UIBase");
 }
 void UIBase::onClick()
 {
