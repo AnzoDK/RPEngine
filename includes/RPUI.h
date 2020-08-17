@@ -71,11 +71,11 @@ namespace rp
             void SetZ(int _z);
             bool operator <(Base& bo)
             {
-                return (z < bo.z);
+                return (z < bo.GetZ());
             }
             bool operator >(Base& bo)
             {
-                return (z > bo.z);
+                return (z > bo.GetZ());
             }
         private:
             int z;
