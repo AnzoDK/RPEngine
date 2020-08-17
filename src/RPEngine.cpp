@@ -255,9 +255,6 @@ void Scene::SceneUpdate()
     {
         objsInScene.at(i)->Update();
         objsInScene.at(i)->Draw();
-        std::cout << "Object name: " << objsInScene.at(i)->GetName() << " Z index: ";
-        std::cout << objsInScene.at(i)->GetZ();
-        std:: cout << std::endl;
     }   
 }
 Scene::~Scene()
@@ -274,6 +271,9 @@ void Button::Draw()
 {
   if(IsEnabled())
     {
+        std::cout << "Object name: " << GetName() << " Z index: ";
+        std::cout << GetZ();
+        std:: cout << std::endl;
         /*std::cout << "Path for resource is: " + GetGraphic()->GetFile()->GetPath() << std::endl;*/
         SDL_Surface* tmpSurf = IMG_Load(GetGraphic()->GetFile()->GetPath().c_str());
         //SDL_Surface* tmpSurf = IMG_Load("testImg.png");
