@@ -255,6 +255,9 @@ void Scene::SceneUpdate()
     {
         objsInScene.at(i)->Update();
         objsInScene.at(i)->Draw();
+        std::cout << "Object name: " << objsInScene.at(i)->GetName() << " Z index: ";
+        std::cout << objsInScene.at(i)->GetZ();
+        std:: cout << std::endl;
     }   
 }
 Scene::~Scene()
