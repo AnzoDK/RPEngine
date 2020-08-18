@@ -47,7 +47,7 @@ namespace rp
     {
         public:
             PosBase();
-            virtual ~PosBase(){delete(rect); /*<<--- Seems like SDL auto clears these...*/}
+            virtual ~PosBase(){delete(rect); }
             SDL_Rect* GetRect();
             void SetRect(SDL_Rect* _rect);
         private:

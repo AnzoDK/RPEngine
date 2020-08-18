@@ -7,3 +7,4 @@ includes/RPAudio/*
 .kdev4/*
 testImg.png
 rpengine.so
+vgcore.*
