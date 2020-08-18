@@ -182,7 +182,7 @@ void RosenoernEngine::init()
     RosenoernEngine::InHand = new InputHandler();
     isRunning = false;
     currScene = new Scene();
-    RosenoernEngine::FPS = 60;
+    RosenoernEngine::FPS = 10;
     frameDelay = 1000/RosenoernEngine::FPS;
     SDL_Init(SDL_INIT_EVERYTHING);
     IMG_Init(IMG_INIT_PNG);
