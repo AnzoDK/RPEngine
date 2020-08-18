@@ -249,10 +249,10 @@ void RosenoernEngine::SetScene(Scene* s)
 }
 void RosenoernEngine::Update()
 {
-    SDL_GetMouseState(&mouseX,&mouseY);
     u_int32_t frameStart = 0;
     int frameTime = 0;
     frameStart = SDL_GetTicks();
+    SDL_GetMouseState(&mouseX,&mouseY);
     SDLHandle();
     SDL_RenderClear(MR);
     currScene->SceneUpdate();
