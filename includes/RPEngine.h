@@ -136,6 +136,7 @@ class RosenoernEngine
   ~RosenoernEngine();
   void init();
   void SDLHandle();
+  void Quit();
   RosenoernAudio& GetAudioController();
   int CreateMainWindow(std::string name, Uint32 flags);
   static SDL_Window* mainWin;

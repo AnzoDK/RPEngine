@@ -122,10 +122,12 @@ UIBase::UIBase(std::string path)
 }
 void UIBase::SetGraphic(UIGraphic* uig)
 {
+    delete(ug);
     ug = uig;
 }
 void UIBase::SetGraphic(std::string path)
 {
+    delete(ug);
     ug = new UIGraphic(path);
 }
 UIGraphic* UIBase::GetGraphic()
@@ -228,6 +230,7 @@ void Button::SetUIText(std::string text)
 }
 void Button::SetUIText(UIText* text)
 {
+    delete(txt);
     txt = text;
 }
 
@@ -252,6 +255,7 @@ SDL_Rect* PosBase::GetRect()
 }
 void rp::PosBase::SetRect(SDL_Rect* _rect)
 {
+    delete(rect);
     rect = _rect;
 }
 
