@@ -270,6 +270,12 @@ void RosenoernEngine::Quit()
 {
     isRunning = 0;   
 }
+void RosenoernEngine::SetFPS(int fps)
+{
+  RosenoernEngine::FPS = fps;
+  frameDelay = 1000/fps;
+}
+
 
 //Scene
 Scene::Scene()
