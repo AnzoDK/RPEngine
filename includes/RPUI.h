@@ -47,7 +47,7 @@ namespace rp
     {
         public:
             PosBase();
-            virtual ~PosBase(){/*delete(rect);*/ /*<<--- Seems like SDL auto clears these...*/}
+            virtual ~PosBase(){delete(rect); /*<<--- Seems like SDL auto clears these...*/}
             SDL_Rect* GetRect();
             void SetRect(SDL_Rect* _rect);
         private:
@@ -89,7 +89,7 @@ namespace rp
     {
         public:
             UIText();
-            virtual ~UIText(){}
+            virtual ~UIText(){delete(rgb);}
             UIText(std::string fontpath, std::string text);
             UIText(std::string text);
             void LoadText(std::string fontpath, std::string text);
@@ -116,7 +116,7 @@ namespace rp
         public:
             UIGraphic();
             UIGraphic(std::string path);
-            ~UIGraphic();
+            ~UIGraphic(){delete(pf);}
             //Return path if pf is initilized - otherwise returns ""
             std::string GetPath();
             //May return nullptr if no PngFile is loaded - Usually it is tho
