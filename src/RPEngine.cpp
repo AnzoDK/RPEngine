@@ -173,8 +173,8 @@ RosenoernEngine::~RosenoernEngine()
     delete(currScene);
     delete(InHand);
     IMG_Quit();
-    SDL_Quit();
     TTF_Quit();
+    SDL_Quit();
 }
 void RosenoernEngine::init()
 {
