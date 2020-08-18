@@ -116,7 +116,7 @@ namespace rp
         public:
             UIGraphic();
             UIGraphic(std::string path);
-            ~UIGraphic(){delete(pf);}
+            ~UIGraphic();
             //Return path if pf is initilized - otherwise returns ""
             std::string GetPath();
             //May return nullptr if no PngFile is loaded - Usually it is tho
