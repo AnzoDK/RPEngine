@@ -224,7 +224,7 @@ void RosenoernEngine::SDLHandle()
                 break;
                 
                 case SDL_WINDOWEVENT_CLOSE:
-                    isRunning = 0;
+                    Quit();
                 break;
             }
         break;
@@ -263,6 +263,11 @@ void RosenoernEngine::Update()
     {
         SDL_Delay(frameDelay-frameTime);
     }
+}
+
+void RosenoernEngine::Quit()
+{
+    isRunning = 0;   
 }
 
 //Scene
