@@ -9,6 +9,9 @@ namespace fs = std::filesystem;
     int RosenoernEngine::height = 0;
     int RosenoernEngine::width = 0;
     int RosenoernEngine::FPS = 0;
+    int RosenoernEngine::mouseX = 0;
+    int RosenoernEngine::mouseY = 0;
+    InputHandler* RosenoernEngine::InHand = nullptr;
 //GameObject
 GameObject::GameObject()
 {
@@ -122,6 +125,30 @@ CharacterState CharacterObject::GetState()
   return static_cast<CharacterState>(currState);
 }
 
+//InputHandler
+SDL_MouseButtonEvent InputHandler::GetMouseButton()
+{
+    return evt.button;
+}
+SDL_KeyboardEvent InputHandler::GetKey()
+{
+    
+   return evt.key; 
+}
+void InputHandler::SetMouseButton(SDL_Event _evt)
+{
+    evt = _evt;
+}
+void InputHandler::Clear()
+{
+  evt = SDL_Event();  
+}
+void InputHandler::SetKey(SDL_Event _evt)
+{
+     evt = _evt;
+}
+
+
 //RosenoernEngine
 RosenoernEngine::RosenoernEngine(bool _debug,int buffers)
 {
@@ -144,13 +171,15 @@ RosenoernEngine::~RosenoernEngine()
     SDL_DestroyRenderer(mainRender);
     SDL_DestroyWindow(mainWin);
     delete(currScene);
+    delete(InHand);
     IMG_Quit();
-    SDL_Quit();
     TTF_Quit();
+    SDL_Quit();
 }
 void RosenoernEngine::init()
 {
     audio->init();
+    RosenoernEngine::InHand = new InputHandler();
     isRunning = false;
     currScene = new Scene();
     RosenoernEngine::FPS = 60;
@@ -183,7 +212,9 @@ int RosenoernEngine::CreateMainWindow(std::string windowName, Uint32 flags)
 void RosenoernEngine::SDLHandle()
 {
     SDL_Event currEvent = SDL_Event();
-    SDL_PollEvent(&currEvent);
+    InHand->Clear();
+    while(SDL_PollEvent(&currEvent))
+    {
     switch (currEvent.type) 
     {
         case SDL_WINDOWEVENT:
@@ -193,15 +224,23 @@ void RosenoernEngine::SDLHandle()
                 break;
                 
                 case SDL_WINDOWEVENT_CLOSE:
-                    isRunning = 0;
+                    Quit();
                 break;
             }
         break;
+        
+        case SDL_MOUSEBUTTONDOWN:
+            RosenoernEngine::InHand->SetMouseButton(currEvent);
+        break;
+        
+        case SDL_KEYDOWN:
+            RosenoernEngine::InHand->SetKey(currEvent);
         
         default:
         break;
     }
 
+}
 }
 void RosenoernEngine::SetScene(Scene* s)
 {
@@ -210,20 +249,33 @@ void RosenoernEngine::SetScene(Scene* s)
 }
 void RosenoernEngine::Update()
 {
-    u_int32_t frameStart;
-    int frameTime;
+    u_int32_t frameStart = 0;
+    int frameTime = 0;
     frameStart = SDL_GetTicks();
+    SDL_GetMouseState(&mouseX,&mouseY);
     SDLHandle();
     SDL_RenderClear(MR);
     currScene->SceneUpdate();
     SDL_RenderPresent(MR);
 
     frameTime = SDL_GetTicks() - frameStart;
+    std::cout << "Frametime: " << std::to_string(frameTime) << std::endl;
     if(frameDelay > frameTime)
     {
         SDL_Delay(frameDelay-frameTime);
     }
 }
+
+void RosenoernEngine::Quit()
+{
+    isRunning = 0;   
+}
+void RosenoernEngine::SetFPS(int fps)
+{
+  RosenoernEngine::FPS = fps;
+  frameDelay = 1000/fps;
+}
+
 
 //Scene
 Scene::Scene()
@@ -287,6 +339,21 @@ void Button::Draw()
         GetUIText()->Draw();
     }  
 }
+//Button Update
+void Button::Update()
+{
+    
+    if(RosenoernEngine::mouseX > GetRect()->x && RosenoernEngine::mouseX < (GetRect()->w+GetRect()->x) && RosenoernEngine::mouseY > GetRect()->y && RosenoernEngine::mouseY < (GetRect()->h+ GetRect()->y))
+    {
+        if(RosenoernEngine::InHand->GetMouseButton().button == SDL_BUTTON_LEFT)
+        {
+            //std::cout << "Clicked!" << std::endl;
+            (*funPtr)();
+        }
+        //onHover();
+    }
+}
+
 //UIText Draw
 void UIText::Draw()
 {
@@ -342,5 +409,3 @@ void Background::Draw()
         SDL_DestroyTexture(tex);
     }  
 }
-
-
