@@ -17,6 +17,7 @@ ifeq ($(OS), Windows)
 	END_LIB_FLAGS := -Wl,--out-implib,librpengine.a
 	CXX := x86_64-w64-mingw32-g++
 	EX := .dll
+	OS := Windows
 	
 endif
 
