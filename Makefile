@@ -14,7 +14,7 @@ EX := .so
 END_LIB_FLAGS :=
 ifeq ($(OS), Windows)
 	LIB_FLAGS +=  -DBUILDING_EXAMPLE_DLL
-	END_LIB_FLAGS := --shared -Wl,--out-implib,librpengine.a
+	END_LIB_FLAGS := --shared -Wl,-Bstatic -lstdc++-Wl,--out-implib,librpengine.a
 	CXX := x86_64-w64-mingw32-g++
 	EX := .dll
 	OS := Windows
