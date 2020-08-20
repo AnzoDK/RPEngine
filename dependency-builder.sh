@@ -83,6 +83,7 @@ fi
 mv -f includes/oggvorbis ../../includes/RPAudio/
 mv -f includes/vorbis ../../includes/RPAudio/
 mv -f includes/libopenal ../../includes/RPAudio/
+mv -f includes/vorbisfile ../../includes/RPAudio/
 cd ../..
 rm -r -f tmp
 echo "Complete"
