@@ -9,12 +9,15 @@ LIB_FLAGS := -fPIC
 CXX_FLAGS := -std=c++17 -Wall -pthread
 LINK := -lrpaudio -lSDL2 -lSDL2_image -lSDL2_ttf
 SRC := ./src
-OS := x86_64-w64-mingw32-g++
+OS := Linux
+EX := .so
 END_LIB_FLAGS :=
 ifeq ($(OS), Windows)
 	LIB_FLAGS += -shared -DBUILDING_EXAMPLE_DLL
-	END_LIB_FLAGS := -Wl,--out-implib,libexample_dll.a
-	CXX := 
+	END_LIB_FLAGS := -Wl,--out-implib,librpengine.a
+	CXX := x86_64-w64-mingw32-g++
+	EX := .dll
+	
 endif
 
 release: main.o
@@ -22,7 +25,8 @@ release: main.o
 	make clean
 
 lib: rpenginelib.o uilib.o
-	$(CXX) -fPIC -shared $(CXX_FLAGS) $(DEBUG_LEVEL) $(INCLUDES) $(SO_DIRS) $(LIB_OBJECTS) -o rpengine.so $(LINK) $(END_LIB_FLAGS)
+	./dependency-builder.sh --use-dev --$(OS)
+	$(CXX) -fPIC -shared $(CXX_FLAGS) $(DEBUG_LEVEL) $(INCLUDES) $(SO_DIRS) $(LIB_OBJECTS) -o rpengine$(EX) $(LINK) $(END_LIB_FLAGS)
 	make clean
 
 main.o: rpengine.o ui.o
