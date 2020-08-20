@@ -31,11 +31,19 @@ then
 	if [ "$2" == "--Windows" ]
 	then
 		./BuildLibWindows.sh
+        if [ $? -eq 0 ]
+        then
+            exit 1
+        fi
 		mv -f includes/rpaudio.h ../../includes/RPAudio/rpaudio.h
 		mv -f includes/commontools.h ../../includes/RPAudio/commontools.h
-		mv -f RPAudio.so ../../includes/RPAudio/librpaudio.dll
+		mv -f RPAudio.dll ../../includes/RPAudio/librpaudio.dll
 	else
 		./BuildLib.sh
+		if [ $? -eq 0 ]
+        then
+            exit 1
+        fi
 		mv -f includes/rpaudio.h ../../includes/RPAudio/rpaudio.h
 		mv -f includes/commontools.h ../../includes/RPAudio/commontools.h
 		mv -f RPAudio.so ../../includes/RPAudio/librpaudio.so
@@ -44,11 +52,19 @@ else
 	if [ "$1" == "--Windows" ]
 	then
 		./BuildLibWindows.sh
+        if [ $? -eq 0 ]
+        then
+            exit 1
+        fi
 		mv -f includes/rpaudio.h ../../includes/RPAudio/rpaudio.h
 		mv -f includes/commontools.h ../../includes/RPAudio/commontools.h
-		mv -f RPAudio.so ../../includes/RPAudio/librpaudio.dll
+		mv -f RPAudio.dll ../../includes/RPAudio/librpaudio.dll
 	else
 		./BuildLib.sh
+        if [ $? -eq 0 ]
+        then
+            exit 1
+        fi
 		mv -f RPAudio.so ../../includes/RPAudio/librpaudio.so
 		mv -f includes/rpaudio.h ../../includes/RPAudio/rpaudio.h
 		mv -f includes/commontools.h ../../includes/RPAudio/commontools.h
