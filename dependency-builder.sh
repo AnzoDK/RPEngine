@@ -38,6 +38,7 @@ then
 		mv -f includes/rpaudio.h ../../includes/RPAudio/rpaudio.h
 		mv -f includes/commontools.h ../../includes/RPAudio/commontools.h
 		mv -f RPAudio.dll ../../includes/RPAudio/librpaudio.dll
+		mv -f librpaudio.a ../../includes/RPAudio/librpaudio.a
 	else
 		./BuildLib.sh
 		if [ $? -ne 0 ]
@@ -59,6 +60,7 @@ else
 		mv -f includes/rpaudio.h ../../includes/RPAudio/rpaudio.h
 		mv -f includes/commontools.h ../../includes/RPAudio/commontools.h
 		mv -f RPAudio.dll ../../includes/RPAudio/librpaudio.dll
+		mv -f librpaudio.a ../../includes/RPAudio/librpaudio.a
 	else
 		./BuildLib.sh
         if [ $? -ne 0 ]
