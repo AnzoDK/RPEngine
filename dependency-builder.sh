@@ -33,6 +33,8 @@ then
 		./BuildLibWindows.sh
         if [ $? -ne 0 ]
         then
+            cd ../..
+	    rm -r -f tmp
             exit 1
         fi
 		mv -f includes/rpaudio.h ../../includes/RPAudio/rpaudio.h
@@ -42,9 +44,11 @@ then
 	else
 		./BuildLib.sh
 		if [ $? -ne 0 ]
-        then
-            exit 1
-        fi
+        	then
+            		cd ../..
+	    		rm -r -f tmp
+	    		exit 1
+        	fi
 		mv -f includes/rpaudio.h ../../includes/RPAudio/rpaudio.h
 		mv -f includes/commontools.h ../../includes/RPAudio/commontools.h
 		mv -f RPAudio.so ../../includes/RPAudio/librpaudio.so
@@ -55,6 +59,8 @@ else
 		./BuildLibWindows.sh
         if [ $? -ne 0 ]
         then
+            cd ../..
+	    rm -r -f tmp
             exit 1
         fi
 		mv -f includes/rpaudio.h ../../includes/RPAudio/rpaudio.h
@@ -65,6 +71,8 @@ else
 		./BuildLib.sh
         if [ $? -ne 0 ]
         then
+            cd ../..
+	    rm -r -f tmp
             exit 1
         fi
 		mv -f RPAudio.so ../../includes/RPAudio/librpaudio.so
@@ -75,3 +83,4 @@ fi
 
 cd ../..
 rm -r -f tmp
+echo "Complete"
