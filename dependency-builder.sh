@@ -31,7 +31,7 @@ then
 	if [ "$2" == "--Windows" ]
 	then
 		./BuildLibWindows.sh
-        if [ $? -eq 0 ]
+        if [ $? -ne 0 ]
         then
             exit 1
         fi
@@ -40,7 +40,7 @@ then
 		mv -f RPAudio.dll ../../includes/RPAudio/librpaudio.dll
 	else
 		./BuildLib.sh
-		if [ $? -eq 0 ]
+		if [ $? -ne 0 ]
         then
             exit 1
         fi
@@ -52,7 +52,7 @@ else
 	if [ "$1" == "--Windows" ]
 	then
 		./BuildLibWindows.sh
-        if [ $? -eq 0 ]
+        if [ $? -ne 0 ]
         then
             exit 1
         fi
@@ -61,7 +61,7 @@ else
 		mv -f RPAudio.dll ../../includes/RPAudio/librpaudio.dll
 	else
 		./BuildLib.sh
-        if [ $? -eq 0 ]
+        if [ $? -ne 0 ]
         then
             exit 1
         fi
