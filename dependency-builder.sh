@@ -34,7 +34,7 @@ then
         if [ $? -ne 0 ]
         then
             cd ../..
-	    rm -r -f tmp
+            rm -r -f tmp
             exit 1
         fi
 		mv -f includes/rpaudio.h ../../includes/RPAudio/rpaudio.h
@@ -45,7 +45,7 @@ then
 		./BuildLib.sh
 		if [ $? -ne 0 ]
         	then
-            		cd ../..
+                cd ../..
 	    		rm -r -f tmp
 	    		exit 1
         	fi
@@ -80,7 +80,9 @@ else
 		mv -f includes/commontools.h ../../includes/RPAudio/commontools.h
 	fi
 fi
-
+mv -f includes/oggvorbis ../../RPAudio/
+mv -f includes/vorbis ../../RPAudio/
+mv -f includes/libopenal ../../RPAudio/
 cd ../..
 rm -r -f tmp
 echo "Complete"
