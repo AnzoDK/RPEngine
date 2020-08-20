@@ -39,7 +39,7 @@ then
         fi
 		mv -f includes/rpaudio.h ../../includes/RPAudio/rpaudio.h
 		mv -f includes/commontools.h ../../includes/RPAudio/commontools.h
-		mv -f RPAudio.dll ../../includes/RPAudio/librpaudio.dll
+		mv -f rpaudio.dll ../../includes/RPAudio/librpaudio.dll
 		mv -f librpaudio.a ../../includes/RPAudio/librpaudio.a
 	else
 		./BuildLib.sh
@@ -51,7 +51,7 @@ then
         	fi
 		mv -f includes/rpaudio.h ../../includes/RPAudio/rpaudio.h
 		mv -f includes/commontools.h ../../includes/RPAudio/commontools.h
-		mv -f RPAudio.so ../../includes/RPAudio/librpaudio.so
+		mv -f rpaudio.so ../../includes/RPAudio/librpaudio.so
 	fi
 else
 	if [ "$1" == "--Windows" ]
@@ -65,7 +65,7 @@ else
         fi
 		mv -f includes/rpaudio.h ../../includes/RPAudio/rpaudio.h
 		mv -f includes/commontools.h ../../includes/RPAudio/commontools.h
-		mv -f RPAudio.dll ../../includes/RPAudio/librpaudio.dll
+		mv -f rpaudio.dll ../../includes/RPAudio/librpaudio.dll
 		mv -f librpaudio.a ../../includes/RPAudio/librpaudio.a
 	else
 		./BuildLib.sh
@@ -75,7 +75,7 @@ else
 	    rm -r -f tmp
             exit 1
         fi
-		mv -f RPAudio.so ../../includes/RPAudio/librpaudio.so
+		mv -f rpaudio.so ../../includes/RPAudio/librpaudio.so
 		mv -f includes/rpaudio.h ../../includes/RPAudio/rpaudio.h
 		mv -f includes/commontools.h ../../includes/RPAudio/commontools.h
 	fi
