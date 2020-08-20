@@ -86,10 +86,10 @@ mkdir -p ../../includes/RPAudio/vorbis/
 mkdir -p ../../includes/RPAudio/libopenal/
 mkdir -p ../../includes/RPAudio/vorbisfile/
 
-mv -f includes/oggvorbis/* ../../includes/RPAudio/oggvorbis/
-mv -f includes/vorbis/* ../../includes/RPAudio/vorbis/
-mv -f includes/libopenal/* ../../includes/RPAudio/libopenal/
-mv -f includes/vorbisfile/* ../../includes/RPAudio/vorbisfile/
+cp -f includes/oggvorbis/* ../../includes/RPAudio/oggvorbis/
+cp -f includes/vorbis/* ../../includes/RPAudio/vorbis/
+cp -f includes/libopenal/* ../../includes/RPAudio/libopenal/
+cp -f includes/vorbisfile/* ../../includes/RPAudio/vorbisfile/
 cd ../..
 rm -r -f tmp
 echo "Complete"
