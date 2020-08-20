@@ -81,10 +81,10 @@ else
 	fi
 fi
 pwd
-mv -f includes/oggvorbis ../../includes/RPAudio/
-mv -f includes/vorbis ../../includes/RPAudio/
-mv -f includes/libopenal ../../includes/RPAudio/
-mv -f includes/vorbisfile ../../includes/RPAudio/
+mv -f includes/oggvorbis/* ../../includes/RPAudio/oggvorbis/
+mv -f includes/vorbis/* ../../includes/RPAudio/vorbis/
+mv -f includes/libopenal/* ../../includes/RPAudio/libopenal/
+mv -f includes/vorbisfile/* ../../includes/RPAudio/vorbisfile/
 cd ../..
 rm -r -f tmp
 echo "Complete"
