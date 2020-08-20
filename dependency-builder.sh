@@ -80,6 +80,7 @@ else
 		mv -f includes/commontools.h ../../includes/RPAudio/commontools.h
 	fi
 fi
+pwd
 mv -f includes/oggvorbis ../../includes/RPAudio/
 mv -f includes/vorbis ../../includes/RPAudio/
 mv -f includes/libopenal ../../includes/RPAudio/
