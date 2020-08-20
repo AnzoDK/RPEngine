@@ -81,6 +81,11 @@ else
 	fi
 fi
 pwd
+mkdir -p ../../includes/RPAudio/oggvorbis/
+mkdir -p ../../includes/RPAudio/vorbis/
+mkdir -p ../../includes/RPAudio/libopenal/
+mkdir -p ../../includes/RPAudio/vorbisfile/
+
 mv -f includes/oggvorbis/* ../../includes/RPAudio/oggvorbis/
 mv -f includes/vorbis/* ../../includes/RPAudio/vorbis/
 mv -f includes/libopenal/* ../../includes/RPAudio/libopenal/
