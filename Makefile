@@ -13,7 +13,7 @@ OS := Linux
 EX := .so
 END_LIB_FLAGS :=
 ifeq ($(OS), Windows)
-	LIB_FLAGS += -shared -DBUILDING_EXAMPLE_DLL
+	LIB_FLAGS += -shared -DBUILDING_EXAMPLE_DLL -static-libstdc++
 	END_LIB_FLAGS := -Wl,--out-implib,librpengine.a
 	CXX := x86_64-w64-mingw32-g++
 	EX := .dll
