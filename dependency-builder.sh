@@ -80,9 +80,9 @@ else
 		mv -f includes/commontools.h ../../includes/RPAudio/commontools.h
 	fi
 fi
-mv -f includes/oggvorbis ../../RPAudio/
-mv -f includes/vorbis ../../RPAudio/
-mv -f includes/libopenal ../../RPAudio/
+mv -f includes/oggvorbis ../../includes/RPAudio/RPAudio/
+mv -f includes/vorbis ../../includes/RPAudio/RPAudio/
+mv -f includes/libopenal ../../includes/RPAudio/RPAudio/
 cd ../..
 rm -r -f tmp
 echo "Complete"
