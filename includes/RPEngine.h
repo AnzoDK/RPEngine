@@ -116,6 +116,19 @@ class Scene
 };
 
 
+class InputHandler
+{
+    public:
+        InputHandler(){}
+        SDL_MouseButtonEvent GetMouseButton();
+        SDL_KeyboardEvent GetKey();
+        void SetMouseButton(SDL_Event _evt);
+        void SetKey(SDL_Event _evt);
+        void Clear();
+    private:
+        SDL_Event evt;
+};
+
 class RosenoernEngine
 {
   public:
@@ -123,6 +136,8 @@ class RosenoernEngine
   ~RosenoernEngine();
   void init();
   void SDLHandle();
+  void Quit();
+  void SetFPS(int fps);
   RosenoernAudio& GetAudioController();
   int CreateMainWindow(std::string name, Uint32 flags);
   static SDL_Window* mainWin;
@@ -134,7 +149,9 @@ class RosenoernEngine
   ScreenSize GetScreenSize();
   bool isRunning;
   static int FPS;
-  
+  static int mouseX;
+  static int mouseY;
+  static InputHandler* InHand;
   private:
     RosenoernAudio* audio;
     std::vector<GameObject*> objs;

@@ -47,7 +47,7 @@ namespace rp
     {
         public:
             PosBase();
-            virtual ~PosBase(){/*delete(rect);*/ /*<<--- Seems like SDL auto clears these...*/}
+            virtual ~PosBase(){delete(rect); }
             SDL_Rect* GetRect();
             void SetRect(SDL_Rect* _rect);
         private:
@@ -58,7 +58,7 @@ namespace rp
     class Base : public PosBase
     {
         public:
-            Base(){enabled = true;z=0;}
+            Base(){enabled = true;z=0;name="";}
             virtual ~Base(){}
             virtual void Update(){}
             virtual void Draw(){}
@@ -71,11 +71,11 @@ namespace rp
             void SetZ(int _z);
             bool operator <(Base& bo)
             {
-                return (z < bo.z);
+                return (z < bo.GetZ());
             }
             bool operator >(Base& bo)
             {
-                return (z > bo.z);
+                return (z > bo.GetZ());
             }
         private:
             int z;
@@ -89,7 +89,7 @@ namespace rp
     {
         public:
             UIText();
-            virtual ~UIText(){}
+            virtual ~UIText(){delete(rgb);}
             UIText(std::string fontpath, std::string text);
             UIText(std::string text);
             void LoadText(std::string fontpath, std::string text);
@@ -137,6 +137,7 @@ namespace rp
             void SetGraphic(std::string path);
             UIGraphic* GetGraphic();
             virtual void onClick();
+            virtual void onHover(){}
         private:
             UIGraphic* ug;
             
@@ -150,13 +151,19 @@ namespace rp
             virtual ~Button(){delete(txt);}
             Button(std::string btnTxt);
             void Draw() override;
+            void Update() override;
             void onClick() override;
+            void onHover() override{}
             UIText* GetUIText();
             void SetUIText(UIText* txt);
             void SetUIText(std::string txt);
             void SetFont(std::string fontpath);
+            void SetFunction(void (*funptr)());
+            static void empty(){}
         private:
+
             UIText* txt;
+            void (*funPtr)();
             
         
       

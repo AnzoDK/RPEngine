@@ -106,6 +106,7 @@ void UIGraphic::LoadGraphic(std::string path)
 UIBase::UIBase()
 {
     ug = new UIGraphic();
+    SetName("new UIBase");
 }
 void UIBase::onClick()
 {
@@ -121,10 +122,12 @@ UIBase::UIBase(std::string path)
 }
 void UIBase::SetGraphic(UIGraphic* uig)
 {
+    delete(ug);
     ug = uig;
 }
 void UIBase::SetGraphic(std::string path)
 {
+    delete(ug);
     ug = new UIGraphic(path);
 }
 UIGraphic* UIBase::GetGraphic()
@@ -201,10 +204,14 @@ void UIText::SetFont(std::string path)
 Button::Button()
 {
     txt = new UIText();
+    void (*ptr)(){&Button::empty};
+    funPtr = ptr;
     SetGraphic(defaultBtnTexturePath);
 }
 Button::Button(std::string btnTxt)
 {
+    void (*ptr)(){&Button::empty};
+    funPtr = ptr;
     txt = new UIText(btnTxt);
     SetGraphic(defaultBtnTexturePath);
 }
@@ -223,6 +230,7 @@ void Button::SetUIText(std::string text)
 }
 void Button::SetUIText(UIText* text)
 {
+    delete(txt);
     txt = text;
 }
 
@@ -230,6 +238,11 @@ void Button::onClick()
 {
     
 }
+void Button::SetFunction(void (*funptr)())
+{
+    funPtr = funptr;
+}
+
 
 //PosBase
 PosBase::PosBase()
@@ -242,6 +255,7 @@ SDL_Rect* PosBase::GetRect()
 }
 void rp::PosBase::SetRect(SDL_Rect* _rect)
 {
+    delete(rect);
     rect = _rect;
 }
 
