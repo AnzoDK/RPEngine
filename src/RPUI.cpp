@@ -262,7 +262,10 @@ SDL_Rect* PosBase::GetRect()
 }
 void rp::PosBase::SetRect(SDL_Rect* _rect)
 {
-    delete(rect);
+    if(rect != nullptr)
+    {
+        delete(rect);
+    }
     rect = _rect;
 }
 
