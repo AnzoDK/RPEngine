@@ -264,7 +264,7 @@ void RosenoernEngine::Update()
     SDL_RenderPresent(MR);
 
     frameTime = SDL_GetTicks() - frameStart;
-    std::cout << "Frametime: " << std::to_string(frameTime) << std::endl;
+    //std::cout << "Frametime: " << std::to_string(frameTime) << std::endl;
     if(frameDelay > frameTime)
     {
         SDL_Delay(frameDelay-frameTime);
