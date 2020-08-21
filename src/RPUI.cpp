@@ -200,6 +200,13 @@ void UIText::SetFont(std::string path)
     fontPath = path;
 }
 
+//ButtonImage
+ButtonImage::ButtonImage(std::string imgPath)
+{
+    SetGraphic(imgPath);
+}
+
+
 //Button
 Button::Button()
 {

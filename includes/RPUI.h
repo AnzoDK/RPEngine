@@ -143,7 +143,14 @@ namespace rp
             
             
     };
-
+    class ButtonImage : public UIBase
+    {
+      ButtonImage(){}
+      ButtonImage(std::string imgPath);
+      ~ButtonImage(){}
+      
+    };
+    
     class Button : public UIBase
     {
         public:
