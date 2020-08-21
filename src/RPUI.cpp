@@ -264,7 +264,7 @@ void rp::PosBase::SetRect(SDL_Rect* _rect)
 {
     if(rect != nullptr)
     {
-        delete(rect);
+        SDL_free(rect);
     }
     rect = _rect;
 }
