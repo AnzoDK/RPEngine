@@ -157,7 +157,7 @@ namespace rp
     class Button : public UIBase
     {
         public:
-            Button(){txt = new UIText();}
+            Button();
             virtual ~Button(){delete(txt);}
             Button(std::string btnTxt);
             void Draw() override;
