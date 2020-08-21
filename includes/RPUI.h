@@ -8,12 +8,12 @@
 namespace rp
 {
     enum CommonColor{White,Red,Green,Blue,Black};
-    struct RGB
+    struct C_RGB
     {
-        RGB();
-        ~RGB(){}
-        RGB(CommonColor cc);
-        RGB(unsigned int _r, unsigned int _g, unsigned int _b, unsigned int _a);
+        C_RGB();
+        ~C_RGB(){}
+        C_RGB(CommonColor cc);
+        C_RGB(unsigned int _r, unsigned int _g, unsigned int _b, unsigned int _a);
         unsigned int r;
         unsigned int g;
         unsigned int b;
@@ -104,7 +104,7 @@ namespace rp
             void SetTextColor(int r, int g, int b);
             void SetTextColor(int r, int g, int b, int a);
             void SetTextColor(CommonColor cc);
-            RGB* rgb;
+            C_RGB* rgb;
         private:
             std::string fontPath;
             std::string text;

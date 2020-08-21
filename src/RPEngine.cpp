@@ -115,7 +115,7 @@ void CharacterObject::BuildCharacterObject(std::string characterFolder)
 {
   for(const auto & entry : fs::directory_iterator(characterFolder))
   {
-   CharacterSprite* tmpSprite = new CharacterSprite(entry.path());
+   CharacterSprite* tmpSprite = new CharacterSprite(entry.path().string());
    chrStates.push_back(tmpSprite);
   }
 }
@@ -249,7 +249,12 @@ void RosenoernEngine::SetScene(Scene* s)
 }
 void RosenoernEngine::Update()
 {
+    #ifdef __WIN32__
+    uint32_t frameStart = 0;
+    #endif
+    #ifndef __WIN32__
     u_int32_t frameStart = 0;
+    #endif
     int frameTime = 0;
     frameStart = SDL_GetTicks();
     SDL_GetMouseState(&mouseX,&mouseY);
