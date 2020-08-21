@@ -417,10 +417,10 @@ void Background::Draw()
 //ButtonImage Draw
 void ButtonImage::Draw()
 {
-        SDL_Surface* tmpSurf2 = IMG_Load(GetGraphic()->GetFile()->GetPath().c_str());
+        SDL_Surface* tmpSurf = IMG_Load(GetGraphic()->GetFile()->GetPath().c_str());
         //SDL_Surface* tmpSurf = IMG_Load("testImg.png");
-        SDL_Texture* tex2 = SDL_CreateTextureFromSurface(RosenoernEngine::mainRender,tmpSurf2);
-        SDL_RenderCopy(RosenoernEngine::mainRender,tex2, NULL,GetRect());
-        SDL_FreeSurface(tmpSurf2);
-        SDL_DestroyTexture(tex2);
+        SDL_Texture* tex = SDL_CreateTextureFromSurface(RosenoernEngine::mainRender,tmpSurf);
+        SDL_RenderCopy(RosenoernEngine::mainRender,tex, NULL,GetRect());
+        SDL_FreeSurface(tmpSurf);
+        SDL_DestroyTexture(tex);
 }
