@@ -147,6 +147,7 @@ namespace rp
     {
       ButtonImage(){}
       ButtonImage(std::string imgPath);
+      void Draw() override;
       ~ButtonImage(){}
       
     };
