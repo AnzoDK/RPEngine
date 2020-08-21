@@ -145,10 +145,12 @@ namespace rp
     };
     class ButtonImage : public UIBase
     {
+    public:
       ButtonImage(){}
       ButtonImage(std::string imgPath);
       void Draw() override;
       ~ButtonImage(){}
+    private:
       
     };
     
