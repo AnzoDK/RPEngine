@@ -25,7 +25,6 @@ release: main.o
 	make clean
 
 lib: rpenginelib.o uilib.o
-	./dependency-builder.sh --use-dev --$(OS)
 	$(CXX) -fPIC -shared $(CXX_FLAGS) $(DEBUG_LEVEL) $(INCLUDES) $(SO_DIRS) $(LIB_OBJECTS) -o rpengine$(EX) $(LINK) $(END_LIB_FLAGS)
 	make clean
 
@@ -43,6 +42,7 @@ rpenginelib.o: rppnglib.o
 uilib.o:
 	$(CXX) -c $(CXX_FLAGS) $(LIB_FLAGS) $(DEBUG_LEVEL) $(INCLUDES) $(SO_DIRS) $(SRC)/RPUI.cpp -o ui.o
 rppnglib.o:
+	./dependency-builder.sh --use-dev --$(OS)
 	$(CXX) -c $(CXX_FLAGS) $(LIB_FLAGS) $(DEBUG_LEVEL) $(INCLUDES) $(SO_DIRS) $(SRC)/RPPng.cpp -o rppng.o
 
 clean:
