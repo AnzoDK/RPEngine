@@ -8,12 +8,12 @@
 namespace rp
 {
     enum CommonColor{White,Red,Green,Blue,Black};
-    struct RGB
+    struct C_RGB
     {
-        RGB();
-        ~RGB(){}
-        RGB(CommonColor cc);
-        RGB(unsigned int _r, unsigned int _g, unsigned int _b, unsigned int _a);
+        C_RGB();
+        ~C_RGB(){}
+        C_RGB(CommonColor cc);
+        C_RGB(unsigned int _r, unsigned int _g, unsigned int _b, unsigned int _a);
         unsigned int r;
         unsigned int g;
         unsigned int b;
@@ -47,7 +47,7 @@ namespace rp
     {
         public:
             PosBase();
-            virtual ~PosBase(){delete(rect); }
+            virtual ~PosBase(){/*delete(rect);*/ }
             SDL_Rect* GetRect();
             void SetRect(SDL_Rect* _rect);
         private:
@@ -104,7 +104,7 @@ namespace rp
             void SetTextColor(int r, int g, int b);
             void SetTextColor(int r, int g, int b, int a);
             void SetTextColor(CommonColor cc);
-            RGB* rgb;
+            C_RGB* rgb;
         private:
             std::string fontPath;
             std::string text;
@@ -116,7 +116,7 @@ namespace rp
         public:
             UIGraphic();
             UIGraphic(std::string path);
-            ~UIGraphic(){delete(pf);}
+            ~UIGraphic();
             //Return path if pf is initilized - otherwise returns ""
             std::string GetPath();
             //May return nullptr if no PngFile is loaded - Usually it is tho
@@ -143,7 +143,17 @@ namespace rp
             
             
     };
-
+    class ButtonImage : public UIBase
+    {
+    public:
+      ButtonImage(){}
+      ButtonImage(std::string imgPath);
+      void Draw() override;
+      ~ButtonImage(){}
+    private:
+      
+    };
+    
     class Button : public UIBase
     {
         public:

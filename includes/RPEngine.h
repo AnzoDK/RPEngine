@@ -1,8 +1,9 @@
 #pragma once
 #include "RPAudio/rpaudio.h"
 #include <filesystem>
-#ifdef _WIN32
+#if defined(_WIN32) || defined(WIN32)
 #include <windows.h>
+#include <string>
 #endif
 #ifndef _WIN32
 #endif
@@ -137,6 +138,7 @@ class RosenoernEngine
   void init();
   void SDLHandle();
   void Quit();
+  void SetFPS(int fps);
   RosenoernAudio& GetAudioController();
   int CreateMainWindow(std::string name, Uint32 flags);
   static SDL_Window* mainWin;

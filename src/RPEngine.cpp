@@ -115,7 +115,7 @@ void CharacterObject::BuildCharacterObject(std::string characterFolder)
 {
   for(const auto & entry : fs::directory_iterator(characterFolder))
   {
-   CharacterSprite* tmpSprite = new CharacterSprite(entry.path());
+   CharacterSprite* tmpSprite = new CharacterSprite(entry.path().string());
    chrStates.push_back(tmpSprite);
   }
 }
@@ -249,16 +249,22 @@ void RosenoernEngine::SetScene(Scene* s)
 }
 void RosenoernEngine::Update()
 {
-    SDL_GetMouseState(&mouseX,&mouseY);
-    u_int32_t frameStart;
-    int frameTime;
+    #ifdef __WIN32__
+    uint32_t frameStart = 0;
+    #endif
+    #ifndef __WIN32__
+    u_int32_t frameStart = 0;
+    #endif
+    int frameTime = 0;
     frameStart = SDL_GetTicks();
+    SDL_GetMouseState(&mouseX,&mouseY);
     SDLHandle();
     SDL_RenderClear(MR);
     currScene->SceneUpdate();
     SDL_RenderPresent(MR);
 
     frameTime = SDL_GetTicks() - frameStart;
+    //std::cout << "Frametime: " << std::to_string(frameTime) << std::endl;
     if(frameDelay > frameTime)
     {
         SDL_Delay(frameDelay-frameTime);
@@ -269,6 +275,12 @@ void RosenoernEngine::Quit()
 {
     isRunning = 0;   
 }
+void RosenoernEngine::SetFPS(int fps)
+{
+  RosenoernEngine::FPS = fps;
+  frameDelay = 1000/fps;
+}
+
 
 //Scene
 Scene::Scene()
@@ -304,10 +316,11 @@ void Scene::SceneUpdate()
 }
 Scene::~Scene()
 {
-    for(unsigned int i = 0; i < objsInScene.size();i++)
+   /* for(unsigned int i = 0; i < objsInScene.size();i++)
     {
-      delete(objsInScene.at(i)); //<<--- Deletion causes crashes, when no window is created and program attempts to delete a nullptr due to no scene being created, not even the "protection scene" which is an empty scene that is assigned to the currScene slot, when the window is created
-    }
+      delete(objsInScene.at(i)); //<<--- Deletion causes crashes, when no window is created and program attempts to delete a nullptr due to no scene being created, not even the "protection scene" which is an empty scene that is assigned to the currScene slot, when the window is created - Dumb way to do this already commented out to make space for the good way to do it
+    }*/
+   objsInScene.clear();
 }
 
 //More UIstuff - mainly drawing
@@ -402,4 +415,13 @@ void Background::Draw()
         SDL_DestroyTexture(tex);
     }  
 }
-
+//ButtonImage Draw
+void ButtonImage::Draw()
+{
+        SDL_Surface* tmpSurf = IMG_Load(GetGraphic()->GetFile()->GetPath().c_str());
+        //SDL_Surface* tmpSurf = IMG_Load("testImg.png");
+        SDL_Texture* tex = SDL_CreateTextureFromSurface(RosenoernEngine::mainRender,tmpSurf);
+        SDL_RenderCopy(RosenoernEngine::mainRender,tex, NULL,GetRect());
+        SDL_FreeSurface(tmpSurf);
+        SDL_DestroyTexture(tex);
+}

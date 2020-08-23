@@ -141,7 +141,7 @@ UIText::UIText()
   fontPath = defaultFontPath;
   text = "";
   fontSize = defaultFontSize;
-  rgb = new RGB();
+  rgb = new C_RGB();
 }
 void UIText::SetFontSize(int size)
 {
@@ -156,13 +156,13 @@ UIText::UIText(std::string txt)
     fontPath = defaultFontPath;
     text = "";
     fontSize = defaultFontSize;
-    rgb = new RGB();
+    rgb = new C_RGB();
     LoadText(txt);
 }
 UIText::UIText(std::string path, std::string txt)
 {
     fontSize = defaultFontSize;
-    rgb = new RGB();
+    rgb = new C_RGB();
     LoadText(path,txt);
     
 }
@@ -185,20 +185,27 @@ std::string UIText::GetText()
 }
 void UIText::SetTextColor(int r, int g, int b)
 {
-    rgb = new RGB(r,g,b,255);
+    rgb = new C_RGB(r,g,b,255);
 }
 void UIText::SetTextColor(int r, int g, int b, int a)
 {
-    rgb = new RGB(r,g,b,a);
+    rgb = new C_RGB(r,g,b,a);
 }
 void UIText::SetTextColor(CommonColor cc)
 {
-    rgb = new RGB(cc);
+    rgb = new C_RGB(cc);
 }
 void UIText::SetFont(std::string path)
 {
     fontPath = path;
 }
+
+//ButtonImage
+ButtonImage::ButtonImage(std::string imgPath)
+{
+    SetGraphic(imgPath);
+}
+
 
 //Button
 Button::Button()
@@ -255,26 +262,29 @@ SDL_Rect* PosBase::GetRect()
 }
 void rp::PosBase::SetRect(SDL_Rect* _rect)
 {
-    delete(rect);
+    if(rect != nullptr)
+    {
+        //delete(rect);
+    }
     rect = _rect;
 }
 
 //RGB
-RGB::RGB()
+C_RGB::C_RGB()
 {
  r = 0;
  g = 0;
  b = 0;
  a = 0;
 }
-RGB::RGB(unsigned int _r, unsigned int _g, unsigned int _b, unsigned int _a)
+C_RGB::C_RGB(unsigned int _r, unsigned int _g, unsigned int _b, unsigned int _a)
 {
  r = _r;
  g = _g;
  b = _b;
  a = _a;
 }
-RGB::RGB(CommonColor cc)
+C_RGB::C_RGB(CommonColor cc)
 {
     switch(static_cast<int>(cc))
     {
