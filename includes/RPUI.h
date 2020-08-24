@@ -63,7 +63,14 @@ namespace rp
             virtual void Update(){}
             virtual void Draw(){}
             virtual void Init(){}
-            virtual void Parse(std::vector<Base*>& vec){};
+            virtual void Parse(std::vector<Base*>& vec)
+            {
+                if(IsEnabled())
+                {
+                    vec.push_back(this);
+                }
+                
+            };
             bool IsEnabled();
             void SetEnabled(bool state);
             std::string GetName();
