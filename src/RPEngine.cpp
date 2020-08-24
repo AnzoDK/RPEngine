@@ -318,7 +318,7 @@ void Scene::SceneUpdate()
     {
         if(tmp.at(i)->IsEnabled())
         {
-            std::cout << "Rendering object: " tmp.at(i)->GetName() + " At Z index: " tmp.at(i)->GetZ();
+            std::cout << "Rendering object: " + tmp.at(i)->GetName() + " At Z index: " + std::to_string(tmp.at(i)->GetZ()) << std::endl;
             tmp.at(i)->Update();
             tmp.at(i)->Draw();
         }
