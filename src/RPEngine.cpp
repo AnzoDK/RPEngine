@@ -316,7 +316,7 @@ void Scene::SceneUpdate()
     
     for(unsigned int i = 0; i < tmp.size();i++)
     {
-        if(tmp.at(i).IsEnabled())
+        if(tmp.at(i)->IsEnabled())
         {
             tmp.at(i)->Update();
             tmp.at(i)->Draw();
