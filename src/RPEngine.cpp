@@ -307,12 +307,20 @@ void Scene::RemoveObject(std::string name)
 }
 void Scene::SceneUpdate()
 {
-    std::sort(objsInScene.begin(),objsInScene.end());
+    std::vector<Base*> tmp = std::vector<Base*>();
     for(unsigned int i = 0; i < objsInScene.size();i++)
     {
-        objsInScene.at(i)->Update();
-        objsInScene.at(i)->Draw();
-    }   
+        objsInScene.at(i)->Parse(&tmp);
+    }
+    std::sort(tmp.begin(),tmp.end());
+    
+    for(unsigned int i = 0; i < tmp.size();i++)
+    {
+        tmp.at(i)->Update();
+        tmp.at(i)->Draw();
+    }
+    tmp.clear();
+    
 }
 Scene::~Scene()
 {
