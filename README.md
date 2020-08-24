@@ -29,7 +29,7 @@ To use the engine it is a good idea to know how it does stuff so here is a list 
 ## The Engine Itself
 The main class is called `RosenoernEngine` and ins residing in the namespace `rp`. It includes a few public static properties:
 - ##### int FPS
-  - FPS is a static int that you can call to get the engines framerate - This is not necessary the framerate that the engine runs at, but the framerate that it attempts to achieve.
+  - FPS is a static int that you can call to get the engines framerate - This is not necessarely the framerate that the engine runs at, but the framerate that it attempts to achieve.
 -  ##### int mouseX
    - mouseX keeps track of the mouse's x position at all times, this was my attempt to avoid writing code that checked the position more than once.
 -  ##### int mouseY
