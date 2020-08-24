@@ -310,7 +310,7 @@ void Scene::SceneUpdate()
     std::vector<Base*> tmp = std::vector<Base*>();
     for(unsigned int i = 0; i < objsInScene.size();i++)
     {
-        objsInScene.at(i)->Parse(&tmp);
+        objsInScene.at(i)->Parse(tmp);
     }
     std::sort(tmp.begin(),tmp.end());
     
