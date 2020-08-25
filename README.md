@@ -42,5 +42,15 @@ The main class is called `RosenoernEngine` and is residing in the namespace `rp`
    - mainRender is the primary SDL_Renderer used to render objects to the screen - the reason for it being static was my dumb implementation of the texture handling
 - ##### SDL_Window* mainWin
    - mainWin is the primary window in SDL and is the default window that objects are going to be written to. It is static for some reason, and I forgot why.
-   
+ 
+ #### Common Functions
+ The engine contains a few functions that should always be used instead of worked around.
+- ##### `RosenoernEngine::RosenoernEngine(bool _debug, int buffers)`
+   - The default constructor for the engine it takes 2 arguments and both should always be supplied.
+     - bool _debug: Indicates debug behaviour, this doesn't do anything for the engine at the moment, but does set a few variables in the RPAudio library
+     - int buffers: The amount of audio buffers that should be available - It is worth noting that the RPAudio doesn't clear them very often, so a number larger than 5 and smaller than 10 is recommened. It is also good to know that the engine will crash if it runs out of buffers and cant clear any of them.
+ - ##### `void RosenoernEngine::Init()`
+   - The Engine initializer. This should always be run after the initial object declaration. If you fail to run this function before any engine logic you will end up with udefined behaviour.
+- `RosenoernAudio& RosenoernEngine::GetAudioController()`
+   - This function returns a refrence to the audiocontroller generated in the Init() function. As of now, you'll have to ask the audiocontroller directly if you want to play audio - Please check (https://github.com/AnzoDK/RPAudio)[RPAudio] for more info on using the audiocontroller.
 ## TODO: Write about functions and classes
