@@ -52,5 +52,5 @@ The main class is called `RosenoernEngine` and is residing in the namespace `rp`
  - ##### `void RosenoernEngine::Init()`
    - The Engine initializer. This should always be run after the initial object declaration. If you fail to run this function before any engine logic you will end up with udefined behaviour.
 - ##### `RosenoernAudio& RosenoernEngine::GetAudioController()`
-   - This function returns a refrence to the audiocontroller generated in the Init() function. As of now, you'll have to ask the audiocontroller directly if you want to play audio - Please check (https://github.com/AnzoDK/RPAudio)[RPAudio] for more info on using the audiocontroller.
+   - This function returns a refrence to the audiocontroller generated in the Init() function. As of now, you'll have to ask the audiocontroller directly if you want to play audio - Please check [RPAudio](https://github.com/AnzoDK/RPAudio) for more info on using the audiocontroller.
 ## TODO: Write about functions and classes
