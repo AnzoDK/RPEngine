@@ -343,7 +343,7 @@ void Scene::SceneUpdate()
             tmp.at(i)->Draw();
         }
     }
-    LogScene(tmp);
+    //LogScene(tmp);
     tmp.clear();
     
 }
