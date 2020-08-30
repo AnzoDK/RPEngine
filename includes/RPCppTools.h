@@ -35,7 +35,7 @@ namespace rp
             }
             counter++;
         }
-        delete(tmpBase); /*<--- As this is never declared as a new varaible, it could couse issues if we delete it*/
+        //delete(tmpBase); /*<--- As this is never declared as a new varaible, it could couse issues if we delete it*/
     }
     };
 }
