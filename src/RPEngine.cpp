@@ -373,7 +373,7 @@ void EngineLogger::Log(std::string strToLog, bool withTicks)
         logStr = "[" + std::to_string(RosenoernEngine::GetTicks()) + "] ";
     }
     logStr += strToLog;
-    std::ofstream out = std::ofstream(logPath.c_str());
+    std::ofstream out = std::ofstream(logPath.c_str(),std::fstream::out | std::fstream::app);
     out << logStr;
     out.close();
     
