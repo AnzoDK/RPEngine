@@ -375,6 +375,7 @@ void EngineLogger::Log(std::string strToLog, bool withTicks)
     logStr += strToLog;
     std::ofstream out = std::ofstream(logPath.c_str(),std::fstream::out | std::fstream::app);
     out << logStr;
+    out << std::endl;
     out.close();
     
 }
