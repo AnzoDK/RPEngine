@@ -57,11 +57,11 @@ std::string Base::GetName()
 {
     return name;
 }
-void Base::SetZ(int _z)
+void Base::SetZ(signed int _z)
 {
    z = _z; 
 }
-int Base::GetZ()
+signed int Base::GetZ()
 {
     return z;
 }
