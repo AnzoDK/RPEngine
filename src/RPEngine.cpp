@@ -1,4 +1,9 @@
 #include "../includes/RPEngine.h"
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32)
+#define Windows
+#else
+#define Linux
+#endif
 using namespace rp;
 namespace fs = std::filesystem;
 #define MR RosenoernEngine::mainRender
@@ -250,10 +255,9 @@ void RosenoernEngine::SetScene(Scene* s)
 }
 void RosenoernEngine::Update()
 {
-    #ifdef __WIN32__
+    #ifdef Windows
     uint32_t frameStart = 0;
-    #endif
-    #ifndef __WIN32__
+    #else
     u_int32_t frameStart = 0;
     #endif
     int frameTime = 0;
@@ -354,13 +358,12 @@ Scene::~Scene()
    objsInScene.clear();
 }
 
-  #ifdef __WIN32__
+  #ifdef Windows
   uint32_t GetTicks()
   {
       return SDL_GetTicks();
   }
-  #endif
-  #ifndef __WIN32__
+  #else
   u_int32_t GetTicks()
   {
     return SDL_GetTicks();  

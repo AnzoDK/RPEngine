@@ -169,10 +169,9 @@ class RosenoernEngine
   static int mouseY;
   static InputHandler* InHand;
   void Log(std::string strToLog,bool withTicks=true);
-  #ifdef __WIN32__
+  #ifdef Windows
   static uint32_t GetTicks();
-  #endif
-  #ifndef __WIN32__
+  #else
   static u_int32_t GetTicks();
   #endif
   private:
