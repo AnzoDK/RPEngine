@@ -332,7 +332,7 @@ void Scene::SceneUpdate()
         objsInScene.at(i)->Parse(tmp);
     }
     //std::sort(tmp.begin(),tmp.end()); <- commented out as it doesn't sort correctly every time
-    BaseVectorSort(tmp);
+    CppTools::BaseVectorSort(tmp);
     
     for(unsigned int i = 0; i < tmp.size();i++)
     {

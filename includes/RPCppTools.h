@@ -3,7 +3,9 @@
 #include "RPUI.h"
 namespace rp
 {
-    void BaseVectorSort(std::vector<Base*>& vec)
+    struct CppTools
+    {
+    static void BaseVectorSort(std::vector<Base*>& vec)
     {
         //This is essentially just a bubble sort
         bool sorted = 0;
@@ -34,4 +36,5 @@ namespace rp
         }
         delete(tmpBase); /*<--- As this is never declared as a new varaible, it could couse issues if we delete it*/
     }
+    };
 }
