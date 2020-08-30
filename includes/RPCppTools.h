@@ -5,6 +5,7 @@ namespace rp
 {
     struct CppTools
     {
+        //I HAD TO BE A BAD BUBBLE SORT JUST TO FIX STD::SORT TELLING ME THAT -1 > 1.... WHY! WHAT THE FUCK!? - so if you want to improve this function - feel free to do so :)
     static void BaseVectorSort(std::vector<Base*>& vec)
     {
         //This is essentially just a bubble sort
