@@ -18,6 +18,8 @@ namespace rp{
 enum CharacterState{Default=0,Smiling,Crying,Annoyed,Sad,Suprised};
 enum AnimationState{Idle=0};
 
+
+
 struct ScreenSize
 {
   int width = 0;
@@ -57,6 +59,18 @@ struct SpriteAnimation
 
 
 
+
+
+class EngineLogger
+{
+    public:
+        EngineLogger();
+        EngineLogger(std::string path);
+        void Log(std::string strToLog,bool withTicks=true);
+        ~EngineLogger(){}
+    private:
+        std::string logPath;
+};
 
 
 class GameObject : public Base
@@ -153,11 +167,19 @@ class RosenoernEngine
   static int mouseX;
   static int mouseY;
   static InputHandler* InHand;
+  void Log(std::string strToLog,bool withTicks=true);
+  #ifdef __WIN32__
+  static uint32_t GetTicks();
+  #endif
+  #ifndef __WIN32__
+  static u_int32_t GetTicks();
+  #endif
   private:
     RosenoernAudio* audio;
     std::vector<GameObject*> objs;
     Scene* currScene;
     int frameDelay;
+    EngineLogger logger;
     
 };
 

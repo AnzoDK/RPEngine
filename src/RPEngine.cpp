@@ -178,6 +178,7 @@ RosenoernEngine::~RosenoernEngine()
 }
 void RosenoernEngine::init()
 {
+    logger = EngineLogger();
     audio->init();
     RosenoernEngine::InHand = new InputHandler();
     isRunning = false;
@@ -281,6 +282,11 @@ void RosenoernEngine::SetFPS(int fps)
   frameDelay = 1000/fps;
 }
 
+void RosenoernEngine::Log(std::string strToLog, bool withTicks)
+{
+    logger.Log(strToLog,withTicks);
+}
+
 
 //Scene
 Scene::Scene()
@@ -334,6 +340,43 @@ Scene::~Scene()
     }*/
    objsInScene.clear();
 }
+
+  #ifdef __WIN32__
+  uint32_t GetTicks()
+  {
+      return SDL_GetTicks();
+  }
+  #endif
+  #ifndef __WIN32__
+  u_int32_t GetTicks()
+  {
+    return SDL_GetTicks();  
+  }
+  #endif
+
+EngineLogger::EngineLogger()
+{
+  logPath = "./GameLog.log";
+}
+EngineLogger::EngineLogger(std::string path)
+{
+    logPath = path;
+}
+void EngineLogger::Log(std::string strToLog, bool withTicks)
+{
+    std::string logStr = "";
+    if(withTicks)
+    {
+        logStr = "[" + std::to_string(RosenoernEngine::GetTicks()) + "] ";
+    }
+    logStr += strToLog;
+    std::ofstream out = std::ofstream(logPath.c_str());
+    out << logStr;
+    out.close();
+    
+}
+
+
 
 //More UIstuff - mainly drawing
 //Button Draw
