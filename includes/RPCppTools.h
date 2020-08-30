@@ -33,6 +33,7 @@ namespace rp
                 vec.at(counter+1) = tmpBase;
                 changes+=1;
             }
+            counter++;
         }
         delete(tmpBase); /*<--- As this is never declared as a new varaible, it could couse issues if we delete it*/
     }
