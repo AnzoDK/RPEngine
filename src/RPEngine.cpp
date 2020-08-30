@@ -311,6 +311,19 @@ void Scene::RemoveObject(std::string name)
         }
     }
 }
+void Scene::LogScene()
+{
+    for(unsigned int i = 0; i < objsInScene.size();i++)
+    {
+        std::string logStr = "";
+        EngineLogger el = EngineLogger();
+        logStr += "Name: " + objsInScene.at(i)->GetName();
+        logStr += " X,Y pos: " + std::to_string(objsInScene.at(i)->GetRect()->x) + "," + std::to_string(objsInScene.at(i)->GetRect()->y);
+        logStr += " Size(w,h) " + std::to_string(objsInScene.at(i)->GetRect()->w) + "," + std::to_string(objsInScene.at(i)->GetRect()->h);
+        el.Log(logStr);
+    }
+}
+
 void Scene::SceneUpdate()
 {
     std::vector<Base*> tmp = std::vector<Base*>();
