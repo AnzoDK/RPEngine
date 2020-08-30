@@ -129,8 +129,9 @@ class Scene
         void RemoveObject(int id);
         void RemoveObject(std::string name);
         void SceneUpdate();
-        void LogScene();
+        
     private:
+        void LogScene(std::vector<Base*>& tmp);
         std::vector<Base*> objsInScene;
         
    
