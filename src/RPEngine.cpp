@@ -1,9 +1,4 @@
 #include "../includes/RPEngine.h"
-#if defined(WIN32) || defined(_WIN32) || defined(__WIN32)
-#define Windows
-#else
-#define Linux
-#endif
 using namespace rp;
 namespace fs = std::filesystem;
 #define MR RosenoernEngine::mainRender
