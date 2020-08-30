@@ -352,18 +352,10 @@ Scene::~Scene()
     }*/
    objsInScene.clear();
 }
-
-  #ifdef Windows
-  uint32_t GetTicks()
-  {
-      return SDL_GetTicks();
-  }
-  #else
-  u_int32_t GetTicks()
-  {
+Uint32 RosenoernEngine::GetTicks()
+{
     return SDL_GetTicks();  
-  }
-  #endif
+}
 
 EngineLogger::EngineLogger()
 {

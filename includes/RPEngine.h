@@ -174,11 +174,7 @@ class RosenoernEngine
   static int mouseY;
   static InputHandler* InHand;
   void Log(std::string strToLog,bool withTicks=true);
-  #ifdef Windows
-  static uint32_t GetTicks();
-  #else
-  static u_int32_t GetTicks();
-  #endif
+  static Uint32 GetTicks();
   private:
     RosenoernAudio* audio;
     std::vector<GameObject*> objs;
