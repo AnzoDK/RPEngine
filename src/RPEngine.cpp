@@ -312,7 +312,7 @@ void Scene::RemoveObject(std::string name)
 }
 void Scene::LogScene(std::vector<Base*>& tmp )
 {
-    for(unsigned int i = 0; i < objsInScene.size();i++)
+    for(unsigned int i = 0; i < tmp.size();i++)
     {
         std::string logStr = "";
         EngineLogger el = EngineLogger();
