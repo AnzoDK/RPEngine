@@ -18,6 +18,7 @@
 #include <SDL2/SDL_image.h>
 #include "RPUI.h"
 #include <algorithm>
+#include "RPCppTools.h"
 namespace rp{
 
 enum CharacterState{Default=0,Smiling,Crying,Annoyed,Sad,Suprised};
@@ -177,6 +178,8 @@ class RosenoernEngine
   void Log(std::string strToLog,bool withTicks=true);
   static Uint32 GetTicks();
   private:
+    //std::sort kept fucking sorting 1 < -1 and THAT IS NOT RIGHT GODDAMMIT
+    //Thus - I made a manual sort function
     RosenoernAudio* audio;
     std::vector<GameObject*> objs;
     Scene* currScene;
