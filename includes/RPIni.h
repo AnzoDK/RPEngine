@@ -47,8 +47,7 @@ struct Key
         {
             stringsubkeys.push_back(key);
         }
-        template<typename TT>
-        TT GetSubKey(std::string keyName)
+        std::string GetSubKey(std::string keyName)
         {
             for(int i = 0; i < intsubkeys.size();i++)
             {
@@ -61,7 +60,7 @@ struct Key
             {
                 if(stringsubkeys.at(i).name == keyName)
                 {
-                    return static_cast<TT>(stringsubkeys.at(i).value);
+                    return stringsubkeys.at(i).value;
                 }
             }
             return std::to_string(-2);
