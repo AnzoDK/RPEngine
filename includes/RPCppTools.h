@@ -10,7 +10,7 @@ namespace rp
     {
         //This is essentially just a bubble sort
         bool sorted = 0;
-        int counter = 0;
+        unsigned int counter = 0;
         short int changes = 0;
         Base* tmpBase = nullptr;
         while(!sorted)
