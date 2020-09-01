@@ -23,7 +23,7 @@ namespace rp{
 
 enum CharacterState{Default=0,Smiling,Crying,Annoyed,Sad,Suprised};
 enum AnimationState{Idle=0};
-
+enum RunningState{Stopped=0,Running=1};
 
 
 struct ScreenSize
@@ -63,7 +63,21 @@ struct SpriteAnimation
         int playbackFPS;
 };
 
-
+class SimpleAnimationBase
+{
+    public:
+        SimpleAnimationBase(){done = false; status=RunningState::Stopped;}
+        virtual ~SimpleAnimationBase(){};
+        virtual void Update();
+        RunningState GetStatus(){return status;}
+        void SetStatus(RunningState state);
+        bool IsDone(){return done};
+    private:
+        RunningState status;
+        bool done;
+        
+    
+};
 
 
 
