@@ -160,6 +160,7 @@ namespace rp
             UIGraphic* GetGraphic();
             virtual void onClick();
             virtual void onHover(){}
+            virtual void Draw() override;
         private:
             UIGraphic* ug;
             

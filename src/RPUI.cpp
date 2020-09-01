@@ -1,5 +1,7 @@
 #include "../includes/RPUI.h"
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL.h>
+#include "../includes/RPEngine.h"
 using namespace rp;
 
 
@@ -111,6 +113,19 @@ UIBase::UIBase()
 void UIBase::onClick()
 {
     
+}
+void UIBase::Draw()
+{
+    if(IsEnabled())
+    {
+//         SDL_Surface* tmpSurf = IMG_Load(GetGraphic()->GetFile()->GetPath().c_str());
+        SDL_Texture* tex = SDL_CreateTextureFromSurface(RosenoernEngine::mainRender,tmpSurf);
+        SDL_SetTextureColorMod(tex,TexMod.modR,TexMod.modB,TexMod.modG);
+        SDL_SetTextureAlphaMod(tex,TexMod.modR);
+        SDL_RenderCopy(RosenoernEngine::mainRender,tex, NULL,GetRect());
+        SDL_FreeSurface(tmpSurf);
+        SDL_DestroyTexture(tex);
+    }  
 }
 UIBase::UIBase(UIGraphic* uig)
 {
