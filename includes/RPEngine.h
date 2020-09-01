@@ -68,9 +68,9 @@ class SimpleAnimationBase : public Base
     public:
         SimpleAnimationBase(){done = false; status=RunningState::Stopped;}
         virtual ~SimpleAnimationBase(){};
-        virtual void Update();
+        virtual void Update() override;
         RunningState GetStatus(){return status;}
-        void SetStatus(RunningState state);
+        void SetStatus(RunningState _state){status = _state;}
         bool IsDone(){return done;}
     private:
         RunningState status;

@@ -78,6 +78,14 @@ CharacterSprite::CharacterSprite(std::string path)
   //Valid :)
 }
 
+//SimpleAnimationBase
+void SimpleAnimationBase::Update()
+{
+    
+}
+
+
+//CharacterSprite
 CharacterSprite::~CharacterSprite()
 {
   delete(file);
