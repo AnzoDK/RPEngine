@@ -420,7 +420,10 @@ void Button::Draw()
         SDL_Surface* tmpSurf = IMG_Load(GetGraphic()->GetFile()->GetPath().c_str());
         //SDL_Surface* tmpSurf = IMG_Load("testImg.png");
         SDL_Texture* tex = SDL_CreateTextureFromSurface(RosenoernEngine::mainRender,tmpSurf);
-        SDL_SetTextureColorMod(tex,TexMod.modR,TexMod.modB,TexMod.modG);
+        if(SDL_SetTextureColorMod(tex,TexMod.modR,TexMod.modB,TexMod.modG))
+        {
+            tex = SDL_CreateTextureFromSurface(RosenoernEngine::mainRender,tmpSurf);
+        }
         SDL_SetTextureAlphaMod(tex,TexMod.modR);
         SDL_RenderCopy(RosenoernEngine::mainRender,tex, NULL,GetRect());
         SDL_FreeSurface(tmpSurf);
