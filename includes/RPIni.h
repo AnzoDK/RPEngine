@@ -61,10 +61,10 @@ struct Key
             {
                 if(stringsubkeys.at(i).name == keyName)
                 {
-                    return stringsubkeys.at(i).value;
+                    return static_cast<TT>(stringsubkeys.at(i).value);
                 }
             }
-            return static_cast<TT>(0);
+            return static_cast<TT>(-2);
         }
         std::string name;
     private:
