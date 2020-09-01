@@ -174,6 +174,7 @@ struct Ini
             }
             counter++;
           }
+          delete[] buffer;
           
         }
         void key(std::string _key)
@@ -191,7 +192,7 @@ struct Ini
                     break;
                 }
             }
-            return nullptr;
+            return new Key("Invalid");
         }
     private:
         std::string path;
