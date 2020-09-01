@@ -166,6 +166,19 @@ UIText::UIText(std::string path, std::string txt)
     LoadText(path,txt);
     
 }
+UIText::UIText(std::string fontpath, std::string text, int _fontSize, int x, int y, int width, int height)
+{
+    fontSize = _fontSize;
+    rgb = new C_RGB();
+    LoadText(fontpath,text);
+    SDL_Rect* rr = new SDL_Rect();
+    rr->x = x;
+    rr->y = y;
+    rr->h = height;
+    rr->w = width;
+    SetRect(rr);
+}
+
 void UIText::LoadText(std::string fontpath, std::string _text)
 {
     fontPath = fontpath;

@@ -99,6 +99,7 @@ namespace rp
             UIText();
             virtual ~UIText(){delete(rgb);}
             UIText(std::string fontpath, std::string text);
+            UIText(std::string fontpath, std::string text, int fontSize, int x, int y, int width, int height);
             UIText(std::string text);
             void LoadText(std::string fontpath, std::string text);
             void SetFont(std::string fontpath);
