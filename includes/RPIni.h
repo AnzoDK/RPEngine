@@ -117,14 +117,14 @@ struct Ini
                         }
                     }
                     std::string valName = "";
-                    for(int i = 0; i < equal-1;i++)
+                    for(int i = 0; i < equal;i++)
                     {
-                        valName += buff[i];
+                        valName += buff[i+1];
                     }
                     std::string valString = "";
                     for(int i = equal; i < newLen;i++)
                     {
-                        valString += buff[i];
+                        valString += buff[i+1];
                     }
                     delete[] buff;
                     char* val;
@@ -142,12 +142,12 @@ struct Ini
                     
                 }
             }
-            if(buffer[counter] == '[')
+            if(buffer[counter] == 0x5B)
             {
                 start = buffer[counter];
                 readAsKey = 0;
             }
-            if(buffer[counter] == ']')
+            if(buffer[counter] == 0x5D)
             {
                 end = counter;
             }
@@ -157,7 +157,7 @@ struct Ini
                 std::string keyname = "";
                 for(int i = 0; i < len; i++)
                 {
-                    keyname += buffer[start+i];
+                    keyname += buffer[start+i+1];
                 }
                 Key* nKey = new Key(keyname);
                 latestKey = nKey;
