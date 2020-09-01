@@ -81,10 +81,10 @@ CharacterSprite::CharacterSprite(std::string path)
 }
 
 //SimpleAnimationBase
-void SimpleAnimationBase::Update()
+/*void SimpleAnimationBase::Update()
 {
     
-}
+}*/
 
 
 //CharacterSprite
