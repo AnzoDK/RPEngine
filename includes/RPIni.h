@@ -165,7 +165,6 @@ struct Ini
                 start = 0;
                 end++;
                 readAsKey = 1;
-                counter++;
             }
             if(counter == length-1)
             {
