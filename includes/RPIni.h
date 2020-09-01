@@ -64,7 +64,7 @@ struct Key
                     return static_cast<TT>(stringsubkeys.at(i).value);
                 }
             }
-            return static_cast<TT>(-2);
+            return std::to_string(-2);
         }
         std::string name;
     private:
