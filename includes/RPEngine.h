@@ -19,6 +19,7 @@
 #include "RPUI.h"
 #include <algorithm>
 #include "RPCppTools.h"
+#include "RPIni.h"
 namespace rp{
 
 enum CharacterState{Default=0,Smiling,Crying,Annoyed,Sad,Suprised};
