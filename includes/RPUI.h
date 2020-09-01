@@ -8,6 +8,18 @@
 namespace rp
 {
     enum CommonColor{White,Red,Green,Blue,Black};
+    
+    
+    struct TextureModulator
+    {
+        TextureModulator(){modR = 1; modG = 1; modB = 1; modA = 1;}
+        Uint8 modR;
+        Uint8 modG;
+        Uint8 modB;
+        Uint8 modA;
+    };
+    
+    
     struct C_RGB
     {
         C_RGB();
@@ -58,7 +70,7 @@ namespace rp
     class Base : public PosBase
     {
         public:
-            Base(){enabled = true;z=0;name="";}
+            Base(){enabled = true;z=0;name="";TexMod = TextureModulator();}
             virtual ~Base(){}
             virtual void Update(){}
             virtual void Draw(){}
@@ -85,6 +97,7 @@ namespace rp
             {
                 return (z > bo.GetZ());
             }
+            TextureModulator TexMod;
         private:
             float z;
             bool enabled;

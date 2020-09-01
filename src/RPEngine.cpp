@@ -33,6 +33,8 @@ void GameObject::Draw()
         SDL_Surface* tmpSurf = IMG_Load(currSprite->GetFile()->GetPath().c_str());
         //SDL_Surface* tmpSurf = IMG_Load("testImg.png");
         SDL_Texture* tex = SDL_CreateTextureFromSurface(RosenoernEngine::mainRender,tmpSurf);
+        SDL_SetTextureColorMod(tex,TexMod.modR,TexMod.modB,TexMod.modG);
+        SDL_SetTextureAlphaMod(tex,TexMod.modR);
         SDL_RenderCopy(RosenoernEngine::mainRender,tex, NULL,rect);
         SDL_FreeSurface(tmpSurf);
         SDL_DestroyTexture(tex);
@@ -418,6 +420,8 @@ void Button::Draw()
         SDL_Surface* tmpSurf = IMG_Load(GetGraphic()->GetFile()->GetPath().c_str());
         //SDL_Surface* tmpSurf = IMG_Load("testImg.png");
         SDL_Texture* tex = SDL_CreateTextureFromSurface(RosenoernEngine::mainRender,tmpSurf);
+        SDL_SetTextureColorMod(tex,TexMod.modR,TexMod.modB,TexMod.modG);
+        SDL_SetTextureAlphaMod(tex,TexMod.modR);
         SDL_RenderCopy(RosenoernEngine::mainRender,tex, NULL,GetRect());
         SDL_FreeSurface(tmpSurf);
         SDL_DestroyTexture(tex);
@@ -453,6 +457,8 @@ void UIText::Draw()
     SDL_Color clr = {static_cast<Uint8>(rgb->r),static_cast<Uint8>(rgb->g),static_cast<Uint8>(rgb->b),static_cast<Uint8>(rgb->a)};
     SDL_Surface* surf = TTF_RenderText_Solid(font, text.c_str(), clr);
     SDL_Texture* tex = SDL_CreateTextureFromSurface(RosenoernEngine::mainRender,surf);
+    SDL_SetTextureColorMod(tex,TexMod.modR,TexMod.modB,TexMod.modG);
+    SDL_SetTextureAlphaMod(tex,TexMod.modR);    
     SDL_FreeSurface(surf);
     SDL_RenderCopy(RosenoernEngine::mainRender,tex,NULL,GetRect());
     SDL_DestroyTexture(tex);
@@ -495,6 +501,8 @@ void Background::Draw()
         SDL_Surface* tmpSurf = IMG_Load(GetGraphic()->GetFile()->GetPath().c_str());
         //SDL_Surface* tmpSurf = IMG_Load("testImg.png");
         SDL_Texture* tex = SDL_CreateTextureFromSurface(RosenoernEngine::mainRender,tmpSurf);
+        SDL_SetTextureColorMod(tex,TexMod.modR,TexMod.modB,TexMod.modG);
+        SDL_SetTextureAlphaMod(tex,TexMod.modR);
         SDL_RenderCopy(RosenoernEngine::mainRender,tex, NULL,GetRect());
         SDL_FreeSurface(tmpSurf);
         SDL_DestroyTexture(tex);
@@ -506,6 +514,8 @@ void ButtonImage::Draw()
         SDL_Surface* tmpSurf = IMG_Load(GetGraphic()->GetFile()->GetPath().c_str());
         //SDL_Surface* tmpSurf = IMG_Load("testImg.png");
         SDL_Texture* tex = SDL_CreateTextureFromSurface(RosenoernEngine::mainRender,tmpSurf);
+        SDL_SetTextureColorMod(tex,TexMod.modR,TexMod.modB,TexMod.modG);
+        SDL_SetTextureAlphaMod(tex,TexMod.modR);
         SDL_RenderCopy(RosenoernEngine::mainRender,tex, NULL,GetRect());
         SDL_FreeSurface(tmpSurf);
         SDL_DestroyTexture(tex);
