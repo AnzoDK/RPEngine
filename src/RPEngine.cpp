@@ -372,14 +372,14 @@ void Scene::SceneUpdate()
     tmp.clear();
     
 }
-Scene::~Scene()
-{
+//Scene::~Scene()
+//{
    /* for(unsigned int i = 0; i < objsInScene.size();i++)
     {
       delete(objsInScene.at(i)); //<<--- Deletion causes crashes, when no window is created and program attempts to delete a nullptr due to no scene being created, not even the "protection scene" which is an empty scene that is assigned to the currScene slot, when the window is created - Dumb way to do this already commented out to make space for the good way to do it
     }*/
-   objsInScene.clear();
-}
+   
+//}
 Uint32 RosenoernEngine::GetTicks()
 {
     return SDL_GetTicks();  

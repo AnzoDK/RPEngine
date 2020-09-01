@@ -140,7 +140,7 @@ class Scene
 {
     public:
         Scene();
-        ~Scene();
+        virtual ~Scene(){objsInScene.clear();}
         void AddObject(Base* obj);
         void RemoveObject(int id);
         void RemoveObject(std::string name);
