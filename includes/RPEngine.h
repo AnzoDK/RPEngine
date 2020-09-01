@@ -68,7 +68,7 @@ class SimpleAnimationBase : public Base
     public:
         SimpleAnimationBase(){done = false; status=RunningState::Stopped;}
         virtual ~SimpleAnimationBase(){};
-        virtual void Update() override;
+        //virtual void Update() override;
         RunningState GetStatus(){return status;}
         void SetStatus(RunningState _state){status = _state;}
         bool IsDone(){return done;}
@@ -139,7 +139,7 @@ class CharacterObject : public GameObject
 class Scene
 {
     public:
-        Scene(){objsInScene = std::vector<Base*>();}
+        Scene();
         virtual ~Scene(){objsInScene.clear();}
         void AddObject(Base* obj);
         void RemoveObject(int id);
