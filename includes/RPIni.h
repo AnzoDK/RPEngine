@@ -54,7 +54,7 @@ struct Key
             {
                 if(intsubkeys.at(i).name == keyName)
                 {
-                    return intsubkeys.at(i).value;
+                    return std::to_string(intsubkeys.at(i).value);
                 }
             }
             for(int i = 0; i < stringsubkeys.size();i++)
