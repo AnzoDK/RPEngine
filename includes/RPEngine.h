@@ -63,7 +63,7 @@ struct SpriteAnimation
         int playbackFPS;
 };
 
-class SimpleAnimationBase
+class SimpleAnimationBase : public Base
 {
     public:
         SimpleAnimationBase(){done = false; status=RunningState::Stopped;}
@@ -71,7 +71,7 @@ class SimpleAnimationBase
         virtual void Update();
         RunningState GetStatus(){return status;}
         void SetStatus(RunningState state);
-        bool IsDone(){return done};
+        bool IsDone(){return done;}
     private:
         RunningState status;
         bool done;
