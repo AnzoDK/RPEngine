@@ -163,7 +163,6 @@ struct Ini
                 latestKey = nKey;
                 keys.push_back(nKey);
                 start = 0;
-                end++;
                 readAsKey = 1;
             }
             if(counter == length-1)
