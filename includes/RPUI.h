@@ -12,7 +12,7 @@ namespace rp
     
     struct TextureModulator
     {
-        TextureModulator(){modR = 1; modG = 1; modB = 1; modA = 255;}
+        TextureModulator(){modR = 255; modG = 255; modB = 255; modA = 255;}
         Uint8 modR;
         Uint8 modG;
         Uint8 modB;
