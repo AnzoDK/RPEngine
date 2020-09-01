@@ -422,6 +422,7 @@ void Button::Draw()
         SDL_Texture* tex = SDL_CreateTextureFromSurface(RosenoernEngine::mainRender,tmpSurf);
         if(SDL_SetTextureColorMod(tex,TexMod.modR,TexMod.modB,TexMod.modG))
         {
+            std::cout << "Could not set ColorMod" << std::endl;
             tex = SDL_CreateTextureFromSurface(RosenoernEngine::mainRender,tmpSurf);
         }
         SDL_SetTextureAlphaMod(tex,TexMod.modR);
