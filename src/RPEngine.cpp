@@ -302,10 +302,10 @@ Base* RosenoernEngine::GetObject(std::string name)
 
 
 //Scene
-Scene::Scene()
+/*Scene::Scene()
 {
     objsInScene = std::vector<Base*>();
-}
+}*/
 void Scene::AddObject(Base* obj)
 {
     objsInScene.push_back(obj);

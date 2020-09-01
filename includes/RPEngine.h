@@ -139,7 +139,7 @@ class CharacterObject : public GameObject
 class Scene
 {
     public:
-        Scene();
+        Scene(){objsInScene = std::vector<Base*>();}
         virtual ~Scene(){objsInScene.clear();}
         void AddObject(Base* obj);
         void RemoveObject(int id);
