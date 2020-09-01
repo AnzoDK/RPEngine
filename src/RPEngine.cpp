@@ -210,7 +210,7 @@ int RosenoernEngine::CreateMainWindow(std::string windowName, Uint32 flags)
     {
         SDL_SetWindowTitle(RosenoernEngine::mainWin,windowName.c_str());
         SDL_ShowWindow(RosenoernEngine::mainWin);
-        SDL_SetRenderDrawColor(RosenoernEngine::mainRender,255,0,0,255);
+        SDL_SetRenderDrawColor(RosenoernEngine::mainRender,255,255,255,255);
         SDL_GetWindowSize(RosenoernEngine::mainWin,&RosenoernEngine::width,&RosenoernEngine::height);
         isRunning = 1;
     }
