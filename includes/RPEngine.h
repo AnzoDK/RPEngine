@@ -72,7 +72,7 @@ class SimpleAnimationBase : public Base
         RunningState GetStatus(){return status;}
         void SetStatus(RunningState _state){status = _state;}
         bool IsDone(){return done;}
-        void SetDone(bool _done){done = _done};
+        void SetDone(bool _done){done = _done;};
     private:
         RunningState status;
         bool done;
