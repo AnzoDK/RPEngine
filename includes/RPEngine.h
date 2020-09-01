@@ -143,6 +143,7 @@ class Scene
         void AddObject(Base* obj);
         void RemoveObject(int id);
         void RemoveObject(std::string name);
+        Base* GetObject(std::string name);
         void SceneUpdate();
         
     private:
@@ -183,6 +184,7 @@ class RosenoernEngine
   static int height;
   void SetScene(Scene* s);
   void Update();
+  Base* GetObject(std::string name);
   ScreenSize GetScreenSize();
   bool isRunning;
   static int FPS;

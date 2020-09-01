@@ -293,7 +293,10 @@ void RosenoernEngine::Log(std::string strToLog, bool withTicks)
 {
     logger.Log(strToLog,withTicks);
 }
-
+Base* RosenoernEngine::GetObject(std::string name)
+{
+  return currScene->GetObject(name);  
+}
 
 
 //Scene
@@ -318,6 +321,18 @@ void Scene::RemoveObject(std::string name)
             objsInScene.erase(objsInScene.begin()+i);
         }
     }
+}
+Base* Scene::GetObject(std::string name)
+{
+    for(unsigned int i = 0; i < objsInScene.size();i++)
+    {
+        if(objsInScene.at(i)->GetName() == name)
+        {
+            return objsInScene.at(i);
+            break;
+        }
+    }
+    return nullptr;
 }
 void Scene::LogScene(std::vector<Base*>& tmp )
 {
