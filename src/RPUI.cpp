@@ -118,7 +118,7 @@ void UIBase::Draw()
 {
     if(IsEnabled())
     {
-//         SDL_Surface* tmpSurf = IMG_Load(GetGraphic()->GetFile()->GetPath().c_str());
+        SDL_Surface* tmpSurf = IMG_Load(GetGraphic()->GetFile()->GetPath().c_str());
         SDL_Texture* tex = SDL_CreateTextureFromSurface(RosenoernEngine::mainRender,tmpSurf);
         SDL_SetTextureColorMod(tex,TexMod.modR,TexMod.modB,TexMod.modG);
         SDL_SetTextureAlphaMod(tex,TexMod.modR);
