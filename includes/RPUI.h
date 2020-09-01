@@ -75,8 +75,8 @@ namespace rp
             void SetEnabled(bool state);
             std::string GetName();
             void SetName(std::string name);
-            signed int GetZ();
-            void SetZ(signed int _z);
+            float GetZ();
+            void SetZ(float _z);
             bool operator <(Base& bo)
             {
                 return (z < bo.GetZ());
@@ -86,7 +86,7 @@ namespace rp
                 return (z > bo.GetZ());
             }
         private:
-            signed int z;
+            float z;
             bool enabled;
             std::string name;
             
