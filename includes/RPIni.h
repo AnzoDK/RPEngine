@@ -97,9 +97,9 @@ struct Ini
                         }
                     }
                     std::string valName = "";
-                    for(int i = 0; i < equal;i++)
+                    for(int i = 0; i < equal-1;i++)
                     {
-                        valName += buff[i+1];
+                        valName += buff[i+2];
                     }
                     std::string valString = "";
                     for(int i = equal; i < newLen;i++)
