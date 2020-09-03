@@ -116,7 +116,7 @@ struct Ini
             }
             if(buffer[counter] == 0x5B)
             {
-                start = buffer[counter];
+                start = counter;
                 readAsKey = 0;
             }
             if(buffer[counter] == 0x5D)
