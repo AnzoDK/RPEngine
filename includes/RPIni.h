@@ -122,7 +122,7 @@ struct Ini
                     
                 }
             }
-            if(buffer[counter] == 0x5B && !onComment)
+            if(buffer[counter] == 0x5b && !onComment)
             {
                 start = counter;
                 readAsKey = 0;
