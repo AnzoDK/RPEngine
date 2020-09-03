@@ -95,7 +95,7 @@ struct Ini
                     int newLen = counter - end;
                     if(commentStart != -1)
                     {
-                        newLen -= commentStart;
+                        newLen -= (counter - commentStart);
                         commentStart = -1;
                     }
                     char* buff = new char[newLen];
