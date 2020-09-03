@@ -206,7 +206,6 @@ namespace rp
         public:
             UIMenu();
             UIGraphic* GetBackground();
-            //void Draw() override;
             void SetBackground(std::string path);
             void SetBackground(UIGraphic* graphic);
             virtual ~UIMenu(){/*delete(bg);*/}
@@ -218,7 +217,6 @@ namespace rp
             public:
                 Background();
                 Background(std::string path);
-                void Draw() override;
             private:
                 
         };
