@@ -78,11 +78,20 @@ struct Ini
           int counter = 0;
           int start = -1;
           int end = -1;
+          bool onComment = 0;
           while(!processed)
           {
-            
-            if(readAsKey)
+            if(buffer[counter] == ';')
             {
+                onComment = 1;
+            }
+            if(buffer[counter] == 0x0a && onComment)
+            {
+                onComment = 0;
+            }
+            if(readAsKey && !onComment)
+            {
+
                 if(buffer[counter] == 0x0a && counter != end+1)
                 {
                     int newLen = counter - end;
@@ -113,13 +122,13 @@ struct Ini
                     
                 }
             }
-            if(buffer[counter] == 0x5B)
+            if(buffer[counter] == 0x5B && !onComment)
             {
                 start = counter;
                 readAsKey = 0;
                 end = -1;
             }
-            if(buffer[counter] == 0x5D)
+            if(buffer[counter] == 0x5D && !onComment)
             {
                 end = counter;
             }
