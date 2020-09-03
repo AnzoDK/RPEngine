@@ -81,7 +81,7 @@ struct Ini
           bool onComment = 0;
           while(!processed)
           {
-            if(buffer[counter] == ';')
+            if(buffer[counter] == 0x3B)
             {
                 onComment = 1;
             }
