@@ -134,7 +134,7 @@ struct Ini
                 Key* nKey = new Key(keyname);
                 latestKey = nKey;
                 keys.push_back(nKey);
-                start = 0;
+                start = -1;
                 readAsKey = 1;
             }
             if(counter == length-1)
