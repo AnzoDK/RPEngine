@@ -102,14 +102,14 @@ struct Ini
                         valName += buff[i+2];
                     }
                     std::string valString = "";
-                    for(int i = equal; i < newLen;i++)
+                    for(int i = equal; i < newLen-1;i++)
                     {
                         valString += buff[i+1];
                     }
                     delete[] buff;
                     KeyValue keyval = KeyValue(valString,valName);
                     latestKey->AddKey(keyval);
-                    end = counter;
+                    end = counter-1;
                     
                 }
             }
