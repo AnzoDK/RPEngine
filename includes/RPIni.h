@@ -10,21 +10,19 @@
 
 namespace rp{
 enum keyType {String=0,Int=1};
-template<typename T>
 struct KeyValue
 {
     public:
-        KeyValue(T _value, std::string _name,keyType _t)
+        KeyValue(std::string _value, std::string _name)
         {
             value = _value;
             name = _name;
-            t = _t;
         }
         void GetValue(void* ptr)
         {
             &ptr = value;
         }
-        T value;
+        std::string value;
         std::string name;
     private:
         keyType t;
@@ -36,39 +34,27 @@ struct Key
         Key(std::string _name)
         {
             name = _name;
-            stringsubkeys = std::vector<KeyValue<std::string>>();
-            intsubkeys = std::vector<KeyValue<int>>();
+            subkeys = std::vector<KeyValue>();
         }
-        void AddKey(KeyValue<int> key)
+        void AddKey(KeyValue key)
         {
-            intsubkeys.push_back(key);
-        }
-        void AddKey(KeyValue<std::string> key)
-        {
-            stringsubkeys.push_back(key);
+            subkeys.push_back(key);
         }
         std::string GetSubKey(std::string keyName)
         {
-            for(int i = 0; i < intsubkeys.size();i++)
+            for(unsigned int i = 0; i < subkeys.size();i++)
             {
-                if(intsubkeys.at(i).name == keyName)
+                if(subkeys.at(i).name == keyName)
                 {
-                    return std::to_string(intsubkeys.at(i).value);
-                }
-            }
-            for(int i = 0; i < stringsubkeys.size();i++)
-            {
-                if(stringsubkeys.at(i).name == keyName)
-                {
-                    return stringsubkeys.at(i).value;
+                    return subkeys.at(i).value;
+                    break;
                 }
             }
             return std::to_string(-2);
         }
         std::string name;
     private:
-        std::vector<KeyValue<int>> intsubkeys;
-        std::vector<KeyValue<std::string>> stringsubkeys;
+        std::vector<KeyValue> subkeys;
 };
 
 struct Ini
@@ -129,16 +115,8 @@ struct Ini
                     delete[] buff;
                     char* val;
                     strtol(valString.c_str(),&val,10);
-                    if(*val)
-                    {
-                       KeyValue<std::string> keyval = KeyValue<std::string>(valString,valName,keyType::String);
-                       latestKey->AddKey(keyval);
-                    }
-                    else
-                    {
-                        KeyValue<int> keyval = KeyValue<int>(atoi(valString.c_str()),valName,keyType::Int);
-                        latestKey->AddKey(keyval);
-                    }
+                    KeyValue keyval = KeyValue(valString,valName);
+                    latestKey->AddKey(keyval);
                     
                 }
             }
