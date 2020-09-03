@@ -9,7 +9,6 @@
 /* Part of RPEngine - Simple InI parser */
 
 namespace rp{
-enum keyType {String=0,Int=1};
 struct KeyValue
 {
     public:
@@ -18,14 +17,9 @@ struct KeyValue
             value = _value;
             name = _name;
         }
-        void GetValue(void* ptr)
-        {
-            &ptr = value;
-        }
         std::string value;
         std::string name;
     private:
-        keyType t;
 };
 
 struct Key
