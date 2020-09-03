@@ -76,8 +76,8 @@ struct Ini
           bool readAsKey = 0;
           Key* latestKey = nullptr;
           int counter = 0;
-          int start = 0;
-          int end = 0;
+          int start = -1;
+          int end = -1;
           while(!processed)
           {
             
@@ -123,7 +123,7 @@ struct Ini
             {
                 end = counter;
             }
-            if(start != 0 && end != 0)
+            if(start != -1 && end != -1)
             {
                 int len = end - start;
                 std::string keyname = "";
