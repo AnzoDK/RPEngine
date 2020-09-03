@@ -97,7 +97,7 @@ struct Ini
                         }
                     }
                     std::string valName = "";
-                    for(int i = 0; i < equal-1;i++)
+                    for(int i = 0; i < equal;i++)
                     {
                         valName += buff[i+1];
                     }
@@ -125,7 +125,7 @@ struct Ini
             {
                 int len = end - start;
                 std::string keyname = "";
-                for(int i = 0; i < len; i++)
+                for(int i = 0; i < len-1; i++)
                 {
                     keyname += buffer[start+i+1];
                 }
