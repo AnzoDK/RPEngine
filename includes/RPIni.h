@@ -79,11 +79,13 @@ struct Ini
           int start = -1;
           int end = -1;
           bool onComment = 0;
+          int commentStart = -1;
           while(!processed)
           {
             if(buffer[counter] == 0x3B)
             {
                 onComment = 1;
+                commentStart = counter;
             }
             if(readAsKey && !onComment)
             {
@@ -91,6 +93,11 @@ struct Ini
                 if(buffer[counter] == 0x0a && counter != end+1 && buffer[counter+1] != 0x3B)
                 {
                     int newLen = counter - end;
+                    if(commentStart != -1)
+                    {
+                        newLen -= commentStart;
+                        commentStart = -1;
+                    }
                     char* buff = new char[newLen];
                     int equal = 0;
                     for(int i = 0; i < newLen; i++)
