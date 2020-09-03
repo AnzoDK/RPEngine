@@ -1,5 +1,7 @@
 #include "../includes/RPUI.h"
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL.h>
+#include "../includes/RPEngine.h"
 using namespace rp;
 
 
@@ -57,11 +59,11 @@ std::string Base::GetName()
 {
     return name;
 }
-void Base::SetZ(int _z)
+void rp::Base::SetZ(float _z)
 {
    z = _z; 
 }
-int Base::GetZ()
+float Base::GetZ()
 {
     return z;
 }
@@ -111,6 +113,19 @@ UIBase::UIBase()
 void UIBase::onClick()
 {
     
+}
+void UIBase::Draw()
+{
+    if(IsEnabled())
+    {
+        SDL_Surface* tmpSurf = IMG_Load(GetGraphic()->GetFile()->GetPath().c_str());
+        SDL_Texture* tex = SDL_CreateTextureFromSurface(RosenoernEngine::mainRender,tmpSurf);
+        SDL_SetTextureColorMod(tex,TexMod.modR,TexMod.modB,TexMod.modG);
+        SDL_SetTextureAlphaMod(tex,TexMod.modR);
+        SDL_RenderCopy(RosenoernEngine::mainRender,tex, NULL,GetRect());
+        SDL_FreeSurface(tmpSurf);
+        SDL_DestroyTexture(tex);
+    }  
 }
 UIBase::UIBase(UIGraphic* uig)
 {
@@ -166,6 +181,19 @@ UIText::UIText(std::string path, std::string txt)
     LoadText(path,txt);
     
 }
+UIText::UIText(std::string fontpath, std::string text, int _fontSize, int x, int y, int width, int height)
+{
+    fontSize = _fontSize;
+    rgb = new C_RGB();
+    LoadText(fontpath,text);
+    SDL_Rect* rr = new SDL_Rect();
+    rr->x = x;
+    rr->y = y;
+    rr->h = height;
+    rr->w = width;
+    SetRect(rr);
+}
+
 void UIText::LoadText(std::string fontpath, std::string _text)
 {
     fontPath = fontpath;
@@ -328,8 +356,90 @@ UIMenu::UIMenu()
 {
     
 }
-
-
-
-
-
+//Background
+Background::Background()
+{
+    SDL_Rect* _rect = new SDL_Rect();
+    _rect->h = RosenoernEngine::height;
+    _rect->w = RosenoernEngine::width;
+    SetRect(_rect);
+}
+Background::Background(std::string path)
+{
+    SDL_Rect* _rect = new SDL_Rect();
+    _rect->h = RosenoernEngine::height;
+    _rect->w = RosenoernEngine::width;
+    SetRect(_rect);
+    SetZ(-1);
+    SetGraphic(path);
+}
+//UIText Draw
+void UIText::Draw()
+{
+    //std::cout << "Text:" << text << " Font: " + fontPath + " Size: " + std::to_string(fontSize) << std::endl;
+    TTF_Font* font = TTF_OpenFont(fontPath.c_str(),fontSize);
+    SDL_Color clr = {static_cast<Uint8>(rgb->r),static_cast<Uint8>(rgb->g),static_cast<Uint8>(rgb->b),static_cast<Uint8>(rgb->a)};
+    SDL_Surface* surf = TTF_RenderText_Solid(font, text.c_str(), clr);
+    SDL_Texture* tex = SDL_CreateTextureFromSurface(RosenoernEngine::mainRender,surf);
+    SDL_SetTextureColorMod(tex,TexMod.modR,TexMod.modB,TexMod.modG);
+    SDL_SetTextureAlphaMod(tex,TexMod.modR);    
+    SDL_FreeSurface(surf);
+    SDL_RenderCopy(RosenoernEngine::mainRender,tex,NULL,GetRect());
+    SDL_DestroyTexture(tex);
+    TTF_CloseFont(font); // <<--- Also very Important. If this isn't done it will crash after a few updates
+    
+    
+}
+//ButtonImage Draw
+void ButtonImage::Draw()
+{
+        SDL_Surface* tmpSurf = IMG_Load(GetGraphic()->GetFile()->GetPath().c_str());
+        //SDL_Surface* tmpSurf = IMG_Load("testImg.png");
+        SDL_Texture* tex = SDL_CreateTextureFromSurface(RosenoernEngine::mainRender,tmpSurf);
+        SDL_SetTextureColorMod(tex,TexMod.modR,TexMod.modB,TexMod.modG);
+        SDL_SetTextureAlphaMod(tex,TexMod.modR);
+        SDL_RenderCopy(RosenoernEngine::mainRender,tex, NULL,GetRect());
+        SDL_FreeSurface(tmpSurf);
+        SDL_DestroyTexture(tex);
+}
+//Button Update
+void Button::Update()
+{
+    
+    if(RosenoernEngine::mouseX > GetRect()->x && RosenoernEngine::mouseX < (GetRect()->w+GetRect()->x) && RosenoernEngine::mouseY > GetRect()->y && RosenoernEngine::mouseY < (GetRect()->h+ GetRect()->y))
+    {
+        if(RosenoernEngine::InHand->GetMouseButton().button == SDL_BUTTON_LEFT)
+        {
+            //std::cout << "Clicked!" << std::endl;
+            (*funPtr)();
+        }
+        //onHover();
+    }
+}
+//Button Draw
+void Button::Draw()
+{
+  if(IsEnabled())
+    {
+        /*std::cout << "Path for resource is: " + GetGraphic()->GetFile()->GetPath() << std::endl;*/
+        SDL_Surface* tmpSurf = IMG_Load(GetGraphic()->GetFile()->GetPath().c_str());
+        //SDL_Surface* tmpSurf = IMG_Load("testImg.png");
+        SDL_Texture* tex = SDL_CreateTextureFromSurface(RosenoernEngine::mainRender,tmpSurf);
+        if(SDL_SetTextureColorMod(tex,TexMod.modR,TexMod.modB,TexMod.modG) < 0)
+        {
+            std::cout << "Could not set ColorMod" << std::endl;
+            tex = SDL_CreateTextureFromSurface(RosenoernEngine::mainRender,tmpSurf);
+        }
+        SDL_SetTextureAlphaMod(tex,TexMod.modR);
+        SDL_RenderCopy(RosenoernEngine::mainRender,tex, NULL,GetRect());
+        SDL_FreeSurface(tmpSurf);
+        SDL_DestroyTexture(tex);
+        SDL_Rect* rr = new SDL_Rect();
+        rr->h = GetRect()->h*0.8;
+        rr->w = GetRect()->w*0.8;
+        rr->x = GetRect()->x + (GetRect()->w/8);
+        rr->y = GetRect()->y + (GetRect()->h/8);
+        GetUIText()->SetRect(rr);
+        GetUIText()->Draw();
+    }  
+}

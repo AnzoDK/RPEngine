@@ -8,6 +8,18 @@
 namespace rp
 {
     enum CommonColor{White,Red,Green,Blue,Black};
+    
+    //I personally hate this - Due to SDL only supporting ints, you can not get decimal values in the modulator. I would love to have that
+    struct TextureModulator
+    {
+        TextureModulator(){modR = 255; modG = 255; modB = 255; modA = 255;}
+        Uint8 modR;
+        Uint8 modG;
+        Uint8 modB;
+        Uint8 modA;
+    };
+    
+    
     struct C_RGB
     {
         C_RGB();
@@ -58,17 +70,25 @@ namespace rp
     class Base : public PosBase
     {
         public:
-            Base(){enabled = true;z=0;name="";}
+            Base(){enabled = true;z=0;name="";TexMod = TextureModulator();}
             virtual ~Base(){}
             virtual void Update(){}
             virtual void Draw(){}
             virtual void Init(){}
+            virtual void Parse(std::vector<Base*>& vec)
+            {
+                if(IsEnabled())
+                {
+                    vec.push_back(this);
+                }
+                
+            };
             bool IsEnabled();
             void SetEnabled(bool state);
             std::string GetName();
             void SetName(std::string name);
-            int GetZ();
-            void SetZ(int _z);
+            float GetZ();
+            void SetZ(float _z);
             bool operator <(Base& bo)
             {
                 return (z < bo.GetZ());
@@ -77,8 +97,9 @@ namespace rp
             {
                 return (z > bo.GetZ());
             }
+            TextureModulator TexMod;
         private:
-            int z;
+            float z;
             bool enabled;
             std::string name;
             
@@ -91,6 +112,7 @@ namespace rp
             UIText();
             virtual ~UIText(){delete(rgb);}
             UIText(std::string fontpath, std::string text);
+            UIText(std::string fontpath, std::string text, int fontSize, int x, int y, int width, int height);
             UIText(std::string text);
             void LoadText(std::string fontpath, std::string text);
             void SetFont(std::string fontpath);
@@ -138,6 +160,7 @@ namespace rp
             UIGraphic* GetGraphic();
             virtual void onClick();
             virtual void onHover(){}
+            virtual void Draw() override;
         private:
             UIGraphic* ug;
             
@@ -183,7 +206,6 @@ namespace rp
         public:
             UIMenu();
             UIGraphic* GetBackground();
-            //void Draw() override;
             void SetBackground(std::string path);
             void SetBackground(UIGraphic* graphic);
             virtual ~UIMenu(){/*delete(bg);*/}
@@ -195,7 +217,6 @@ namespace rp
             public:
                 Background();
                 Background(std::string path);
-                void Draw() override;
             private:
                 
         };

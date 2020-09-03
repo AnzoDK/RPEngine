@@ -33,6 +33,8 @@ void GameObject::Draw()
         SDL_Surface* tmpSurf = IMG_Load(currSprite->GetFile()->GetPath().c_str());
         //SDL_Surface* tmpSurf = IMG_Load("testImg.png");
         SDL_Texture* tex = SDL_CreateTextureFromSurface(RosenoernEngine::mainRender,tmpSurf);
+        SDL_SetTextureColorMod(tex,TexMod.modR,TexMod.modB,TexMod.modG);
+        SDL_SetTextureAlphaMod(tex,TexMod.modR);
         SDL_RenderCopy(RosenoernEngine::mainRender,tex, NULL,rect);
         SDL_FreeSurface(tmpSurf);
         SDL_DestroyTexture(tex);
@@ -78,6 +80,14 @@ CharacterSprite::CharacterSprite(std::string path)
   //Valid :)
 }
 
+//SimpleAnimationBase
+/*void SimpleAnimationBase::Update()
+{
+    
+}*/
+
+
+//CharacterSprite
 CharacterSprite::~CharacterSprite()
 {
   delete(file);
@@ -178,6 +188,7 @@ RosenoernEngine::~RosenoernEngine()
 }
 void RosenoernEngine::init()
 {
+    logger = EngineLogger();
     audio->init();
     RosenoernEngine::InHand = new InputHandler();
     isRunning = false;
@@ -199,7 +210,7 @@ int RosenoernEngine::CreateMainWindow(std::string windowName, Uint32 flags)
     {
         SDL_SetWindowTitle(RosenoernEngine::mainWin,windowName.c_str());
         SDL_ShowWindow(RosenoernEngine::mainWin);
-        SDL_SetRenderDrawColor(RosenoernEngine::mainRender,255,0,0,255);
+        SDL_SetRenderDrawColor(RosenoernEngine::mainRender,255,255,255,255);
         SDL_GetWindowSize(RosenoernEngine::mainWin,&RosenoernEngine::width,&RosenoernEngine::height);
         isRunning = 1;
     }
@@ -249,10 +260,9 @@ void RosenoernEngine::SetScene(Scene* s)
 }
 void RosenoernEngine::Update()
 {
-    #ifdef __WIN32__
+    #ifdef Windows
     uint32_t frameStart = 0;
-    #endif
-    #ifndef __WIN32__
+    #else
     u_int32_t frameStart = 0;
     #endif
     int frameTime = 0;
@@ -281,6 +291,15 @@ void RosenoernEngine::SetFPS(int fps)
   frameDelay = 1000/fps;
 }
 
+void RosenoernEngine::Log(std::string strToLog, bool withTicks)
+{
+    logger.Log(strToLog,withTicks);
+}
+Base* RosenoernEngine::GetObject(std::string name)
+{
+  return currScene->GetObject(name);  
+}
+
 
 //Scene
 Scene::Scene()
@@ -305,76 +324,95 @@ void Scene::RemoveObject(std::string name)
         }
     }
 }
-void Scene::SceneUpdate()
+Base* Scene::GetObject(std::string name)
 {
-    std::sort(objsInScene.begin(),objsInScene.end());
     for(unsigned int i = 0; i < objsInScene.size();i++)
     {
-        objsInScene.at(i)->Update();
-        objsInScene.at(i)->Draw();
-    }   
+        if(objsInScene.at(i)->GetName() == name)
+        {
+            return objsInScene.at(i);
+            break;
+        }
+    }
+    return nullptr;
 }
-Scene::~Scene()
+void Scene::LogScene(std::vector<Base*>& tmp )
 {
+    for(unsigned int i = 0; i < tmp.size();i++)
+    {
+        std::string logStr = "";
+        EngineLogger el = EngineLogger();
+        logStr += "Name: " + tmp.at(i)->GetName();
+        logStr += " X,Y pos: " + std::to_string(tmp.at(i)->GetRect()->x) + "," + std::to_string(tmp.at(i)->GetRect()->y);
+        logStr += " Size(w,h) " + std::to_string(tmp.at(i)->GetRect()->w) + "," + std::to_string(tmp.at(i)->GetRect()->h);
+        el.Log(logStr);
+    }
+}
+
+void Scene::SceneUpdate()
+{
+    std::vector<Base*> tmp = std::vector<Base*>();
+    for(unsigned int i = 0; i < objsInScene.size();i++)
+    {
+        objsInScene.at(i)->Parse(tmp);
+    }
+    //std::sort(tmp.begin(),tmp.end()); <- commented out as it doesn't sort correctly every time
+    CppTools::BaseVectorSort(tmp);
+    
+    for(unsigned int i = 0; i < tmp.size();i++)
+    {
+        if(tmp.at(i)->IsEnabled())
+        {
+            std::cout << "Rendering object: " + tmp.at(i)->GetName() + " At Z index: " + std::to_string(tmp.at(i)->GetZ()) << std::endl;
+            tmp.at(i)->Update();
+            tmp.at(i)->Draw();
+        }
+    }
+    //LogScene(tmp);
+    tmp.clear();
+    
+}
+//Scene::~Scene()
+//{
    /* for(unsigned int i = 0; i < objsInScene.size();i++)
     {
       delete(objsInScene.at(i)); //<<--- Deletion causes crashes, when no window is created and program attempts to delete a nullptr due to no scene being created, not even the "protection scene" which is an empty scene that is assigned to the currScene slot, when the window is created - Dumb way to do this already commented out to make space for the good way to do it
     }*/
-   objsInScene.clear();
+   
+//}
+Uint32 RosenoernEngine::GetTicks()
+{
+    return SDL_GetTicks();  
 }
+
+EngineLogger::EngineLogger()
+{
+  logPath = "./GameLog.log";
+}
+EngineLogger::EngineLogger(std::string path)
+{
+    logPath = path;
+}
+void EngineLogger::Log(std::string strToLog, bool withTicks)
+{
+    std::string logStr = "";
+    if(withTicks)
+    {
+        logStr = "[" + std::to_string(RosenoernEngine::GetTicks()) + "] ";
+    }
+    logStr += strToLog;
+    std::ofstream out = std::ofstream(logPath.c_str(),std::fstream::out | std::fstream::app);
+    out << logStr;
+    out << std::endl;
+    out.close();
+    
+}
+
+
 
 //More UIstuff - mainly drawing
-//Button Draw
-void Button::Draw()
-{
-  if(IsEnabled())
-    {
-        /*std::cout << "Path for resource is: " + GetGraphic()->GetFile()->GetPath() << std::endl;*/
-        SDL_Surface* tmpSurf = IMG_Load(GetGraphic()->GetFile()->GetPath().c_str());
-        //SDL_Surface* tmpSurf = IMG_Load("testImg.png");
-        SDL_Texture* tex = SDL_CreateTextureFromSurface(RosenoernEngine::mainRender,tmpSurf);
-        SDL_RenderCopy(RosenoernEngine::mainRender,tex, NULL,GetRect());
-        SDL_FreeSurface(tmpSurf);
-        SDL_DestroyTexture(tex);
-        SDL_Rect* rr = new SDL_Rect();
-        rr->h = GetRect()->h*0.8;
-        rr->w = GetRect()->w*0.8;
-        rr->x = GetRect()->x + (GetRect()->w/8);
-        rr->y = GetRect()->y + (GetRect()->h/8);
-        GetUIText()->SetRect(rr);
-        GetUIText()->Draw();
-    }  
-}
-//Button Update
-void Button::Update()
-{
-    
-    if(RosenoernEngine::mouseX > GetRect()->x && RosenoernEngine::mouseX < (GetRect()->w+GetRect()->x) && RosenoernEngine::mouseY > GetRect()->y && RosenoernEngine::mouseY < (GetRect()->h+ GetRect()->y))
-    {
-        if(RosenoernEngine::InHand->GetMouseButton().button == SDL_BUTTON_LEFT)
-        {
-            //std::cout << "Clicked!" << std::endl;
-            (*funPtr)();
-        }
-        //onHover();
-    }
-}
 
-//UIText Draw
-void UIText::Draw()
-{
-    //std::cout << "Text:" << text << " Font: " + fontPath + " Size: " + std::to_string(fontSize) << std::endl;
-    TTF_Font* font = TTF_OpenFont(fontPath.c_str(),fontSize);
-    SDL_Color clr = {static_cast<Uint8>(rgb->r),static_cast<Uint8>(rgb->g),static_cast<Uint8>(rgb->b),static_cast<Uint8>(rgb->a)};
-    SDL_Surface* surf = TTF_RenderText_Solid(font, text.c_str(), clr);
-    SDL_Texture* tex = SDL_CreateTextureFromSurface(RosenoernEngine::mainRender,surf);
-    SDL_FreeSurface(surf);
-    SDL_RenderCopy(RosenoernEngine::mainRender,tex,NULL,GetRect());
-    SDL_DestroyTexture(tex);
-    TTF_CloseFont(font); // <<--- Also very Important. If this isn't done it will crash after a few updates
-    
-    
-}
+
 //UIMenu Draw
 /*void UIMenu::Draw()
 {
@@ -384,44 +422,3 @@ void UIText::Draw()
     SDL_FreeSurface(tmpSurf);
     SDL_DestroyTexture(tex);
 }*/
-//Background
-Background::Background()
-{
-    SDL_Rect* _rect = new SDL_Rect();
-    _rect->h = RosenoernEngine::height;
-    _rect->w = RosenoernEngine::width;
-    SetRect(_rect);
-}
-Background::Background(std::string path)
-{
-    SDL_Rect* _rect = new SDL_Rect();
-    _rect->h = RosenoernEngine::height;
-    _rect->w = RosenoernEngine::width;
-    SetRect(_rect);
-    SetZ(-1);
-    SetGraphic(path);
-}
-
-//Background Draw
-void Background::Draw()
-{
-    if(IsEnabled())
-    {
-        SDL_Surface* tmpSurf = IMG_Load(GetGraphic()->GetFile()->GetPath().c_str());
-        //SDL_Surface* tmpSurf = IMG_Load("testImg.png");
-        SDL_Texture* tex = SDL_CreateTextureFromSurface(RosenoernEngine::mainRender,tmpSurf);
-        SDL_RenderCopy(RosenoernEngine::mainRender,tex, NULL,GetRect());
-        SDL_FreeSurface(tmpSurf);
-        SDL_DestroyTexture(tex);
-    }  
-}
-//ButtonImage Draw
-void ButtonImage::Draw()
-{
-        SDL_Surface* tmpSurf = IMG_Load(GetGraphic()->GetFile()->GetPath().c_str());
-        //SDL_Surface* tmpSurf = IMG_Load("testImg.png");
-        SDL_Texture* tex = SDL_CreateTextureFromSurface(RosenoernEngine::mainRender,tmpSurf);
-        SDL_RenderCopy(RosenoernEngine::mainRender,tex, NULL,GetRect());
-        SDL_FreeSurface(tmpSurf);
-        SDL_DestroyTexture(tex);
-}

@@ -1,4 +1,9 @@
 #pragma once
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32)
+#define Windows
+#else
+#define Linux
+#endif
 #include "RPAudio/rpaudio.h"
 #include <filesystem>
 #if defined(_WIN32) || defined(WIN32)
@@ -13,10 +18,14 @@
 #include <SDL2/SDL_image.h>
 #include "RPUI.h"
 #include <algorithm>
+#include "RPCppTools.h"
+#include "RPIni.h"
 namespace rp{
 
 enum CharacterState{Default=0,Smiling,Crying,Annoyed,Sad,Suprised};
 enum AnimationState{Idle=0};
+enum RunningState{Stopped=0,Running=1};
+
 
 struct ScreenSize
 {
@@ -55,8 +64,35 @@ struct SpriteAnimation
         int playbackFPS;
 };
 
+class SimpleAnimationBase : public Base
+{
+    public:
+        SimpleAnimationBase(){done = false; status=RunningState::Stopped;}
+        virtual ~SimpleAnimationBase(){}
+        //virtual void Update() override;
+        RunningState GetStatus(){return status;}
+        void SetStatus(RunningState _state){status = _state;}
+        bool IsDone(){return done;}
+        void SetDone(bool _done){done = _done;};
+    private:
+        RunningState status;
+        bool done;
+        
+    
+};
 
 
+
+class EngineLogger
+{
+    public:
+        EngineLogger();
+        EngineLogger(std::string path);
+        void Log(std::string strToLog,bool withTicks=true);
+        ~EngineLogger(){}
+    private:
+        std::string logPath;
+};
 
 
 class GameObject : public Base
@@ -105,12 +141,15 @@ class Scene
 {
     public:
         Scene();
-        ~Scene();
+        virtual ~Scene(){objsInScene.clear();}
         void AddObject(Base* obj);
         void RemoveObject(int id);
         void RemoveObject(std::string name);
+        Base* GetObject(std::string name);
         void SceneUpdate();
+        
     private:
+        void LogScene(std::vector<Base*>& tmp);
         std::vector<Base*> objsInScene;
         
    
@@ -147,17 +186,23 @@ class RosenoernEngine
   static int height;
   void SetScene(Scene* s);
   void Update();
+  Base* GetObject(std::string name);
   ScreenSize GetScreenSize();
   bool isRunning;
   static int FPS;
   static int mouseX;
   static int mouseY;
   static InputHandler* InHand;
+  void Log(std::string strToLog,bool withTicks=true);
+  static Uint32 GetTicks();
   private:
+    //std::sort kept fucking sorting 1 < -1 and THAT IS NOT RIGHT GODDAMMIT
+    //Thus - I made a manual sort function
     RosenoernAudio* audio;
     std::vector<GameObject*> objs;
     Scene* currScene;
     int frameDelay;
+    EngineLogger logger;
     
 };
 
