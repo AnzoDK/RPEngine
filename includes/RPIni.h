@@ -117,6 +117,7 @@ struct Ini
             {
                 start = counter;
                 readAsKey = 0;
+                end = -1;
             }
             if(buffer[counter] == 0x5D)
             {
