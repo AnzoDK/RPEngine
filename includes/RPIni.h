@@ -88,7 +88,7 @@ struct Ini
             if(readAsKey && !onComment)
             {
 
-                if(buffer[counter] == 0x0a && counter != end+1)
+                if(buffer[counter] == 0x0a && counter != end+1 && buffer[counter+1] != 0x3B)
                 {
                     int newLen = counter - end;
                     char* buff = new char[newLen];
