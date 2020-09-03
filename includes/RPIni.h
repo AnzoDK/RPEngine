@@ -85,10 +85,6 @@ struct Ini
             {
                 onComment = 1;
             }
-            if(buffer[counter] == 0x0a && onComment)
-            {
-                onComment = 0;
-            }
             if(readAsKey && !onComment)
             {
 
@@ -150,6 +146,10 @@ struct Ini
             {
                 processed = 1;
                 break;
+            }
+            if(buffer[counter] == 0x0a && onComment)
+            {
+                onComment = 0;
             }
             counter++;
           }
