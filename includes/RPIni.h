@@ -83,7 +83,7 @@ struct Ini
             
             if(readAsKey)
             {
-                if(buffer[counter] == 0x0a)
+                if(buffer[counter] == 0x0a && counter != end+1)
                 {
                     int newLen = counter - end;
                     char* buff = new char[newLen];
