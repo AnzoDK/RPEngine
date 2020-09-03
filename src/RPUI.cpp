@@ -443,7 +443,3 @@ void Button::Draw()
         GetUIText()->Draw();
     }  
 }
-
-
-
-
