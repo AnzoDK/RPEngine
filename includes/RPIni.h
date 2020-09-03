@@ -89,7 +89,7 @@ struct Ini
             }
             if(readAsKey && !onComment)
             {
-
+                //Definently a strange way to do this - Wastes a lot of cycles
                 if(buffer[counter] == 0x0a && counter != end+1 && buffer[counter+1] != 0x3B)
                 {
                     int newLen = counter - end;
