@@ -97,7 +97,7 @@ struct Ini
                         }
                     }
                     std::string valName = "";
-                    for(int i = 0; i < equal-1;i++)
+                    for(int i = 0; i < equal-2;i++)
                     {
                         valName += buff[i+2];
                     }
@@ -109,6 +109,7 @@ struct Ini
                     delete[] buff;
                     KeyValue keyval = KeyValue(valString,valName);
                     latestKey->AddKey(keyval);
+                    end = counter;
                     
                 }
             }
