@@ -12,8 +12,6 @@ namespace rp
     //I personally hate this - Due to SDL only supporting ints, you can not get decimal values in the modulator. I would love to have that
     
     //I found a way to use decomal numbers as shown in projectvn
-    
-    //REMEBER NEVER TO SET A VALUE TO 0, The internal algorithm (SDL) is: srcA(R)(G)(B) = (input / 255); - This means that if a Mod has been set to 0 it tries to divide by zero
     struct TextureModulator
     {
         TextureModulator(){modR = 255; modG = 255; modB = 255; modA = 255;}
