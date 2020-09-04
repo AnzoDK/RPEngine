@@ -86,6 +86,7 @@ struct Ini
             {
                 onComment = 1;
                 commentStart = counter;
+                end = counter;
             }
             if(readAsKey && !onComment)
             {
