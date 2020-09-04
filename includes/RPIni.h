@@ -86,6 +86,10 @@ struct Ini
             {
                 onComment = 1;
                 commentStart = counter;
+                //end = counter;
+            }
+            if(onComment && buffer[counter] == 0x0a)
+            {
                 end = counter;
             }
             if(readAsKey && !onComment)
