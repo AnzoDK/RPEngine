@@ -162,6 +162,8 @@ struct Ini
             if(buffer[counter] == 0x0a && onComment)
             {
                 onComment = 0;
+                commentStart = -1;
+                
             }
             counter++;
           }
