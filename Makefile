@@ -2,8 +2,8 @@ SO_DIRS := -Wl,-rpath,./includes/RPAudio -L./includes/RPAudio
 DEBUG_LEVEL := -g3
 CXX := g++
 #OBJECTS := ./includes/RPAudio/libRPAudio.a
-OBJECTS := main.o rpengine.o rppng.o ui.o
-LIB_OBJECTS := rpengine.o rppng.o ui.o
+OBJECTS := main.o rpengine.o rppng.o ui.o io.o
+LIB_OBJECTS := rpengine.o rppng.o ui.o io.o
 INCLUDES := -I./includes
 LIB_FLAGS := -fPIC
 CXX_FLAGS := -std=c++17 -Wall -pthread
@@ -25,7 +25,7 @@ release: main.o
 	$(CXX) $(CXX_FLAGS) $(DEBUG_LEVEL) $(INCLUDES) $(SO_DIRS) -o rpengine $(OBJECTS) $(LINK)
 	make clean
 
-lib: rpenginelib.o uilib.o
+lib: rpenginelib.o uilib.o iolib.o
 	$(CXX) -fPIC -shared $(CXX_FLAGS) $(DEBUG_LEVEL) $(INCLUDES) $(SO_DIRS) $(LIB_OBJECTS) -o rpengine$(EX) $(LINK) $(END_LIB_FLAGS)
 	make clean
 
@@ -35,13 +35,19 @@ rpengine.o: rppng.o
 	$(CXX) -c $(CXX_FLAGS) $(DEBUG_LEVEL) $(INCLUDES) $(SO_DIRS) $(SRC)/RPEngine.cpp -o rpengine.o
 ui.o:
 	$(CXX) -c $(CXX_FLAGS) $(DEBUG_LEVEL) $(INCLUDES) $(SO_DIRS) $(SRC)/RPUI.cpp -o ui.o
+io.o:
+	$(CXX) -c $(CXX_FLAGS) $(DEBUG_LEVEL) $(INCLUDES) $(SO_DIRS) $(SRC)/RPIO.cpp -o io.o
 rppng.o:
 	$(CXX) -c $(CXX_FLAGS) $(DEBUG_LEVEL) $(INCLUDES) $(SO_DIRS) $(SRC)/RPPng.cpp -o rppng.o
 
 rpenginelib.o: rppnglib.o
 	$(CXX) -c $(CXX_FLAGS) $(LIB_FLAGS) $(DEBUG_LEVEL) $(INCLUDES) $(SO_DIRS) $(SRC)/RPEngine.cpp -o rpengine.o
+
+iolib.o:
+	$(CXX) -c $(CXX_FLAGS) $(LIB_FLAGS) $(DEBUG_LEVEL) $(INCLUDES) $(SO_DIRS) $(SRC)/RPIO.cpp -o io.o
 uilib.o:
 	$(CXX) -c $(CXX_FLAGS) $(LIB_FLAGS) $(DEBUG_LEVEL) $(INCLUDES) $(SO_DIRS) $(SRC)/RPUI.cpp -o ui.o
+
 rppnglib.o:
 	./dependency-builder.sh --use-dev --$(OS)
 	$(CXX) -c $(CXX_FLAGS) $(LIB_FLAGS) $(DEBUG_LEVEL) $(INCLUDES) $(SO_DIRS) $(SRC)/RPPng.cpp -o rppng.o

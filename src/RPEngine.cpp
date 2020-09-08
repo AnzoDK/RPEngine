@@ -380,6 +380,10 @@ void Scene::SceneUpdate()
     }*/
    
 //}
+Scene* Scene::LoadScene(std::string path)
+{
+    
+}
 Uint32 RosenoernEngine::GetTicks()
 {
     return SDL_GetTicks();  

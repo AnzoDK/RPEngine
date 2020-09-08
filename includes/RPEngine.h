@@ -147,6 +147,7 @@ class Scene
         void RemoveObject(std::string name);
         Base* GetObject(std::string name);
         void SceneUpdate();
+        Scene* LoadScene(std::string path);
         
     private:
         void LogScene(std::vector<Base*>& tmp);
