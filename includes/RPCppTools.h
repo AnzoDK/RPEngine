@@ -3,6 +3,27 @@
 #include "RPUI.h"
 namespace rp
 {
+    template<typename T>
+    struct ArrPair
+    {
+     ArrPair(){}
+     ArrPair(T i1, T i2){item1 = i1; item2 = i2;}
+     T item1;
+     T item2;
+    };
+    
+    template<typename T>
+    class DoubleArray
+    {
+        public:
+            DoubleArray(){arr = std::vector<ArrPair<T>>();}
+            void Add(T item1, T item2){ArrPair<T> p = ArrPair<T>(); p.item1 = item1; p.item2 = item2; arr.push_back(item1);}
+            T at(unsigned int i){return arr.at(i);}
+            ~DoubleArray(){arr.clear();}
+        private:
+            std::vector<ArrPair<T>> arr;
+    };
+    
     struct CppTools
     {
         //I HAD TO MAKE A BAD BUBBLE SORT JUST TO FIX STD::SORT TELLING ME THAT -1 > 1.... WHY! WHAT THE FUCK!? - so if you want to improve this function - feel free to do so :)

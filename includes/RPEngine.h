@@ -20,6 +20,7 @@
 #include <algorithm>
 #include "RPCppTools.h"
 #include "RPIni.h"
+#include "RPIO.h"
 namespace rp{
 
 enum CharacterState{Default=0,Smiling,Crying,Annoyed,Sad,Suprised};
@@ -150,6 +151,7 @@ class Scene
         Scene* LoadScene(std::string path);
         
     private:
+        void LoadPairs(DoubleArray<int>& dvec, char* buffer, ArrPair<unsigned char*> filePatterns);
         void LogScene(std::vector<Base*>& tmp);
         std::vector<Base*> objsInScene;
         

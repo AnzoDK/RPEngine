@@ -9,7 +9,7 @@ namespace rp
     public:
         RPIO();
         ~RPIO();
-        static char* ReadFileRaw(std::string path);
+        static void ReadFileRaw(std::string path, char*& buf);
     private:
         
  };
