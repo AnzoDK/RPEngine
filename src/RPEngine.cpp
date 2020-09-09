@@ -385,15 +385,14 @@ Scene* Scene::LoadScene(std::string path)
     //Not a good way - Should just have a static logger...
     EngineLogger el = EngineLogger();
     //signed char* cannot find 0xFF. We have to work around it. 
-    char* buf = nullptr;
     unsigned char* objectEnd = 0;
     unsigned char* objectStart = 0;
-    RPIO::ReadFileRaw(path,buf);
+    RawFile sceneFile = RPIO::ReadFileRaw(path);
     //Check if header is sane
     char* expectedHeader = new char[]{0x52,0x50,0x53};
     int ver = 0;
     Scene* s = new Scene();
-    ver = ver << buf[3] << 8 | buf[4];
+    ver = ver << sceneFile.buffer[3] << 8 | sceneFile.buffer[4];
     switch(ver)
     {
         case 1:
@@ -402,12 +401,12 @@ Scene* Scene::LoadScene(std::string path)
             objectStart = new unsigned char[]{0xF0,0x0F};
             
             //sanity check
-            if((buf[0] << 16 | buf[1] << 8 | buf[2]) == (expectedHeader[0] << 16 | buf[1] << 8 | expectedHeader[2]))
+            if((sceneFile.buffer[0] << 16 | sceneFile.buffer[1] << 8 | sceneFile.buffer[2]) == (expectedHeader[0] << 16 | sceneFile.buffer[1] << 8 | expectedHeader[2]))
             {
                 el.Log("LoadScene - INFO: File is sane");
                 DoubleArray<int>* pairs = new DoubleArray<int>();
                 ArrPair<unsigned char*> patterns = ArrPair<unsigned char*>(objectStart,objectEnd);
-                LoadPairs(*pairs,buf,patterns);
+                LoadPairs(*pairs,sceneFile.buffer,patterns);
                 
             }
             else
@@ -437,16 +436,7 @@ void Scene::LoadPairs(DoubleArray<int>& dvec,char* buffer, ArrPair<unsigned char
     int c = 0;
     int length = 0;
     unsigned char* fileEnd = new unsigned char[]{0x00,0x65,0xFF};
-    while(true)
-    {
-        char* tmp = new char[]{buffer[c],buffer[c+1],buffer[c+2]};
-        if(CTools::compareArray(reinterpret_cast<unsigned char*>(tmp),fileEnd,3))
-        {
-         length = c+2;
-         break;
-        }
-        c++;
-    }
+    
     int objStart = 0;
     for(int i = 0; i < length;i++)
     {

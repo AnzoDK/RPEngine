@@ -4,12 +4,21 @@
 
 namespace rp
 {
+ struct RawFile
+ {
+     RawFile(){}
+     RawFile(char* buff, int _length){buffer = buff; length = _length;}
+     ~RawFile(){delete[] buffer}
+     char* buffer;
+     int length;
+ };
+    
  class RPIO
  {
     public:
         RPIO();
         ~RPIO();
-        static void ReadFileRaw(std::string path, char*& buf);
+        static RawFile ReadFileRaw(std::string path);
     private:
         
  };

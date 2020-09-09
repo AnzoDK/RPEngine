@@ -7,7 +7,7 @@
 
 using namespace rp;
 
-void rp::RPIO::ReadFileRaw(std::string path, char*& buf)
+RawFile RPIO::ReadFileRaw(std::string path)
 {
     std::ifstream ifs = std::ifstream(path, std::ios::binary);
     ifs.ignore( std::numeric_limits<std::streamsize>::max() );
@@ -18,6 +18,6 @@ void rp::RPIO::ReadFileRaw(std::string path, char*& buf)
     char* buffer = new char[length];
     ifs.read(buffer,length);
     ifs.close();
-    buf = buffer;
+    return RawFile(buffer,length);
     
 }
