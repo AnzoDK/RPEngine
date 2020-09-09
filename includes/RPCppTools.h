@@ -17,7 +17,7 @@ namespace rp
     {
         public:
             DoubleArray(){arr = std::vector<ArrPair<T>>();}
-            void Add(T item1, T item2){ArrPair<T> p = ArrPair<T>(); p.item1 = item1; p.item2 = item2; arr.push_back(item1);}
+            void Add(T item1, T item2){ArrPair<T> p = ArrPair<T>(item1, item2); arr.push_back(p);}
             T at(unsigned int i){return arr.at(i);}
             ~DoubleArray(){arr.clear();}
         private:
@@ -58,6 +58,15 @@ namespace rp
             counter++;
         }
         //delete(tmpBase); /*<--- As this is never declared as a new varaible, it could couse issues if we delete it*/
+    }
+    static unsigned char* CharArrToUnsginedArr(char* input,int length)
+    {
+        char* tmpArr = new char[length];
+        for(int i = 0; i < length;i++)
+        {
+            tmpArr[i] = input[i];
+        }
+        return tmpArr;
     }
     };
 }

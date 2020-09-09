@@ -151,7 +151,7 @@ class Scene
         Scene* LoadScene(std::string path);
         
     private:
-        void LoadPairs(DoubleArray<int>& dvec, char* buffer, ArrPair<unsigned char*> filePatterns);
+        void LoadPairs(DoubleArray<int>& dvec, RawFile file, ArrPair<unsigned char*> filePatterns);
         void LogScene(std::vector<Base*>& tmp);
         std::vector<Base*> objsInScene;
         

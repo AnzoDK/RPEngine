@@ -430,19 +430,31 @@ Scene* Scene::LoadScene(std::string path)
         delete[] objectStart;
     }
 }
-void Scene::LoadPairs(DoubleArray<int>& dvec,char* buffer, ArrPair<unsigned char*> filePatterns)
+void Scene::LoadPairs(DoubleArray<int>& dvec, RawFile file, ArrPair<unsigned char*> filePatterns)
 {
-    //Length calc
-    int c = 0;
-    int length = 0;
-    unsigned char* fileEnd = new unsigned char[]{0x00,0x65,0xFF};
-    
-    int objStart = 0;
-    for(int i = 0; i < length;i++)
+    int objStart = -1;
+    int objEnd = -1;
+    for(int i = 0; i < file.length;i++)
     {
+        char* workBytes = new char[2];
+        workBytes[i] = file.buffer[i];
+        workBytes[i+1] = file.buffer[i+1];
+        if(CppTools::CharArrToUnsginedArr(workBytes,2) == filePatterns.item1)
+        {
+            objStart = i;
+        }
+        if(CppTools::CharArrToUnsginedArr(workBytes,2) == filePatterns.item2)
+        {
+            objEnd = i;
+        }
+        if(objStart != -1 && objEnd != -1)
+        {
+            dvec.Add(objStart,objEnd);
+            objStart = -1;
+            objEnd = -1;
+        }
         
     }
-    delete[] fileEnd;
 }
 Uint32 RosenoernEngine::GetTicks()
 {
