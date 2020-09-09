@@ -14,8 +14,6 @@ EX := .so
 END_LIB_FLAGS :=
 ifeq ($(OS), Windows)
 	LIB_FLAGS +=  -DBUILDING_EXAMPLE_DLL
-	LIB_OBJECTS += OpenAL32.dll
-	OBJECTS += OpenAL32.dll
 	END_LIB_FLAGS := --shared -lstdc++ -Wl,--out-implib,librpengine.a
 	CXX := x86_64-w64-mingw32-g++
 	EX := .dll
