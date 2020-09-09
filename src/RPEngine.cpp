@@ -389,7 +389,7 @@ Scene* Scene::LoadScene(std::string path)
     unsigned char* objectStart = 0;
     RawFile sceneFile = RPIO::ReadFileRaw(path);
     //Check if header is sane
-    char* expectedHeader = new char[]{0x52,0x50,0x53};
+    char* expectedHeader = new char[3]{0x52,0x50,0x53};
     int ver = 0;
     Scene* s = new Scene();
     ver = ver << sceneFile.buffer[3] << 8 | sceneFile.buffer[4];
@@ -397,8 +397,8 @@ Scene* Scene::LoadScene(std::string path)
     {
         case 1:
             //Default version
-            objectEnd = new unsigned char[]{0x0F,0xF0};
-            objectStart = new unsigned char[]{0xF0,0x0F};
+            objectEnd = new unsigned char[2]{0x0F,0xF0};
+            objectStart = new unsigned char[2]{0xF0,0x0F};
             
             //sanity check
             if((sceneFile.buffer[0] << 16 | sceneFile.buffer[1] << 8 | sceneFile.buffer[2]) == (expectedHeader[0] << 16 | sceneFile.buffer[1] << 8 | expectedHeader[2]))
@@ -406,7 +406,7 @@ Scene* Scene::LoadScene(std::string path)
                 el.Log("LoadScene - INFO: File is sane");
                 DoubleArray<int>* pairs = new DoubleArray<int>();
                 ArrPair<unsigned char*> patterns = ArrPair<unsigned char*>(objectStart,objectEnd);
-                LoadPairs(*pairs,sceneFile.buffer,patterns);
+                LoadPairs(*pairs,sceneFile,patterns);
                 
             }
             else

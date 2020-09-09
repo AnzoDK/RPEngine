@@ -61,7 +61,7 @@ namespace rp
     }
     static unsigned char* CharArrToUnsginedArr(char* input,int length)
     {
-        char* tmpArr = new char[length];
+        unsigned char* tmpArr = new unsigned char[length];
         for(int i = 0; i < length;i++)
         {
             tmpArr[i] = input[i];
