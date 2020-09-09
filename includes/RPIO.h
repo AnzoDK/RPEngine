@@ -8,7 +8,7 @@ namespace rp
  {
      RawFile(){}
      RawFile(char* buff, int _length){buffer = buff; length = _length;}
-     ~RawFile(){delete[] buffer}
+     ~RawFile(){delete[] buffer;}
      char* buffer;
      int length;
  };
