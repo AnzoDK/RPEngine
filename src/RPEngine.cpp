@@ -258,6 +258,11 @@ void RosenoernEngine::SetScene(Scene* s)
   delete(currScene);
   currScene = s;
 }
+
+void RosenoernEngine::LoadSceneFromFile(std::string path)
+{
+    SetScene(Scene::LoadScene(path));    
+}
 void RosenoernEngine::Update()
 {
     #ifdef Windows
@@ -461,6 +466,7 @@ Scene* Scene::LoadScene(std::string path)
                     }
                 }
                 }
+                s->AddObject(tmpBase);
                 
             }
             else

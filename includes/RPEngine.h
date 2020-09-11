@@ -148,7 +148,7 @@ class Scene
         void RemoveObject(std::string name);
         Base* GetObject(std::string name);
         void SceneUpdate();
-        Scene* LoadScene(std::string path);
+        static Scene* LoadScene(std::string path);
         
     private:
         void LoadPairs(DoubleArray<int>& dvec, RawFile file, ArrPair<unsigned char*> filePatterns);
@@ -188,6 +188,7 @@ class RosenoernEngine
   static int width;
   static int height;
   void SetScene(Scene* s);
+  void LoadSceneFromFile(std::string path);
   void Update();
   Base* GetObject(std::string name);
   ScreenSize GetScreenSize();
