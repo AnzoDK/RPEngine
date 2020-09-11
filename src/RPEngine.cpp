@@ -261,7 +261,7 @@ void RosenoernEngine::SetScene(Scene* s)
 
 void RosenoernEngine::LoadSceneFromFile(std::string path)
 {
-    SetScene(Scene::LoadScene(path));    
+    SetScene(RPIO::LoadScene(path));    
 }
 void RosenoernEngine::Update()
 {
