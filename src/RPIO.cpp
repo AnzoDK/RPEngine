@@ -136,11 +136,12 @@ void RPIO::LoadPairs(DoubleArray<int>& dvec, RawFile file, ArrPair<unsigned char
         char* workBytes = new char[2];
         workBytes[i] = file.buffer[i];
         workBytes[i+1] = file.buffer[i+1];
-        if(CppTools::CharArrToUnsginedArr(workBytes,2) == filePatterns.item1)
+        unsigned char* compArr = CppTools::CharArrToUnsginedArr(workBytes,2);
+        if(compArr == filePatterns.item1)
         {
             objStart = i;
         }
-        if(CppTools::CharArrToUnsginedArr(workBytes,2) == filePatterns.item2)
+        if(compArr == filePatterns.item2)
         {
             objEnd = i;
         }
@@ -151,6 +152,7 @@ void RPIO::LoadPairs(DoubleArray<int>& dvec, RawFile file, ArrPair<unsigned char
             objEnd = -1;
         }
         delete[] workBytes;
+        delete[] compArr;
         
     }
 }
