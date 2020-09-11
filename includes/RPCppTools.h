@@ -18,8 +18,9 @@ namespace rp
         public:
             DoubleArray(){arr = std::vector<ArrPair<T>>();}
             void Add(T item1, T item2){ArrPair<T> p = ArrPair<T>(item1, item2); arr.push_back(p);}
-            T at(unsigned int i){return arr.at(i);}
+            ArrPair<T> at(unsigned int i){return arr.at(i);}
             ~DoubleArray(){arr.clear();}
+            int length(){return arr.size();}
         private:
             std::vector<ArrPair<T>> arr;
     };

@@ -407,6 +407,60 @@ Scene* Scene::LoadScene(std::string path)
                 DoubleArray<int>* pairs = new DoubleArray<int>();
                 ArrPair<unsigned char*> patterns = ArrPair<unsigned char*>(objectStart,objectEnd);
                 LoadPairs(*pairs,sceneFile,patterns);
+                std::string name = "";
+                UIBase* tmpBase = 0;
+                SDL_Rect* tmpRect = 0;
+                for(int i = 0; i < pairs->length();i++)
+                {
+                    for(int u = 0; u < pairs->at(i).item2-pairs->at(i).item1;u++)
+                    {
+                    tmpBase = new UIBase();
+                    tmpRect = new SDL_Rect();
+                    int nameLengh = 0;                    
+                    if(sceneFile.buffer[pairs->at(i).item1+u] == (char)0xAA/* && sceneFile.buffer[i+1] == (char)0x01*/)
+                    {
+                        switch(sceneFile.buffer[pairs->at(i).item1+u+1])
+                        {
+                            default:
+                                
+                            break;
+                            
+                            case (char)0x01:
+                                nameLengh = sceneFile.buffer[pairs->at(i).item1+u+2];
+                                for(int c = 0; c < nameLengh;c++)
+                                {
+                                    name += sceneFile.buffer[pairs->at(i).item1+u+3+c];
+                                }
+                                tmpBase->SetName(name);
+                            break;
+                            
+                            case (char)0x02:
+                                    tmpRect->x = (sceneFile.buffer[pairs->at(i).item1+u+2] << 8 | sceneFile.buffer[pairs->at(i).item1+u+3]);
+                            break;
+                            
+                            case (char)0x03:
+                                    tmpRect->y = (sceneFile.buffer[pairs->at(i).item1+u+2] << 8 | sceneFile.buffer[pairs->at(i).item1+u+3]);
+                            break;
+                            case (char)0x04:
+                                    tmpRect->w = (sceneFile.buffer[pairs->at(i).item1+u+2] << 8 | sceneFile.buffer[pairs->at(i).item1+u+3]);
+                            break;
+                            
+                            case (char)0x05:
+                                    tmpRect->h = (sceneFile.buffer[pairs->at(i).item1+u+2] << 8 | sceneFile.buffer[pairs->at(i).item1+u+3]);
+                            break;
+                            
+                            case (char)0x06:
+                                    std::string uiPath = "";
+                                    for(int c = 0; c < sceneFile.buffer[pairs->at(i).item1+u+2];c++)
+                                    {
+                                        uiPath += sceneFile.buffer[pairs->at(i).item1+u+3+c];
+                                    }
+                                    tmpBase->SetGraphic(new UIGraphic(uiPath));
+                            break;
+                        }
+                    }
+                }
+                }
                 
             }
             else
