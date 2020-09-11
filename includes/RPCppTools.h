@@ -60,7 +60,7 @@ namespace rp
         }
         //delete(tmpBase); /*<--- As this is never declared as a new varaible, it could couse issues if we delete it*/
     }
-    static unsigned char* CharArrToUnsginedArr(char* input,int length)
+    static unsigned char* CharArrToUnsignedArr(char* input,int length)
     {
         unsigned char* tmpArr = new unsigned char[length];
         for(int i = 0; i < length;i++)
