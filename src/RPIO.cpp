@@ -4,7 +4,7 @@
 #include <fstream>
 #include <limits>
 #include <memory>
-
+#include "../includes/RPEngine.h"
 using namespace rp;
 
 RawFile RPIO::ReadFileRaw(std::string path)

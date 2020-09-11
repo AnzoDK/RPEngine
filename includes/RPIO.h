@@ -1,7 +1,9 @@
 #pragma once
 #include <iostream>
 #include <fstream>
-#include "RPEngine.h"
+#include "RPCppTools.h"
+#include "RPScene.h"
+
 namespace rp
 {
  struct RawFile

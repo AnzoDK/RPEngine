@@ -17,10 +17,8 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include "RPUI.h"
+#include "RPScene.h"
 #include <algorithm>
-#include "RPCppTools.h"
-#include "RPIni.h"
-#include "RPIO.h"
 namespace rp{
 
 enum CharacterState{Default=0,Smiling,Crying,Annoyed,Sad,Suprised};
@@ -136,26 +134,6 @@ class CharacterObject : public GameObject
     //Holds the characters sprites for different states - Should always be ordered in the same way as CharacterState (i.e Default sprite would be in slot 0 and so on)
     std::vector<CharacterSprite*> chrStates;
     std::vector<SpriteAnimation*> animations;
-};
-
-class Scene
-{
-    public:
-        Scene();
-        virtual ~Scene(){objsInScene.clear();}
-        void AddObject(Base* obj);
-        void RemoveObject(int id);
-        void RemoveObject(std::string name);
-        Base* GetObject(std::string name);
-        void SceneUpdate();
-        
-        
-    private:
-        
-        void LogScene(std::vector<Base*>& tmp);
-        std::vector<Base*> objsInScene;
-        
-   
 };
 
 
