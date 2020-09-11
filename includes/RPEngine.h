@@ -148,10 +148,10 @@ class Scene
         void RemoveObject(std::string name);
         Base* GetObject(std::string name);
         void SceneUpdate();
-        static Scene* LoadScene(std::string path);
+        
         
     private:
-        void LoadPairs(DoubleArray<int>& dvec, RawFile file, ArrPair<unsigned char*> filePatterns);
+        
         void LogScene(std::vector<Base*>& tmp);
         std::vector<Base*> objsInScene;
         

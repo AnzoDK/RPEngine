@@ -1,7 +1,7 @@
 #pragma once
 #include <iostream>
 #include <fstream>
-
+#include "RPEngine.h"
 namespace rp
 {
  struct RawFile
@@ -19,6 +19,8 @@ namespace rp
         RPIO();
         ~RPIO();
         static RawFile ReadFileRaw(std::string path);
+        static void LoadPairs(DoubleArray<int>& dvec, RawFile file, ArrPair<unsigned char*> filePatterns);
+        static Scene* LoadScene(std::string path);
     private:
         
  };
