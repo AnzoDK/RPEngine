@@ -10,7 +10,7 @@ using namespace rp;
 RawFile RPIO::ReadFileRaw(std::string path)
 {
     std::ifstream ifs = std::ifstream(path, std::ios::binary);
-    ifs.ignore( std::numeric_limits<std::streamsize>::max() );
+    ifs.ignore( std::numeric_limits<std::streamsize>::max() );  
     std::streamsize length = ifs.gcount();
     ifs.clear();
     ifs.seekg( 0, std::ios_base::beg );
@@ -131,7 +131,7 @@ void RPIO::LoadPairs(DoubleArray<int>& dvec, RawFile file, ArrPair<unsigned char
 {
     int objStart = -1;
     int objEnd = -1;
-    for(int i = 0; i < file.length;i++)
+    for(int i = 0; i < file.length-1;i++)
     {
         char* workBytes = new char[2];
         workBytes[i] = file.buffer[i];
@@ -150,6 +150,7 @@ void RPIO::LoadPairs(DoubleArray<int>& dvec, RawFile file, ArrPair<unsigned char
             objStart = -1;
             objEnd = -1;
         }
+        delete[] workBytes;
         
     }
 }
