@@ -15,7 +15,7 @@ namespace rp
  {
      RawFile(){}
      RawFile(char* buff, int _length,std::string _path){buffer = buff; length = _length; path = _path;}
-     ~RawFile(){delete[] buffer;}
+     ~RawFile(){/*delete[] buffer;*/ /*<-- Causes invalid delete - Still wondering why..*/ /*Testing other delete --->*/ delete(buffer);}
      char* buffer;
      int length;
      std::string path;
