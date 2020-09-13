@@ -46,10 +46,11 @@ Scene* RPIO::LoadScene(std::string path)
     char* expectedHeader = new char[3]{0x52,0x50,0x53};
     int ver = 0;
     Scene* s = new Scene();
-    ver = ver << sceneFile.buffer[3] << 8 | sceneFile.buffer[4];
+    ver = (ver << sceneFile.buffer[3] << 8 | sceneFile.buffer[4]);
     switch(ver)
     {
-        case 1:
+        case 1
+        {
             //Default version
             objectEnd = new unsigned char[2]{0x0F,0xF0};
             objectStart = new unsigned char[2]{0xF0,0x0F};
@@ -125,13 +126,12 @@ Scene* RPIO::LoadScene(std::string path)
                el.Log("LoadScene - ERROR: File is insane(unexpected value in header)"); 
             }
         break;
-        
+        }
         case 2:
             
         break;
         
         default:
-
             el.Log("LoadScene - Error: Scene file version unexpected, corrupted file?");
         break;
     }
