@@ -15,7 +15,7 @@ namespace rp
  {
      RawFile(){}
      RawFile(char* buff, int _length,std::string _path){buffer = new char[_length];for(int i = 0; i < _length; i++){buffer[i] = buff[i];} length = _length; path = _path;}
-     ~RawFile(){delete[] buffer;}
+     ~RawFile(){delete[] buffer;} //<--- This fucks it up
      char* buffer;
      int length;
      std::string path;
