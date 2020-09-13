@@ -151,8 +151,8 @@ void RPIO::LoadPairs(DoubleArray<int>& dvec, RawFile file, ArrPair<unsigned char
     for(int i = 0; i < file.length-1;i++)
     {
         char* workBytes = new char[2];
-        workBytes[i] = file.buffer[i];
-        workBytes[i+1] = file.buffer[i+1];
+        workBytes[0] = file.buffer[i];
+        workBytes[1] = file.buffer[i+1];
         unsigned char* compArr = CppTools::CharArrToUnsignedArr(workBytes,2);
         if(CTools::compareArray<unsigned char*>(&compArr,&filePatterns.item1,2))
         {
