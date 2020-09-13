@@ -56,8 +56,10 @@ Scene* RPIO::LoadScene(std::string path)
             objectStart = new unsigned char[2]{0xF0,0x0F};
             
             //sanity check
-            uint32_t tes1 = (sceneFile.buffer[0] << 16 | sceneFile.buffer[1] << 8 | sceneFile.buffer[2]);
-            uint32_t tes2 = (expectedHeader[0] << 16 | sceneFile.buffer[1] << 8 | expectedHeader[2]);
+            uint32_t tes1 = 0;
+            uint32_t tes2 = 0;
+            tes1 = (tes1 << sceneFile.buffer[0] << 16 | sceneFile.buffer[1] << 8 | sceneFile.buffer[2]);
+            tes2 = (tes2 << expectedHeader[0] << 16 | sceneFile.buffer[1] << 8 | expectedHeader[2]);
             if(tes1 == tes2)
             {
                 el.Log("LoadScene - INFO: File is sane");

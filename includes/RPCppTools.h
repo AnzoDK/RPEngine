@@ -62,11 +62,16 @@ namespace rp
     }
     static unsigned char* CharArrToUnsignedArr(char* input,int length)
     {
+        
         unsigned char* tmpArr = new unsigned char[length];
+        /* OLD
         for(int i = 0; i < length;i++)
         {
             tmpArr[i] = (unsigned char)input[i];
         }
+        */
+        //new
+        tmpArr = reinterpret_cast<unsigned char*>(input);
         return tmpArr;
     }
     };
