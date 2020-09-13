@@ -14,8 +14,8 @@ namespace rp
  struct RawFile
  {
      RawFile(){}
-     RawFile(char* buff, int _length,std::string _path){buffer = buff; length = _length; path = _path;}
-     ~RawFile(){/*delete[] buffer;*/ /*<-- Causes invalid delete - Still wondering why..*/ /*Testing other delete --->*/ delete(buffer);}
+     RawFile(char* buff, int _length,std::string _path){buffer = new char[_length];for(int i = 0; i < _length; i++){buffer[i] = buff[i];} length = _length; path = _path;}
+     ~RawFile(){delete[] buffer;}
      char* buffer;
      int length;
      std::string path;
