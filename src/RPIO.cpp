@@ -169,7 +169,7 @@ void RPIO::LoadPairs(DoubleArray<int>& dvec, RawFile file, ArrPair<unsigned char
             objEnd = -1;
         }
         delete[] workBytes;
-        delete compArr;
+        delete[] compArr;
         
     }
 }
