@@ -49,7 +49,7 @@ Scene* RPIO::LoadScene(std::string path)
     ver = (ver << sceneFile.buffer[3] << 8 | sceneFile.buffer[4]);
     switch(ver)
     {
-        case 1
+        case 1:
         {
             //Default version
             objectEnd = new unsigned char[2]{0x0F,0xF0};
