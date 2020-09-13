@@ -65,7 +65,7 @@ namespace rp
         unsigned char* tmpArr = new unsigned char[length];
         for(int i = 0; i < length;i++)
         {
-            tmpArr[i] = input[i];
+            tmpArr[i] = (unsigned char)input[i];
         }
         return tmpArr;
     }
