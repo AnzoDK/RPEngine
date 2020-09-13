@@ -3,16 +3,22 @@
 #include <fstream>
 #include "RPCppTools.h"
 #include "RPScene.h"
-
 namespace rp
 {
+
+
+
+
+
+
  struct RawFile
  {
      RawFile(){}
-     RawFile(char* buff, int _length){buffer = buff; length = _length;}
+     RawFile(char* buff, int _length,std::string _path){buffer = buff; length = _length; path = _path;}
      ~RawFile(){delete[] buffer;}
      char* buffer;
      int length;
+     std::string path;
  };
     
  class RPIO

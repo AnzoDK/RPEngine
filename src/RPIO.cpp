@@ -10,15 +10,28 @@ using namespace rp;
 RawFile RPIO::ReadFileRaw(std::string path)
 {
     std::ifstream ifs = std::ifstream(path, std::ios::binary);
-    ifs.ignore( std::numeric_limits<std::streamsize>::max() );  
+    ifs.ignore(std::numeric_limits<std::streamsize>::max());  
     std::streamsize length = ifs.gcount();
     ifs.clear();
-    ifs.seekg( 0, std::ios_base::beg );
+    ifs.seekg(0, std::ios_base::beg);
     
-    char* buffer = new char[length];
-    ifs.read(buffer,length);
-    ifs.close();
-    return RawFile(buffer,length);
+    if(length <= 0)
+    {
+        //Error
+        //for now we just cout it
+        std::cout << "File is less than 0 or 0 bytes in size!" << std::endl;
+        char* buffer = new char[5]{'E','R','R','O','R'};
+        return RawFile(buffer,5, path);
+    }
+    else
+    {
+        char* buffer = new char[length];
+        ifs.read(buffer,length);
+        ifs.close();
+        return RawFile(buffer,length, path); 
+    }
+    
+
     
 }
 Scene* RPIO::LoadScene(std::string path)
