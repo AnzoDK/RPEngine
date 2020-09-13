@@ -64,14 +64,13 @@ namespace rp
     {
         
         unsigned char* tmpArr = new unsigned char[length];
-        /* OLD
+         //OLD
         for(int i = 0; i < length;i++)
         {
-            tmpArr[i] = (unsigned char)input[i];
+            tmpArr[i] = *reinterpret_cast<unsigned char*>(input[i]);
         }
-        */
         //new
-        tmpArr = reinterpret_cast<unsigned char*>(input);
+        //tmpArr = reinterpret_cast<unsigned char*>(input);
         return tmpArr;
     }
     };
