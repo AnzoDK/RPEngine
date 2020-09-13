@@ -67,7 +67,7 @@ namespace rp
          //OLD
         for(int i = 0; i < length;i++)
         {
-            tmpArr[i] = *reinterpret_cast<unsigned char*>(input[i]);
+            tmpArr[i] = reinterpret_cast<unsigned char&>(input[i]);
         }
         //new
         //tmpArr = reinterpret_cast<unsigned char*>(input);
