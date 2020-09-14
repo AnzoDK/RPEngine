@@ -29,7 +29,7 @@ lib: rpenginelib.o uilib.o iolib.o scenelib.o
 	$(CXX) -fPIC -shared $(CXX_FLAGS) $(DEBUG_LEVEL) $(INCLUDES) $(SO_DIRS) $(LIB_OBJECTS) -o rpengine$(EX) $(LINK) $(END_LIB_FLAGS)
 	make clean
 
-main.o: rpengine.o ui.o io.o scenelib.o
+main.o: rpengine.o ui.o io.o scene.o
 	$(CXX) -c $(CXX_FLAGS) $(DEBUG_LEVEL) $(INCLUDES) $(SO_DIRS) main.cpp -o main.o
 rpengine.o: rppng.o
 	$(CXX) -c $(CXX_FLAGS) $(DEBUG_LEVEL) $(INCLUDES) $(SO_DIRS) $(SRC)/RPEngine.cpp -o rpengine.o
