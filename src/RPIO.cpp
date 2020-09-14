@@ -69,6 +69,8 @@ Scene* RPIO::LoadScene(std::string path)
                 std::string name = "";
                 UIBase* tmpBase = 0;
                 SDL_Rect* tmpRect = 0;
+                tmpBase = new UIBase();
+                tmpRect = new SDL_Rect();
                 el.Log("pairs found: " + std::to_string(pairs->length()));
                 if(pairs->length() > 0)
                 {
@@ -76,8 +78,6 @@ Scene* RPIO::LoadScene(std::string path)
                 {
                     for(int u = 0; u < pairs->at(i).item2-pairs->at(i).item1;u++)
                     {
-                    tmpBase = new UIBase();
-                    tmpRect = new SDL_Rect();
                     int nameLengh = 0;
                     std::cout << "Searching, starting at index " << pairs->at(i).item1+u << std::endl;
                     if(sceneFile->buffer[pairs->at(i).item1+u] == (char)0xAA/* && sceneFile.buffer[i+1] == (char)0x01*/)
