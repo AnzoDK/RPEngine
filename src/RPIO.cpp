@@ -96,21 +96,26 @@ Scene* RPIO::LoadScene(std::string path)
                                     name += sceneFile->buffer[pairs->at(i).item1+u+3+c];
                                 }
                                 tmpBase->SetName(name);
+                                std::cout << "Setting name: " << name << std::endl;
                             break;
                             
                             case (char)0x02:
                                     tmpRect->x = (sceneFile->buffer[pairs->at(i).item1+u+2] << 8 | sceneFile->buffer[pairs->at(i).item1+u+3]);
+                                    std::cout << "Setting x to: " << tmpRect->x << std::endl; 
                             break;
                             
                             case (char)0x03:
                                     tmpRect->y = (sceneFile->buffer[pairs->at(i).item1+u+2] << 8 | sceneFile->buffer[pairs->at(i).item1+u+3]);
+                                    std::cout << "Setting y to: " << tmpRect->y << std::endl;
                             break;
                             case (char)0x04:
                                     tmpRect->w = (sceneFile->buffer[pairs->at(i).item1+u+2] << 8 | sceneFile->buffer[pairs->at(i).item1+u+3]);
+                                    std::cout << "Setting w to: " << tmpRect->w << std::endl;
                             break;
                             
                             case (char)0x05:
                                     tmpRect->h = (sceneFile->buffer[pairs->at(i).item1+u+2] << 8 | sceneFile->buffer[pairs->at(i).item1+u+3]);
+                                    std::cout << "Setting h to: " << tmpRect->h << std::endl;
                             break;
                             
                             case (char)0x06:
@@ -120,6 +125,7 @@ Scene* RPIO::LoadScene(std::string path)
                                         uiPath += sceneFile->buffer[pairs->at(i).item1+u+3+c];
                                     }
                                     tmpBase->SetGraphic(new UIGraphic(uiPath));
+                                    std::cout << "Setting graphic to: " << uiPath << std::endl;
                             break;
                         }
                     }
