@@ -171,6 +171,7 @@ void RPIO::LoadPairs(DoubleArray<int>& dvec, RawFile* file, ArrPair<unsigned cha
         workBytes[0] = file->buffer[i];
         workBytes[1] = file->buffer[i+1];
         unsigned char* compArr = CppTools::CharArrToUnsignedArr(workBytes,2);
+        /*
         if(CTools::compareArray<unsigned char*>(&compArr,&filePatterns.item1,2))
         {
             objStart = i;
@@ -178,6 +179,20 @@ void RPIO::LoadPairs(DoubleArray<int>& dvec, RawFile* file, ArrPair<unsigned cha
         else if(CTools::compareArray<unsigned char*>(&compArr,&filePatterns.item2,2))
         {
             objEnd = i;
+        }*/
+        if(compArr[0] == filePatterns.item1[0])
+        {
+            if(compArr[1] == filePatterns.item1[1])
+            {
+              objStart = i;  
+            }
+        }
+        else if(compArr[0] == filePatterns.item2[0])
+        {
+            if(compArr[1] == filePatterns.item2[1])
+            {
+              objEnd = i;  
+            }
         }
         if(objStart != -1 && objEnd != -1)
         {
