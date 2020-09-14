@@ -32,6 +32,12 @@ namespace rp
     {
         //This is essentially just a bubble sort
         bool sorted = 0;
+        
+        //Fix for if the list is only 1 or 0 objects long
+        if(vec.size() =< 1)
+        {
+            sorted = 1;
+        }
         unsigned int counter = 0;
         short int changes = 0;
         Base* tmpBase = nullptr;
