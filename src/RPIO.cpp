@@ -130,6 +130,7 @@ Scene* RPIO::LoadScene(std::string path)
                         }
                     }
                 }
+                tmpBase->SetRect(tmpRect);
                 s->AddObject(tmpBase);
                 }
                 
