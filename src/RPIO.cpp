@@ -75,7 +75,8 @@ Scene* RPIO::LoadScene(std::string path)
                     {
                     tmpBase = new UIBase();
                     tmpRect = new SDL_Rect();
-                    int nameLengh = 0;                    
+                    int nameLengh = 0;
+                    std::cout << "Searching, starting at index " << pairs->at(i).item1+u << std::endl;
                     if(sceneFile->buffer[pairs->at(i).item1+u] == (char)0xAA/* && sceneFile.buffer[i+1] == (char)0x01*/)
                     {
                         switch(sceneFile->buffer[pairs->at(i).item1+u+1])
@@ -119,8 +120,8 @@ Scene* RPIO::LoadScene(std::string path)
                         }
                     }
                 }
-                }
                 s->AddObject(tmpBase);
+                }
                 
             }
             else
