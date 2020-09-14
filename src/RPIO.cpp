@@ -69,6 +69,7 @@ Scene* RPIO::LoadScene(std::string path)
                 std::string name = "";
                 UIBase* tmpBase = 0;
                 SDL_Rect* tmpRect = 0;
+                std::cout << "Pairs found: " << pairs->length() << std::endl;
                 for(int i = 0; i < pairs->length();i++)
                 {
                     for(int u = 0; u < pairs->at(i).item2-pairs->at(i).item1;u++)
