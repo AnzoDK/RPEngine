@@ -82,6 +82,7 @@ Scene* RPIO::LoadScene(std::string path)
                     std::cout << "Searching, starting at index " << pairs->at(i).item1+u << std::endl;
                     if(sceneFile->buffer[pairs->at(i).item1+u] == (char)0xAA/* && sceneFile.buffer[i+1] == (char)0x01*/)
                     {
+                        std::cout << "0xAA byte found!" << std::endl;
                         switch(sceneFile->buffer[pairs->at(i).item1+u+1])
                         {
                             default:
