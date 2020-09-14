@@ -175,7 +175,7 @@ void RPIO::LoadPairs(DoubleArray<int>& dvec, RawFile* file, ArrPair<unsigned cha
         {
             objStart = i;
         }
-        if(CTools::compareArray<unsigned char*>(&compArr,&filePatterns.item2,2))
+        else if(CTools::compareArray<unsigned char*>(&compArr,&filePatterns.item2,2))
         {
             objEnd = i;
         }

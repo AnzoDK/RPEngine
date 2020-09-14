@@ -7,6 +7,7 @@ struct CTools
   {
     for(int i=0;i<size;i++)
     {
+        std::cout << "Comparing: " << a[i] << "With " << b[i] << std::endl;
         if(a[i]!=b[i])
         return 0;
     }
