@@ -34,7 +34,7 @@ namespace rp
         bool sorted = 0;
         
         //Fix for if the list is only 1 or 0 objects long
-        if(vec.size() =< 1)
+        if(vec.size() <= 1)
         {
             sorted = 1;
         }
