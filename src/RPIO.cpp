@@ -69,7 +69,9 @@ Scene* RPIO::LoadScene(std::string path)
                 std::string name = "";
                 UIBase* tmpBase = 0;
                 SDL_Rect* tmpRect = 0;
-                std::cout << "Pairs found: " << pairs->length() << std::endl;
+                el.Log("pairs found: " + std::to_string(pairs->length()));
+                if(pairs->length() > 0)
+                {
                 for(int i = 0; i < pairs->length();i++)
                 {
                     for(int u = 0; u < pairs->at(i).item2-pairs->at(i).item1;u++)
@@ -124,6 +126,16 @@ Scene* RPIO::LoadScene(std::string path)
                 s->AddObject(tmpBase);
                 }
                 
+            }
+                else
+                {
+                    el.Log("No pairs was found - Scenefile is corrupted or the IO controller encountered a read error");
+                    UIBase* b = new UIBase();
+                    b->SetName("Scene Load Error");
+                    b->SetRect(new SDL_Rect());
+                    b->SetGraphic("Resources/textures/error.png");
+                    s->AddObject(b);
+                }
             }
             else
             {
