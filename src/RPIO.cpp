@@ -132,7 +132,10 @@ Scene* RPIO::LoadScene(std::string path)
                     el.Log("No pairs was found - Scenefile is corrupted or the IO controller encountered a read error");
                     UIBase* b = new UIBase();
                     b->SetName("Scene Load Error");
-                    b->SetRect(new SDL_Rect());
+                    SDL_Rect* r = new SDL_Rect();
+                    r->w = 300;
+                    r->h = 300;
+                    b->SetRect(r);
                     b->SetGraphic("Resources/textures/error.png");
                     s->AddObject(b);
                 }
