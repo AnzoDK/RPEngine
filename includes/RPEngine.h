@@ -17,9 +17,8 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include "RPUI.h"
+#include "RPScene.h"
 #include <algorithm>
-#include "RPCppTools.h"
-#include "RPIni.h"
 namespace rp{
 
 enum CharacterState{Default=0,Smiling,Crying,Annoyed,Sad,Suprised};
@@ -137,24 +136,6 @@ class CharacterObject : public GameObject
     std::vector<SpriteAnimation*> animations;
 };
 
-class Scene
-{
-    public:
-        Scene();
-        virtual ~Scene(){objsInScene.clear();}
-        void AddObject(Base* obj);
-        void RemoveObject(int id);
-        void RemoveObject(std::string name);
-        Base* GetObject(std::string name);
-        void SceneUpdate();
-        
-    private:
-        void LogScene(std::vector<Base*>& tmp);
-        std::vector<Base*> objsInScene;
-        
-   
-};
-
 
 class InputHandler
 {
@@ -185,6 +166,7 @@ class RosenoernEngine
   static int width;
   static int height;
   void SetScene(Scene* s);
+  void LoadSceneFromFile(std::string path);
   void Update();
   Base* GetObject(std::string name);
   ScreenSize GetScreenSize();

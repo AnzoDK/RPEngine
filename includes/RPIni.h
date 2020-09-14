@@ -78,14 +78,31 @@ struct Ini
           int counter = 0;
           int start = -1;
           int end = -1;
+          bool onComment = 0;
+          int commentStart = -1;
           while(!processed)
           {
-            
-            if(readAsKey)
+            if(buffer[counter] == 0x3B)
             {
-                if(buffer[counter] == 0x0a && counter != end+1)
+                onComment = 1;
+                commentStart = counter;
+                //end = counter;
+            }
+            if(onComment && buffer[counter] == 0x0a)
+            {
+                end = counter;
+            }
+            if(readAsKey && !onComment)
+            {
+                //Definently a strange way to do this - Wastes a lot of cycles
+                if(buffer[counter] == 0x0a && counter != end+1 && buffer[counter+1] != 0x3B && !onComment)
                 {
                     int newLen = counter - end;
+                    if(commentStart != -1)
+                    {
+                        newLen -= (counter - commentStart);
+                        commentStart = -1;
+                    }
                     char* buff = new char[newLen];
                     int equal = 0;
                     for(int i = 0; i < newLen; i++)
@@ -113,13 +130,13 @@ struct Ini
                     
                 }
             }
-            if(buffer[counter] == 0x5B)
+            if(buffer[counter] == 0x5b && !onComment)
             {
                 start = counter;
                 readAsKey = 0;
                 end = -1;
             }
-            if(buffer[counter] == 0x5D)
+            if(buffer[counter] == 0x5D && !onComment)
             {
                 end = counter;
             }
@@ -141,6 +158,12 @@ struct Ini
             {
                 processed = 1;
                 break;
+            }
+            if(buffer[counter] == 0x0a && onComment)
+            {
+                onComment = 0;
+                commentStart = -1;
+                
             }
             counter++;
           }

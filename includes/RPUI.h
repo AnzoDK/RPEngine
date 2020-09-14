@@ -10,6 +10,8 @@ namespace rp
     enum CommonColor{White,Red,Green,Blue,Black};
     
     //I personally hate this - Due to SDL only supporting ints, you can not get decimal values in the modulator. I would love to have that
+    
+    //I found a way to use decomal numbers as shown in projectvn
     struct TextureModulator
     {
         TextureModulator(){modR = 255; modG = 255; modB = 255; modA = 255;}
