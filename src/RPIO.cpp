@@ -7,7 +7,7 @@
 #include "../includes/RPEngine.h"
 using namespace rp;
 
-RawFile RPIO::ReadFileRaw(std::string path)
+RawFile* RPIO::ReadFileRaw(std::string path)
 {
     std::ifstream ifs = std::ifstream(path, std::ios::binary);
     ifs.ignore(std::numeric_limits<std::streamsize>::max());  
@@ -21,14 +21,14 @@ RawFile RPIO::ReadFileRaw(std::string path)
         //for now we just cout it
         std::cout << "File is less than 0 or 0 bytes in size!" << std::endl;
         char* buffer = new char[5]{'E','R','R','O','R'};
-        return RawFile(buffer,5, path);
+        return new RawFile(buffer,5, path);
     }
     else
     {
         char* buffer = new char[length];
         ifs.read(buffer,length);
         ifs.close();
-        return RawFile(buffer,length, path); 
+        return new RawFile(buffer,length, path); 
     }
     
 
@@ -41,12 +41,12 @@ Scene* RPIO::LoadScene(std::string path)
     //signed char* cannot find 0xFF. We have to work around it. 
     unsigned char* objectEnd = 0;
     unsigned char* objectStart = 0;
-    RawFile sceneFile = RPIO::ReadFileRaw(path);
+    RawFile* sceneFile = RPIO::ReadFileRaw(path);
     //Check if header is sane
     char* expectedHeader = new char[3]{0x52,0x50,0x53};
     int ver = 0;
     Scene* s = new Scene();
-    ver = (ver << sceneFile.buffer[3] << 8 | sceneFile.buffer[4]);
+    ver = (ver << sceneFile->buffer[3] << 8 | sceneFile->buffer[4]);
     switch(ver)
     {
         case 1:
@@ -58,8 +58,8 @@ Scene* RPIO::LoadScene(std::string path)
             //sanity check
             uint32_t tes1 = 0;
             uint32_t tes2 = 0;
-            tes1 = (tes1 << sceneFile.buffer[0] << 16 | sceneFile.buffer[1] << 8 | sceneFile.buffer[2]);
-            tes2 = (tes2 << expectedHeader[0] << 16 | sceneFile.buffer[1] << 8 | expectedHeader[2]);
+            tes1 = (tes1 << sceneFile->buffer[0] << 16 | sceneFile->buffer[1] << 8 | sceneFile->buffer[2]);
+            tes2 = (tes2 << expectedHeader[0] << 16 | sceneFile->buffer[1] << 8 | expectedHeader[2]);
             if(tes1 == tes2)
             {
                 el.Log("LoadScene - INFO: File is sane");
@@ -76,43 +76,43 @@ Scene* RPIO::LoadScene(std::string path)
                     tmpBase = new UIBase();
                     tmpRect = new SDL_Rect();
                     int nameLengh = 0;                    
-                    if(sceneFile.buffer[pairs->at(i).item1+u] == (char)0xAA/* && sceneFile.buffer[i+1] == (char)0x01*/)
+                    if(sceneFile->buffer[pairs->at(i).item1+u] == (char)0xAA/* && sceneFile.buffer[i+1] == (char)0x01*/)
                     {
-                        switch(sceneFile.buffer[pairs->at(i).item1+u+1])
+                        switch(sceneFile->buffer[pairs->at(i).item1+u+1])
                         {
                             default:
                                 
                             break;
                             
                             case (char)0x01:
-                                nameLengh = sceneFile.buffer[pairs->at(i).item1+u+2];
+                                nameLengh = sceneFile->buffer[pairs->at(i).item1+u+2];
                                 for(int c = 0; c < nameLengh;c++)
                                 {
-                                    name += sceneFile.buffer[pairs->at(i).item1+u+3+c];
+                                    name += sceneFile->buffer[pairs->at(i).item1+u+3+c];
                                 }
                                 tmpBase->SetName(name);
                             break;
                             
                             case (char)0x02:
-                                    tmpRect->x = (sceneFile.buffer[pairs->at(i).item1+u+2] << 8 | sceneFile.buffer[pairs->at(i).item1+u+3]);
+                                    tmpRect->x = (sceneFile->buffer[pairs->at(i).item1+u+2] << 8 | sceneFile->buffer[pairs->at(i).item1+u+3]);
                             break;
                             
                             case (char)0x03:
-                                    tmpRect->y = (sceneFile.buffer[pairs->at(i).item1+u+2] << 8 | sceneFile.buffer[pairs->at(i).item1+u+3]);
+                                    tmpRect->y = (sceneFile->buffer[pairs->at(i).item1+u+2] << 8 | sceneFile->buffer[pairs->at(i).item1+u+3]);
                             break;
                             case (char)0x04:
-                                    tmpRect->w = (sceneFile.buffer[pairs->at(i).item1+u+2] << 8 | sceneFile.buffer[pairs->at(i).item1+u+3]);
+                                    tmpRect->w = (sceneFile->buffer[pairs->at(i).item1+u+2] << 8 | sceneFile->buffer[pairs->at(i).item1+u+3]);
                             break;
                             
                             case (char)0x05:
-                                    tmpRect->h = (sceneFile.buffer[pairs->at(i).item1+u+2] << 8 | sceneFile.buffer[pairs->at(i).item1+u+3]);
+                                    tmpRect->h = (sceneFile->buffer[pairs->at(i).item1+u+2] << 8 | sceneFile->buffer[pairs->at(i).item1+u+3]);
                             break;
                             
                             case (char)0x06:
                                     std::string uiPath = "";
-                                    for(int c = 0; c < sceneFile.buffer[pairs->at(i).item1+u+2];c++)
+                                    for(int c = 0; c < sceneFile->buffer[pairs->at(i).item1+u+2];c++)
                                     {
-                                        uiPath += sceneFile.buffer[pairs->at(i).item1+u+3+c];
+                                        uiPath += sceneFile->buffer[pairs->at(i).item1+u+3+c];
                                     }
                                     tmpBase->SetGraphic(new UIGraphic(uiPath));
                             break;
@@ -144,15 +144,15 @@ Scene* RPIO::LoadScene(std::string path)
     }
     return s;
 }
-void RPIO::LoadPairs(DoubleArray<int>& dvec, RawFile file, ArrPair<unsigned char*> filePatterns)
+void RPIO::LoadPairs(DoubleArray<int>& dvec, RawFile* file, ArrPair<unsigned char*> filePatterns)
 {
     int objStart = -1;
     int objEnd = -1;
-    for(int i = 0; i < file.length-1;i++)
+    for(int i = 0; i < file->length-1;i++)
     {
         char* workBytes = new char[2];
-        workBytes[0] = file.buffer[i];
-        workBytes[1] = file.buffer[i+1];
+        workBytes[0] = file->buffer[i];
+        workBytes[1] = file->buffer[i+1];
         unsigned char* compArr = CppTools::CharArrToUnsignedArr(workBytes,2);
         if(CTools::compareArray<unsigned char*>(&compArr,&filePatterns.item1,2))
         {
