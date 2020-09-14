@@ -7,10 +7,6 @@ struct CTools
   {
     for(int i=0;i<size;i++)
     {
-        std::cout << "Comparing: ";
-        std::cout << std::hex << (int)a[i];
-        std::cout << " With ";
-        std::cout << std::hex << (int)b[i] << std::endl;
         if(a[i]!=b[i])
         return 0;
     }
