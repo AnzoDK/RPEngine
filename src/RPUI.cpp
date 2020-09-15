@@ -150,6 +150,8 @@ UIGraphic* UIBase::GetGraphic()
   return ug;  
 }
 
+
+
 //UIText
 UIText::UIText()
 {
@@ -227,6 +229,7 @@ void UIText::SetFont(std::string path)
 {
     fontPath = path;
 }
+
 
 //ButtonImage
 ButtonImage::ButtonImage(std::string imgPath)
@@ -350,7 +353,6 @@ C_RGB::C_RGB(CommonColor cc)
     a = 255;
 }
 
-
 //UIMenu
 UIMenu::UIMenu()
 {
@@ -443,3 +445,10 @@ void Button::Draw()
         GetUIText()->Draw();
     }  
 }
+
+
+//Registers
+DerivedRegister<Button> Button::reg("Button");
+DerivedRegister<Background> Background::reg("Background");
+DerivedRegister<UIBase> UIBase::reg("UIBase");
+DerivedRegister<UIText> UIText::reg("UIText");
