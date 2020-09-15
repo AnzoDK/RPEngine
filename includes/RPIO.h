@@ -26,8 +26,8 @@ namespace rp
     public:
         RPIO();
         ~RPIO();
-        static RawFile ReadFileRaw(std::string path);
-        static void LoadPairs(DoubleArray<int>& dvec, RawFile file, ArrPair<unsigned char*> filePatterns);
+        static RawFile* ReadFileRaw(std::string path);
+        static void LoadPairs(DoubleArray<int>& dvec, RawFile* file, ArrPair<unsigned char*> filePatterns);
         static Scene* LoadScene(std::string path);
     private:
         

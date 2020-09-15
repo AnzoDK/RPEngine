@@ -1,7 +1,7 @@
 #include "../includes/RPEngine.h"
-#include "RPCppTools.h"
-#include "RPIni.h"
-#include "RPIO.h"
+#include "../includes/RPCppTools.h"
+#include "../includes/RPIni.h"
+#include "../includes/RPIO.h"
 #include "../includes/RPScene.h"
 
 
