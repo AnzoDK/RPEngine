@@ -258,8 +258,6 @@ namespace rp
             private:
                 static DerivedRegister<Background> reg;
         };
-            //Static definitions
-            BaseFactory::map_type* BaseFactory::map = NULL;
 }
 
 

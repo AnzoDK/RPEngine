@@ -4,6 +4,8 @@
 #include "../includes/RPEngine.h"
 using namespace rp;
 
+//Static definitions
+BaseFactory::map_type* BaseFactory::map = NULL;
 
 //Rotation
 Rotation::Rotation(float _x, float _y, float _z)
