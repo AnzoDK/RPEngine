@@ -4,6 +4,7 @@
 #include <fstream>
 #include <limits>
 #include <memory>
+/*look at https://stackoverflow.com/questions/582331/is-there-a-way-to-instantiate-objects-from-a-string-holding-their-class-name for object storage in new fileformat */
 #include "../includes/RPEngine.h"
 using namespace rp;
 
