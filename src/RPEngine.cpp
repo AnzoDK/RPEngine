@@ -301,6 +301,7 @@ void RosenoernEngine::Update()
     if(frameDelay > frameTime)
     {
         SDL_Delay(frameDelay-frameTime);
+        std::cout << "Frame delayed" << std::endl;
     }
 }
 
