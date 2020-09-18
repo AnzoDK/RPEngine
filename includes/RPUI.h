@@ -2,11 +2,13 @@
 #include <iostream>
 #include "RPPng.h"
 #include <SDL2/SDL_ttf.h>
+#include <map>
 #define defaultFontPath "Resources/fonts/default.ttf"
 #define defaultFontSize 24
 #define defaultBtnTexturePath "Resources/textures/btnDefault.png"
 namespace rp
 {
+    
     enum CommonColor{White,Red,Green,Blue,Black};
     
     //I personally hate this - Due to SDL only supporting ints, you can not get decimal values in the modulator. I would love to have that
@@ -105,8 +107,40 @@ namespace rp
             bool enabled;
             std::string name;
             
+        };
+        
+        template<typename T> Base * createT() { return new T; }
+        struct BaseFactory 
+        {
+        typedef std::map<std::string, Base*(*)()> map_type;
+
+        static Base * createInstance(std::string const& s) 
+        {
+            map_type::iterator it = getMap()->find(s);
+            if(it == getMap()->end())
+                return 0;
+            return it->second();
+        }
+
+        protected:
+            static map_type * getMap() 
+            {
+                // never delete'ed. (exist until program termination)
+                // because we can't guarantee correct destruction order 
+                if(!map) { map = new map_type; } 
+                return map; 
+            }
+
+        private:
+            static map_type * map;
     };
-    
+    template<typename T>
+    struct DerivedRegister : BaseFactory 
+    { 
+        DerivedRegister(std::string const& s) { 
+        getMap()->insert(std::make_pair(s, &createT<T>));
+    }
+    };
     
     class UIText : public Base
     {
@@ -133,6 +167,7 @@ namespace rp
             std::string fontPath;
             std::string text;
             int fontSize;
+            static DerivedRegister<UIText> reg;
     };
     
     class UIGraphic
@@ -165,6 +200,7 @@ namespace rp
             virtual void Draw() override;
         private:
             UIGraphic* ug;
+            static DerivedRegister<UIBase> reg;
             
             
     };
@@ -176,7 +212,7 @@ namespace rp
       void Draw() override;
       ~ButtonImage(){}
     private:
-      
+        static DerivedRegister<ButtonImage> reg;
     };
     
     class Button : public UIBase
@@ -196,7 +232,7 @@ namespace rp
             void SetFunction(void (*funptr)());
             static void empty(){}
         private:
-
+            static DerivedRegister<Button> reg;
             UIText* txt;
             void (*funPtr)();
             
@@ -220,7 +256,7 @@ namespace rp
                 Background();
                 Background(std::string path);
             private:
-                
+                static DerivedRegister<Background> reg;
         };
 }
 

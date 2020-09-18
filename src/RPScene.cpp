@@ -27,7 +27,7 @@ void Scene::RemoveObject(std::string name)
         }
     }
 }
-Base* Scene::GetObject(std::string name)
+Base* Scene::GetSceneObject(std::string name)
 {
     for(unsigned int i = 0; i < objsInScene.size();i++)
     {
@@ -37,7 +37,8 @@ Base* Scene::GetObject(std::string name)
             break;
         }
     }
-    return nullptr;
+    //return nullptr; //<-- bad idea
+    return new Base();
 }
 void Scene::LogScene(std::vector<Base*>& tmp )
 {

@@ -307,9 +307,9 @@ void RosenoernEngine::Log(std::string strToLog, bool withTicks)
 {
     logger.Log(strToLog,withTicks);
 }
-Base* RosenoernEngine::GetObject(std::string name)
+Base* RosenoernEngine::GetSceneObject(std::string name)
 {
-  return currScene->GetObject(name);  
+  return currScene->GetSceneObject(name);  
 }
 
 Uint32 RosenoernEngine::GetTicks()
