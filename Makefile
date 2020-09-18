@@ -22,10 +22,12 @@ ifeq ($(OS), Windows)
 endif
 
 release: main.o
+	make clean
 	$(CXX) $(CXX_FLAGS) $(DEBUG_LEVEL) $(INCLUDES) $(SO_DIRS) -o rpengine $(OBJECTS) $(LINK)
 	make clean
 
 lib: rpenginelib.o uilib.o iolib.o scenelib.o
+	make clean
 	$(CXX) -fPIC -shared $(CXX_FLAGS) $(DEBUG_LEVEL) $(INCLUDES) $(SO_DIRS) $(LIB_OBJECTS) -o rpengine$(EX) $(LINK) $(END_LIB_FLAGS)
 	make clean
 

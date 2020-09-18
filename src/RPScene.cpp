@@ -37,7 +37,8 @@ Base* Scene::GetObject(std::string name)
             break;
         }
     }
-    return nullptr;
+    //return nullptr; //<-- bad idea
+    return new Base();
 }
 void Scene::LogScene(std::vector<Base*>& tmp )
 {
