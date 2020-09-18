@@ -293,7 +293,7 @@ void RosenoernEngine::Update()
     if(FPScounter)
     {
         std::string newName = orgName;
-        newName += "[";
+        newName += "[FPS: ";
         newName += std::to_string(/*float(*/frameTime/*)*/);
         newName += "]";
         SDL_SetWindowTitle(mainWin,newName.c_str());
