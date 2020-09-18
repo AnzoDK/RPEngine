@@ -206,6 +206,7 @@ void RosenoernEngine::init()
     IMG_Init(IMG_INIT_PNG);
     TTF_Init(); // <<-- Important to remember...
     objs = std::vector<GameObject*>();
+    orgName = "";
 }
 RosenoernAudio& RosenoernEngine::GetAudioController()
 {
@@ -213,6 +214,7 @@ RosenoernAudio& RosenoernEngine::GetAudioController()
 }
 int RosenoernEngine::CreateMainWindow(std::string windowName, Uint32 flags,bool FPSCounter)
 {
+    orgName = windowName;
     FPScounter = FPSCounter;
     if(!SDL_CreateWindowAndRenderer(1024,720,flags,&RosenoernEngine::mainWin,&RosenoernEngine::mainRender))
     {
@@ -290,10 +292,10 @@ void RosenoernEngine::Update()
     //std::cout << "Frametime: " << std::to_string(frameTime) << std::endl;
     if(FPScounter)
     {
-        std::string newName = SDL_GetWindowTitle(mainWin);
+        std::string newName = orgName;
         newName += "[";
-        newName += std::to_string(frameTime/1000);
-        newName += "[";
+        newName += std::to_string(float(frameTime*1000));
+        newName += "]";
         SDL_SetWindowTitle(mainWin,newName.c_str());
     }
     if(frameDelay > frameTime)

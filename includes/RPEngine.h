@@ -187,6 +187,7 @@ class RosenoernEngine
     Scene* currScene;
     int frameDelay;
     EngineLogger logger;
+    std::string orgName;
     
 };
 
