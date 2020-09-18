@@ -18,6 +18,7 @@
 #include <SDL2/SDL_image.h>
 #include "RPUI.h"
 #include "RPScene.h"
+#include "RPRandom.h"
 #include <algorithm>
 namespace rp{
 
