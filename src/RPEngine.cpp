@@ -211,8 +211,9 @@ RosenoernAudio& RosenoernEngine::GetAudioController()
 {
  return *audio;   
 }
-int RosenoernEngine::CreateMainWindow(std::string windowName, Uint32 flags)
+int RosenoernEngine::CreateMainWindow(std::string windowName, Uint32 flags,bool FPSCounter)
 {
+    FPScounter = FPSCounter;
     if(!SDL_CreateWindowAndRenderer(1024,720,flags,&RosenoernEngine::mainWin,&RosenoernEngine::mainRender))
     {
         SDL_SetWindowTitle(RosenoernEngine::mainWin,windowName.c_str());
@@ -287,6 +288,12 @@ void RosenoernEngine::Update()
 
     frameTime = SDL_GetTicks() - frameStart;
     //std::cout << "Frametime: " << std::to_string(frameTime) << std::endl;
+    if(FPScounter)
+    {
+        std::string newName = SDL_GetWindowTitle(mainWin);
+        newName += std::to_string(frameTime/1000);
+        SDL_SetWindowTitle(mainWin,newName.c_str());
+    }
     if(frameDelay > frameTime)
     {
         SDL_Delay(frameDelay-frameTime);

@@ -161,7 +161,7 @@ class RosenoernEngine
   void Quit();
   void SetFPS(int fps);
   RosenoernAudio& GetAudioController();
-  int CreateMainWindow(std::string name, Uint32 flags);
+  int CreateMainWindow(std::string name, Uint32 flags, bool FPSCounter=0);
   static SDL_Window* mainWin;
   static SDL_Renderer* mainRender;
   static int width;
@@ -178,6 +178,7 @@ class RosenoernEngine
   static InputHandler* InHand;
   void Log(std::string strToLog,bool withTicks=true);
   static Uint32 GetTicks();
+  bool FPScounter = 0;
   private:
     //std::sort kept fucking sorting 1 < -1 and THAT IS NOT RIGHT GODDAMMIT
     //Thus - I made a manual sort function
