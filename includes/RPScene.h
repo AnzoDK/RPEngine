@@ -11,7 +11,7 @@ namespace rp
             void AddObject(Base* obj);
             void RemoveObject(int id);
             void RemoveObject(std::string name);
-            Base* GetObject(std::string name);
+            Base* GetSceneObject(std::string name);
             void SceneUpdate();
         
         

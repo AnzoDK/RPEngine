@@ -27,7 +27,7 @@ void Scene::RemoveObject(std::string name)
         }
     }
 }
-Base* Scene::GetObject(std::string name)
+Base* Scene::GetSceneObject(std::string name)
 {
     for(unsigned int i = 0; i < objsInScene.size();i++)
     {
