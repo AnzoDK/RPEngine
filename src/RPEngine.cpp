@@ -309,11 +309,11 @@ void RosenoernEngine::Update()
         newName += "]";
         SDL_SetWindowTitle(mainWin,newName.c_str());
     }
-    /*if(frameDelay > frameTime)
+    if(frameDelay > frameTime)
     {
         SDL_Delay(frameDelay-frameTime);
         std::cout << "Frame delayed" << std::endl;
-    }*/
+    }
 }
 
 void RosenoernEngine::Quit()
