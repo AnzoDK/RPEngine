@@ -291,7 +291,9 @@ void RosenoernEngine::Update()
     if(FPScounter)
     {
         std::string newName = SDL_GetWindowTitle(mainWin);
+        newName += "[";
         newName += std::to_string(frameTime/1000);
+        newName += "[";
         SDL_SetWindowTitle(mainWin,newName.c_str());
     }
     if(frameDelay > frameTime)
