@@ -168,7 +168,7 @@ class RosenoernEngine
   void SetScene(Scene* s);
   void LoadSceneFromFile(std::string path);
   void Update();
-  Base* GetObject(std::string name);
+  Base* GetSceneObject(std::string name);
   ScreenSize GetScreenSize();
   bool isRunning;
   static int FPS;
