@@ -207,6 +207,9 @@ void RosenoernEngine::init()
     TTF_Init(); // <<-- Important to remember...
     objs = std::vector<GameObject*>();
     orgName = "";
+    Uint32 fps_lasttime = SDL_GetTicks();
+    Uint32 fps_current = 0;
+    Uint32 fps_frames = 0;
 }
 RosenoernAudio& RosenoernEngine::GetAudioController()
 {
@@ -290,19 +293,27 @@ void RosenoernEngine::Update()
 
     frameTime = SDL_GetTicks() - frameStart;
     //std::cout << "Frametime: " << std::to_string(frameTime) << std::endl;
+    fps_frames++;
+    if (fps_lasttime < SDL_GetTicks() - 1.0*1000)
+    {
+      fps_lasttime = SDL_GetTicks();
+      fps_current = fps_frames;
+      fps_frames = 0;
+    }
     if(FPScounter)
     {
         std::string newName = orgName;
         newName += "[FPS: ";
-        newName += std::to_string(/*float(*/frameTime/*)*/);
+        //newName += std::to_string(/*float(*/frameTime/*)*/);
+        newName += std::to_string(/*float(*/fps_current/*)*/);
         newName += "]";
         SDL_SetWindowTitle(mainWin,newName.c_str());
     }
-    if(frameDelay > frameTime)
+    /*if(frameDelay > frameTime)
     {
         SDL_Delay(frameDelay-frameTime);
         std::cout << "Frame delayed" << std::endl;
-    }
+    }*/
 }
 
 void RosenoernEngine::Quit()

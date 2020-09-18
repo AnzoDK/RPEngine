@@ -188,6 +188,9 @@ class RosenoernEngine
     int frameDelay;
     EngineLogger logger;
     std::string orgName;
+    Uint32 fps_lasttime;
+    Uint32 fps_current;
+    Uint32 fps_frames;
     
 };
 
