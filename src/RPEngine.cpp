@@ -294,7 +294,7 @@ void RosenoernEngine::Update()
     {
         std::string newName = orgName;
         newName += "[";
-        newName += std::to_string(/*float(*/frameTime*1000/*)*/);
+        newName += std::to_string(/*float(*/frameTime/*)*/);
         newName += "]";
         SDL_SetWindowTitle(mainWin,newName.c_str());
     }
