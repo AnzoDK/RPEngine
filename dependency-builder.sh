@@ -73,18 +73,23 @@ else
 		else
 			./BuildLibWindows.sh
 		fi
-        if [ $? -ne 0 ]
-        then
-            cd ../..
-	    rm -r -f tmp
-            exit 1
-        fi
+        	if [ $? -ne 0 ]
+        	then
+            		cd ../..
+	    		rm -r -f tmp
+            		exit 1
+       		fi
 		mv -f includes/rpaudio.h ../../includes/RPAudio/rpaudio.h
 		mv -f includes/commontools.h ../../includes/RPAudio/commontools.h
 		mv -f rpaudio.dll ../../includes/RPAudio/librpaudio.dll
 		mv -f librpaudio.a ../../includes/RPAudio/librpaudio.a
 	else
-		./BuildLib.sh
+		if [ "$1" == "--optimize" ]
+		then
+			./BuildLib.sh --optimize
+		else
+			./BuildLib.sh
+		fi
         if [ $? -ne 0 ]
         then
             cd ../..
