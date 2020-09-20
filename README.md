@@ -1,5 +1,11 @@
 # RPEngine
 A small 2D Game Engine with help from the RPAudio lib
+
+## Build Status
+#### Dev
+[![Build Status](https://travis-ci.com/AnzoDK/RPEngine.svg?branch=dev)](https://travis-ci.com/AnzoDK/RPEngine)
+#### Master
+[![Build Status](https://travis-ci.com/AnzoDK/RPEngine.svg?branch=master)](https://travis-ci.com/AnzoDK/RPEngine)
 ## Intro
 Welcome to the (Slightly Useless) Game Engine: "Rosenørn Engine" <br> This is a small project I've wanted to make since the day I started having fun in unity back in 2015 - And today I've **FINALLY** started!<br>
 
