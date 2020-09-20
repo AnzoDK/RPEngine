@@ -34,7 +34,7 @@ then
 		then
 			./BuildLibWindows.sh --optimize
 		else
-			/BuildLibWindows.sh
+			./BuildLibWindows.sh
 		fi
         if [ $? -ne 0 ]
         then
