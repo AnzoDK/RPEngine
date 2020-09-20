@@ -9,6 +9,9 @@ A small 2D Game Engine with help from the RPAudio lib
 ## Intro
 Welcome to the (Slightly Useless) Game Engine: "Rosenørn Engine" <br> This is a small project I've wanted to make since the day I started having fun in unity back in 2015 - And today I've **FINALLY** started!<br>
 
+### Disclaimer
+This engine in it's current state, is not expected to peform very well and does not go above ~40 FPS on static scenes on high-end systems. Do not expect to write a great game on this engine at this time (That might change in the future though). Furthermore, I'm not responsible for any damage this software might cause to your machine to extend permitted by law. USE THIS SOFTWARE AT YOUR OWN RISK
+
 ## Relevant stuff for you
 The engine works on the idea of derived classes, so if you don't like to make your own derived classes based on the engines core classes, then this is not a project for you :)<br>
 You will also lose your sanity if you ever try to read the source files in this project, due to the code being **VERY** far from perfect<br><br>
@@ -21,6 +24,10 @@ So if you ever want to try and compile a Windows version in a linux terminal or 
 ./dependency-builder --use-dev --Windows && make lib OS=Windows
 ```
 You should be able to build the DLL that you can use for what ever you want.
+
+## Cool idea, but you suck - Can I help you?
+I am always open to new ideas, and would, quite frankly, love if you helped me. There is just one condition - Please help me understand why you made the changes you've made, as I would love to learn more about the beautiful world of C++.
+<br>Thank you :)
 
 ## Usage
 The engine is coded in a way that makes it ~~harder~~ easier for everyone to understand and implement into your project. First and foremost you must include the header `RPEngine.h`. 
