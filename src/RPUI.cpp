@@ -123,11 +123,28 @@ PngFile* UIGraphic::GetFile()
 }
 UIGraphic::UIGraphic(std::string _path)
 {
-   pf = new PngFile(_path);
+       if(pf == nullptr)
+    {
+      pf = new PngFile(_path);  
+    }
+    else
+    {
+        delete pf;
+        pf = new PngFile(_path);
+    }
 }
 void UIGraphic::LoadGraphic(std::string path)
 {
-    pf = new PngFile(path);
+    if(pf == nullptr)
+    {
+      pf = new PngFile(path);  
+    }
+    else
+    {
+        delete pf;
+        pf = new PngFile(path);
+    }
+    
 }
 
 //UIBase
@@ -220,11 +237,15 @@ UIText::UIText(std::string fontpath, std::string text, int _fontSize, int x, int
 
 void UIText::LoadText(std::string fontpath, std::string _text)
 {
+    SDL_DestroyTexture(texture);
+    texture = nullptr;
     fontPath = fontpath;
     text = _text;
 }
 void UIText::LoadText(std::string _text)
 {
+    SDL_DestroyTexture(texture);
+    texture = nullptr;
     text = _text;
 }
 std::string UIText::GetPath()

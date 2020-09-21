@@ -48,19 +48,18 @@ PngFile::PngFile(std::string _path)
       return;
     }*/
 }
+/*
 PngFile::~PngFile()
 {
-    for(unsigned int i = 0; i < chunks.size();i++)
-    {
-        delete(chunks.at(i));
-    }
+    chunks.clear();
 }
 
-
+*/
 int PngFile::IsValid()
 {
     return valid;
 }
+/*
 int PngFile::SanityCheck()
 {
     char* expectedHeader = new char[8];
@@ -292,7 +291,7 @@ std::string PngFile::GetPath()
 {
     return path;
 }
-
+*/
 
 
 
