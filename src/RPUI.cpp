@@ -128,10 +128,6 @@ PngFile* UIGraphic::GetFile()
 }
 UIGraphic::UIGraphic(std::string _path)
 {
-    if(pf != nullptr)
-    {
-      delete pf;  
-    }
     pf = new PngFile(_path);
 }
 void UIGraphic::LoadGraphic(std::string path)
