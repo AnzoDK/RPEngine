@@ -4,6 +4,30 @@
 #include "../includes/RPEngine.h"
 using namespace rp;
 
+void SimpleTextureSystem::SimpleRender(UIBase& obj)
+{
+    if(obj.IsEnabled())
+    {
+        if(obj.GetTexture() == nullptr)
+        {
+            SDL_Surface* tmpSurf = IMG_Load(obj.GetGraphic()->GetFile()->GetPath().c_str());
+            SDL_Texture* tex = SDL_CreateTextureFromSurface(RosenoernEngine::mainRender,tmpSurf);
+            SDL_SetTextureColorMod(tex,obj.TexMod.modR,obj.TexMod.modB,obj.TexMod.modG);
+            SDL_SetTextureAlphaMod(tex,obj.TexMod.modA);
+            SDL_RenderCopy(RosenoernEngine::mainRender,tex, NULL,obj.GetRect());
+            SDL_FreeSurface(tmpSurf);
+            obj.SetTexture(tex);
+        }
+        else
+        {
+            SDL_SetTextureColorMod(obj.GetTexture(),obj.TexMod.modR,obj.TexMod.modB,obj.TexMod.modG);
+            SDL_SetTextureAlphaMod(obj.GetTexture(),obj.TexMod.modA);
+            SDL_RenderCopy(RosenoernEngine::mainRender,obj.GetTexture(), NULL,obj.GetRect());
+        }
+        
+    } 
+}
+
 //Static definitions
 BaseFactory::map_type* BaseFactory::map = NULL;
 
@@ -110,6 +134,7 @@ void UIGraphic::LoadGraphic(std::string path)
 UIBase::UIBase()
 {
     ug = new UIGraphic();
+    texture = nullptr;
     SetName("new UIBase");
 }
 void UIBase::onClick()
@@ -118,16 +143,7 @@ void UIBase::onClick()
 }
 void UIBase::Draw()
 {
-    if(IsEnabled())
-    {
-        SDL_Surface* tmpSurf = IMG_Load(GetGraphic()->GetFile()->GetPath().c_str());
-        SDL_Texture* tex = SDL_CreateTextureFromSurface(RosenoernEngine::mainRender,tmpSurf);
-        SDL_SetTextureColorMod(tex,TexMod.modR,TexMod.modB,TexMod.modG);
-        SDL_SetTextureAlphaMod(tex,TexMod.modR);
-        SDL_RenderCopy(RosenoernEngine::mainRender,tex, NULL,GetRect());
-        SDL_FreeSurface(tmpSurf);
-        SDL_DestroyTexture(tex);
-    }  
+    SimpleTextureSystem::SimpleRender(*this);
 }
 UIBase::UIBase(UIGraphic* uig)
 {
@@ -380,44 +396,48 @@ Background::Background(std::string path)
 //UIText Draw
 void UIText::Draw()
 {
-    //std::cout << "Text:" << text << " Font: " + fontPath + " Size: " + std::to_string(fontSize) << std::endl;
-    TTF_Font* font = TTF_OpenFont(fontPath.c_str(),fontSize);
-    SDL_Color clr = {static_cast<Uint8>(rgb->r),static_cast<Uint8>(rgb->g),static_cast<Uint8>(rgb->b),static_cast<Uint8>(rgb->a)};
-    SDL_Surface* surf = TTF_RenderText_Solid(font, text.c_str(), clr);
-    SDL_Texture* tex = SDL_CreateTextureFromSurface(RosenoernEngine::mainRender,surf);
-    SDL_SetTextureColorMod(tex,TexMod.modR,TexMod.modB,TexMod.modG);
-    SDL_SetTextureAlphaMod(tex,TexMod.modR);    
-    SDL_FreeSurface(surf);
-    SDL_RenderCopy(RosenoernEngine::mainRender,tex,NULL,GetRect());
-    SDL_DestroyTexture(tex);
-    TTF_CloseFont(font); // <<--- Also very Important. If this isn't done it will crash after a few updates
-    
-    
+    if(IsEnabled())
+    {
+        if(texture == nullptr)
+        {
+            TTF_Font* font = TTF_OpenFont(fontPath.c_str(),fontSize);
+            SDL_Color clr = {static_cast<Uint8>(rgb->r),static_cast<Uint8>(rgb->g),static_cast<Uint8>(rgb->b),static_cast<Uint8>(rgb->a)};
+            SDL_Surface* surf = TTF_RenderText_Solid(font, text.c_str(), clr);
+            SDL_Texture* tex = SDL_CreateTextureFromSurface(RosenoernEngine::mainRender,surf);
+            SDL_SetTextureColorMod(tex,TexMod.modR,TexMod.modB,TexMod.modG);
+            SDL_SetTextureAlphaMod(tex,TexMod.modR);    
+            SDL_FreeSurface(surf);
+            SDL_RenderCopy(RosenoernEngine::mainRender,tex,NULL,GetRect());
+            texture = tex;
+            TTF_CloseFont(font); // <<--- Also very Important. If this isn't done it will crash after a few updates
+        }
+        else
+        {
+            SDL_SetTextureColorMod(texture,TexMod.modR,TexMod.modB,TexMod.modG);
+            SDL_SetTextureAlphaMod(texture,TexMod.modA);
+            SDL_RenderCopy(RosenoernEngine::mainRender,texture,NULL,GetRect());
+        }
+    }
 }
 //ButtonImage Draw
 void ButtonImage::Draw()
 {
-        SDL_Surface* tmpSurf = IMG_Load(GetGraphic()->GetFile()->GetPath().c_str());
-        //SDL_Surface* tmpSurf = IMG_Load("testImg.png");
-        SDL_Texture* tex = SDL_CreateTextureFromSurface(RosenoernEngine::mainRender,tmpSurf);
-        SDL_SetTextureColorMod(tex,TexMod.modR,TexMod.modB,TexMod.modG);
-        SDL_SetTextureAlphaMod(tex,TexMod.modR);
-        SDL_RenderCopy(RosenoernEngine::mainRender,tex, NULL,GetRect());
-        SDL_FreeSurface(tmpSurf);
-        SDL_DestroyTexture(tex);
+        SimpleTextureSystem::SimpleRender(*this);
 }
 //Button Update
 void Button::Update()
 {
-    
-    if(RosenoernEngine::mouseX > GetRect()->x && RosenoernEngine::mouseX < (GetRect()->w+GetRect()->x) && RosenoernEngine::mouseY > GetRect()->y && RosenoernEngine::mouseY < (GetRect()->h+ GetRect()->y))
+    if(IsEnabled())
     {
-        if(RosenoernEngine::InHand->GetMouseButton().button == SDL_BUTTON_LEFT)
+        if(RosenoernEngine::mouseX > GetRect()->x && RosenoernEngine::mouseX < (GetRect()->w+GetRect()->x) && RosenoernEngine::mouseY > GetRect()->y && RosenoernEngine::mouseY < (GetRect()->h+ GetRect()->y))
         {
-            //std::cout << "Clicked!" << std::endl;
-            (*funPtr)();
+            if(RosenoernEngine::InHand->GetMouseButton().button == SDL_BUTTON_LEFT)
+            {
+                //std::cout << "Clicked!" << std::endl;
+                (*funPtr)();
+            }
+            //onHover();
         }
-        //onHover();
     }
 }
 //Button Draw
@@ -425,19 +445,7 @@ void Button::Draw()
 {
   if(IsEnabled())
     {
-        /*std::cout << "Path for resource is: " + GetGraphic()->GetFile()->GetPath() << std::endl;*/
-        SDL_Surface* tmpSurf = IMG_Load(GetGraphic()->GetFile()->GetPath().c_str());
-        //SDL_Surface* tmpSurf = IMG_Load("testImg.png");
-        SDL_Texture* tex = SDL_CreateTextureFromSurface(RosenoernEngine::mainRender,tmpSurf);
-        if(SDL_SetTextureColorMod(tex,TexMod.modR,TexMod.modB,TexMod.modG) < 0)
-        {
-            std::cout << "Could not set ColorMod" << std::endl;
-            tex = SDL_CreateTextureFromSurface(RosenoernEngine::mainRender,tmpSurf);
-        }
-        SDL_SetTextureAlphaMod(tex,TexMod.modR);
-        SDL_RenderCopy(RosenoernEngine::mainRender,tex, NULL,GetRect());
-        SDL_FreeSurface(tmpSurf);
-        SDL_DestroyTexture(tex);
+        SimpleTextureSystem::SimpleRender(*this);
         SDL_Rect* rr = new SDL_Rect();
         rr->h = GetRect()->h*0.8;
         rr->w = GetRect()->w*0.8;
