@@ -61,7 +61,9 @@ void Scene::SceneUpdate()
         objsInScene.at(i)->Parse(tmp);
     }
     //std::sort(tmp.begin(),tmp.end()); <- commented out as it doesn't sort correctly every time
+    std::cout << "starting sort at " << SDL_GetTicks() << std::endl;
     CppTools::BaseVectorSort(tmp);
+    std::cout << "sorting done at " << SDL_GetTicks() << std::endl;
     
     for(unsigned int i = 0; i < tmp.size();i++)
     {
