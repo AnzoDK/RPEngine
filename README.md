@@ -10,7 +10,7 @@ A small 2D Game Engine with help from the RPAudio lib
 Welcome to the (Slightly Useless) Game Engine: "Rosenørn Engine" <br> This is a small project I've wanted to make since the day I started having fun in unity back in 2015 - And today I've **FINALLY** started!<br>
 
 ### Disclaimer
-This engine in it's current state, is not expected to peform very well and ~~does not go above ~40 FPS on static scenes ẽven on high-end systems~~(Fixed. check issue #23). Do not expect to write a great game on this engine at this time (That might change in the future though). Furthermore, I'm not responsible for any damage this software might cause to your machine to extend permitted by law. USE THIS SOFTWARE AT YOUR OWN RISK
+This engine in it's current state, is not expected to peform very well and ~~does not go above around 40 FPS on static scenes even on high-end systems~~(Fixed. check issue #23). Do not expect to write a great game on this engine at this time (That might change in the future though). Furthermore, I'm not responsible for any damage this software might cause to your machine to extend permitted by law. USE THIS SOFTWARE AT YOUR OWN RISK
 
 ## Relevant stuff for you
 The engine works on the idea of derived classes, so if you don't like to make your own derived classes based on the engines core classes, then this is not a project for you :)<br>
