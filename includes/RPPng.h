@@ -33,7 +33,7 @@ class PngFile
         //int LocateChunk(uint8_t* bytes);
         //void IHDRAnalyze(int offset);
         //uint8_t* buffer;
-        //std::string path;
+        std::string path;
         //long unsigned int bufferSize;
         int SanityCheck();
         bool valid = 0;
