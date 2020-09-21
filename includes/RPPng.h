@@ -37,7 +37,7 @@ class PngFile
         //long unsigned int bufferSize;
         int SanityCheck();
         bool valid = 0;
-        std::vector<PngChunk*> chunks;
+        //std::vector<PngChunk*> chunks;
         //int bitdepth;
         //int width;
         //int height;
