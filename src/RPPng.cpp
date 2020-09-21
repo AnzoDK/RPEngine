@@ -48,13 +48,11 @@ PngFile::PngFile(std::string _path)
       return;
     }*/
 }
-/*
+
 PngFile::~PngFile()
 {
     chunks.clear();
 }
-
-*/
 int PngFile::IsValid()
 {
     return valid;
@@ -287,11 +285,12 @@ void PngFile::DecodeScanlines(int IDAToffset, int IDATLength)
     }
     scanlineSize = width*bitdepth;
 }
+*/
 std::string PngFile::GetPath()
 {
     return path;
 }
-*/
+
 
 
 
