@@ -19,7 +19,7 @@ PngChunk::~PngChunk()
 
 PngFile::PngFile(std::string _path)
 {
-    chunks = std::vector<PngChunk*>();
+    //chunks = std::vector<PngChunk*>();
     path = _path;
     /*std::ifstream file = std::ifstream(path,std::ios::binary | std::ios::ate);
     std::streamsize size = file.tellg();
@@ -51,7 +51,7 @@ PngFile::PngFile(std::string _path)
 
 PngFile::~PngFile()
 {
-    chunks.clear();
+    //chunks.clear();
 }
 int PngFile::IsValid()
 {
