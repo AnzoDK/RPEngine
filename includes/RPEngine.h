@@ -90,6 +90,11 @@ class EngineLogger
         EngineLogger(std::string path);
         void Log(std::string strToLog,bool withTicks=true);
         ~EngineLogger(){}
+        void operator <<(std::string TextToLog)
+        {
+            Log(TextToLog);
+        }
+        
     private:
         std::string logPath;
 };
