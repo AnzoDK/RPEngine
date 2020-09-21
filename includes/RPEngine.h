@@ -86,12 +86,18 @@ class SimpleAnimationBase : public Base
 class EngineLogger
 {
     public:
-        EngineLogger();
+        EngineLogger(bool withticks=0);
         EngineLogger(std::string path);
-        void Log(std::string strToLog,bool withTicks=true);
+        void Log(std::string strToLog);
         ~EngineLogger(){}
+        void operator <<(std::string TextToLog)
+        {
+            Log(TextToLog);
+        }
+        
     private:
         std::string logPath;
+        bool withTicks;
 };
 
 
@@ -176,8 +182,9 @@ class RosenoernEngine
   static int mouseX;
   static int mouseY;
   static InputHandler* InHand;
-  void Log(std::string strToLog,bool withTicks=true);
+  void Log(std::string strToLog);
   static Uint32 GetTicks();
+  Uint32 GetCurrFps();
   bool FPScounter = 0;
   private:
     //std::sort kept fucking sorting 1 < -1 and THAT IS NOT RIGHT GODDAMMIT

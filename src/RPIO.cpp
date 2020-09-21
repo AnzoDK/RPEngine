@@ -38,7 +38,7 @@ RawFile* RPIO::ReadFileRaw(std::string path)
 Scene* RPIO::LoadScene(std::string path)
 {
     //Not a good way - Should just have a static logger...
-    EngineLogger el = EngineLogger();
+    EngineLogger el = EngineLogger(true);
     //signed char* cannot find 0xFF. We have to work around it. 
     unsigned char* objectEnd = 0;
     unsigned char* objectStart = 0;

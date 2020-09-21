@@ -19,7 +19,7 @@ PngChunk::~PngChunk()
 
 PngFile::PngFile(std::string _path)
 {
-    chunks = std::vector<PngChunk*>();
+    //chunks = std::vector<PngChunk*>();
     path = _path;
     /*std::ifstream file = std::ifstream(path,std::ios::binary | std::ios::ate);
     std::streamsize size = file.tellg();
@@ -48,19 +48,16 @@ PngFile::PngFile(std::string _path)
       return;
     }*/
 }
+
 PngFile::~PngFile()
 {
-    for(unsigned int i = 0; i < chunks.size();i++)
-    {
-        delete(chunks.at(i));
-    }
+    //chunks.clear();
 }
-
-
 int PngFile::IsValid()
 {
     return valid;
 }
+/*
 int PngFile::SanityCheck()
 {
     char* expectedHeader = new char[8];
@@ -288,6 +285,7 @@ void PngFile::DecodeScanlines(int IDAToffset, int IDATLength)
     }
     scanlineSize = width*bitdepth;
 }
+*/
 std::string PngFile::GetPath()
 {
     return path;

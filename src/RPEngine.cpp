@@ -3,8 +3,8 @@
 #include "../includes/RPIni.h"
 #include "../includes/RPIO.h"
 #include "../includes/RPScene.h"
-
-
+#include <thread>
+#include <functional>
 
 using namespace rp;
 namespace fs = std::filesystem;
@@ -207,9 +207,9 @@ void RosenoernEngine::init()
     TTF_Init(); // <<-- Important to remember...
     objs = std::vector<GameObject*>();
     orgName = "";
-    Uint32 fps_lasttime = SDL_GetTicks();
-    Uint32 fps_current = 0;
-    Uint32 fps_frames = 0;
+    fps_lasttime = SDL_GetTicks();
+    fps_current = 0;
+    fps_frames = 0;
 }
 RosenoernAudio& RosenoernEngine::GetAudioController()
 {
@@ -286,7 +286,9 @@ void RosenoernEngine::Update()
     int frameTime = 0;
     frameStart = SDL_GetTicks();
     SDL_GetMouseState(&mouseX,&mouseY);
+    //std::bind(&RosenoernEngine::SDLHandle,this);
     SDLHandle();
+    //std::thread handleThread(std::bind(&RosenoernEngine::SDLHandle,this));
     SDL_RenderClear(MR);
     currScene->SceneUpdate();
     SDL_RenderPresent(MR);
@@ -316,6 +318,11 @@ void RosenoernEngine::Update()
     }
 }
 
+Uint32 RosenoernEngine::GetCurrFps()
+{
+    return fps_current;   
+}
+
 void RosenoernEngine::Quit()
 {
     isRunning = 0;   
@@ -326,9 +333,9 @@ void RosenoernEngine::SetFPS(int fps)
   frameDelay = 1000/fps;
 }
 
-void RosenoernEngine::Log(std::string strToLog, bool withTicks)
+void RosenoernEngine::Log(std::string strToLog)
 {
-    logger.Log(strToLog,withTicks);
+    logger.Log(strToLog);
 }
 Base* RosenoernEngine::GetSceneObject(std::string name)
 {
@@ -340,15 +347,16 @@ Uint32 RosenoernEngine::GetTicks()
     return SDL_GetTicks();  
 }
 
-EngineLogger::EngineLogger()
+EngineLogger::EngineLogger(bool withticks)
 {
   logPath = "./GameLog.log";
+  withTicks = withticks;
 }
 EngineLogger::EngineLogger(std::string path)
 {
     logPath = path;
 }
-void EngineLogger::Log(std::string strToLog, bool withTicks)
+void EngineLogger::Log(std::string strToLog)
 {
     std::string logStr = "";
     if(withTicks)

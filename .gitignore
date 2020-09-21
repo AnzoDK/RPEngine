@@ -10,3 +10,5 @@ rpengine.so
 vgcore.*
 librpengine.a
 rpengine.dll
+gmon.out
+profileTest.txt

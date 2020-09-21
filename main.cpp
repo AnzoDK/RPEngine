@@ -68,10 +68,11 @@ int main()
     testObj->SetSprite("testImg.png");
     mainMenu->AddObject(testObj);
     re->SetScene(mainMenu);
+    re->SetFPS(120);
     
     
     //audioController.PlayFromQueue();
-    if(!re->CreateMainWindow("Project VN",NULL))
+    if(!re->CreateMainWindow("Test",0,1))
     {
         delete(re);
         std::cout << "Could not create window" << std::endl;

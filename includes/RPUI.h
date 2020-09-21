@@ -146,7 +146,7 @@ namespace rp
     {
         public:
             UIText();
-            virtual ~UIText(){delete(rgb);}
+            virtual ~UIText(){delete(rgb); SDL_DestroyTexture(texture);}
             UIText(std::string fontpath, std::string text);
             UIText(std::string fontpath, std::string text, int fontSize, int x, int y, int width, int height);
             UIText(std::string text);
@@ -163,11 +163,16 @@ namespace rp
             void SetTextColor(int r, int g, int b, int a);
             void SetTextColor(CommonColor cc);
             C_RGB* rgb;
+            SDL_Texture* GetTexture(){return texture;}
+            void SetTexture(SDL_Texture* tex){texture = tex;}
+            void ResetTexture(){SDL_DestroyTexture(texture);texture = nullptr;}
         private:
             std::string fontPath;
             std::string text;
             int fontSize;
             static DerivedRegister<UIText> reg;
+            SDL_Texture* texture;
+            
     };
     
     class UIGraphic
@@ -189,7 +194,7 @@ namespace rp
     {
         public:
             UIBase();
-            virtual ~UIBase(){delete(ug);}
+            virtual ~UIBase(){delete(ug); SDL_DestroyTexture(texture);}
             UIBase(UIGraphic* uig);
             UIBase(std::string path);
             void SetGraphic(UIGraphic* uig);
@@ -198,9 +203,13 @@ namespace rp
             virtual void onClick();
             virtual void onHover(){}
             virtual void Draw() override;
+            SDL_Texture* GetTexture(){return texture;}
+            void SetTexture(SDL_Texture* tex){texture = tex;}
+            void ResetTexture(){SDL_DestroyTexture(texture);texture = nullptr;}
         private:
             UIGraphic* ug;
             static DerivedRegister<UIBase> reg;
+            SDL_Texture* texture;
             
             
     };
@@ -257,6 +266,10 @@ namespace rp
                 Background(std::string path);
             private:
                 static DerivedRegister<Background> reg;
+        };
+        struct SimpleTextureSystem
+        {
+            static void SimpleRender(UIBase& uiobj);  
         };
 }
 
