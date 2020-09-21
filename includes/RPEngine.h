@@ -184,6 +184,7 @@ class RosenoernEngine
   static InputHandler* InHand;
   void Log(std::string strToLog);
   static Uint32 GetTicks();
+  Uint32 GetCurrFps();
   bool FPScounter = 0;
   private:
     //std::sort kept fucking sorting 1 < -1 and THAT IS NOT RIGHT GODDAMMIT

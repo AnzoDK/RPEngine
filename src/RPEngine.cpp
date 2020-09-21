@@ -318,6 +318,11 @@ void RosenoernEngine::Update()
     }
 }
 
+Uint32 RosenoernEngine::GetCurrFps()
+{
+    return fps_current;   
+}
+
 void RosenoernEngine::Quit()
 {
     isRunning = 0;   
