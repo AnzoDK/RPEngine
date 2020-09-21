@@ -119,31 +119,28 @@ std::string UIGraphic::GetPath()
 }
 PngFile* UIGraphic::GetFile()
 {
+    if(pf != nullptr)
+    {
+        return pf;
+    }
+    pf = new PngFile("");
     return pf;
 }
 UIGraphic::UIGraphic(std::string _path)
 {
-       if(pf == nullptr)
+    if(pf != nullptr)
     {
-      pf = new PngFile(_path);  
+      delete pf;  
     }
-    else
-    {
-        delete pf;
-        pf = new PngFile(_path);
-    }
+    pf = new PngFile(_path);
 }
 void UIGraphic::LoadGraphic(std::string path)
 {
-    if(pf == nullptr)
+    if(pf != nullptr)
     {
-      pf = new PngFile(path);  
+      delete pf;  
     }
-    else
-    {
-        delete pf;
-        pf = new PngFile(path);
-    }
+    pf = new PngFile(path);
     
 }
 
@@ -237,14 +234,20 @@ UIText::UIText(std::string fontpath, std::string text, int _fontSize, int x, int
 
 void UIText::LoadText(std::string fontpath, std::string _text)
 {
-    SDL_DestroyTexture(texture);
+    if(texture != nullptr)
+    {
+        SDL_DestroyTexture(texture);
+    }
     texture = nullptr;
     fontPath = fontpath;
     text = _text;
 }
 void UIText::LoadText(std::string _text)
 {
-    SDL_DestroyTexture(texture);
+    if(texture != nullptr)
+    {
+        SDL_DestroyTexture(texture);
+    }
     texture = nullptr;
     text = _text;
 }
