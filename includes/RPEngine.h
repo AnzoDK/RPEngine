@@ -86,9 +86,9 @@ class SimpleAnimationBase : public Base
 class EngineLogger
 {
     public:
-        EngineLogger();
+        EngineLogger(bool withticks=0);
         EngineLogger(std::string path);
-        void Log(std::string strToLog,bool withTicks=true);
+        void Log(std::string strToLog);
         ~EngineLogger(){}
         void operator <<(std::string TextToLog)
         {
@@ -97,6 +97,7 @@ class EngineLogger
         
     private:
         std::string logPath;
+        bool withTicks;
 };
 
 
@@ -181,7 +182,7 @@ class RosenoernEngine
   static int mouseX;
   static int mouseY;
   static InputHandler* InHand;
-  void Log(std::string strToLog,bool withTicks=true);
+  void Log(std::string strToLog);
   static Uint32 GetTicks();
   bool FPScounter = 0;
   private:

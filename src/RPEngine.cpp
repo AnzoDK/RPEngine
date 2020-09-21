@@ -328,9 +328,9 @@ void RosenoernEngine::SetFPS(int fps)
   frameDelay = 1000/fps;
 }
 
-void RosenoernEngine::Log(std::string strToLog, bool withTicks)
+void RosenoernEngine::Log(std::string strToLog)
 {
-    logger.Log(strToLog,withTicks);
+    logger.Log(strToLog);
 }
 Base* RosenoernEngine::GetSceneObject(std::string name)
 {
@@ -342,15 +342,16 @@ Uint32 RosenoernEngine::GetTicks()
     return SDL_GetTicks();  
 }
 
-EngineLogger::EngineLogger()
+EngineLogger::EngineLogger(bool withticks)
 {
   logPath = "./GameLog.log";
+  withTicks = withticks;
 }
 EngineLogger::EngineLogger(std::string path)
 {
     logPath = path;
 }
-void EngineLogger::Log(std::string strToLog, bool withTicks)
+void EngineLogger::Log(std::string strToLog)
 {
     std::string logStr = "";
     if(withTicks)
