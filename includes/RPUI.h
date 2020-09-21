@@ -146,7 +146,7 @@ namespace rp
     {
         public:
             UIText();
-            virtual ~UIText(){delete(rgb);}
+            virtual ~UIText(){delete(rgb); SDL_DestroyTexture(texture);}
             UIText(std::string fontpath, std::string text);
             UIText(std::string fontpath, std::string text, int fontSize, int x, int y, int width, int height);
             UIText(std::string text);

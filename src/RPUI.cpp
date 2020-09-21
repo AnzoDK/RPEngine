@@ -177,6 +177,7 @@ UIText::UIText()
   text = "";
   fontSize = defaultFontSize;
   rgb = new C_RGB();
+  texture = nullptr;
 }
 void UIText::SetFontSize(int size)
 {
@@ -193,12 +194,14 @@ UIText::UIText(std::string txt)
     fontSize = defaultFontSize;
     rgb = new C_RGB();
     LoadText(txt);
+    texture = nullptr;
 }
 UIText::UIText(std::string path, std::string txt)
 {
     fontSize = defaultFontSize;
     rgb = new C_RGB();
     LoadText(path,txt);
+    texture = nullptr;
     
 }
 UIText::UIText(std::string fontpath, std::string text, int _fontSize, int x, int y, int width, int height)
@@ -212,6 +215,7 @@ UIText::UIText(std::string fontpath, std::string text, int _fontSize, int x, int
     rr->h = height;
     rr->w = width;
     SetRect(rr);
+    texture = nullptr;
 }
 
 void UIText::LoadText(std::string fontpath, std::string _text)
@@ -405,7 +409,7 @@ void UIText::Draw()
             SDL_Surface* surf = TTF_RenderText_Solid(font, text.c_str(), clr);
             SDL_Texture* tex = SDL_CreateTextureFromSurface(RosenoernEngine::mainRender,surf);
             SDL_SetTextureColorMod(tex,TexMod.modR,TexMod.modB,TexMod.modG);
-            SDL_SetTextureAlphaMod(tex,TexMod.modR);    
+            SDL_SetTextureAlphaMod(tex,TexMod.modA);    
             SDL_FreeSurface(surf);
             SDL_RenderCopy(RosenoernEngine::mainRender,tex,NULL,GetRect());
             texture = tex;
