@@ -109,7 +109,7 @@ namespace rp
             
         };
         
-        template<typename T> Base * createT() { return new T; }
+        /*template<typename T> Base * createT() { return new T; }
         struct BaseFactory 
         {
         typedef std::map<std::string, Base*(*)()> map_type;
@@ -141,7 +141,7 @@ namespace rp
         getMap()->insert(std::make_pair(s, &createT<T>));
     }
     };
-    
+    */
     class UIText : public Base
     {
         public:
@@ -170,7 +170,7 @@ namespace rp
             std::string fontPath;
             std::string text;
             int fontSize;
-            static DerivedRegister<UIText> reg;
+            //static DerivedRegister<UIText> reg;
             SDL_Texture* texture;
             
     };
@@ -208,7 +208,7 @@ namespace rp
             void ResetTexture(){SDL_DestroyTexture(texture);texture = nullptr;}
         private:
             UIGraphic* ug;
-            static DerivedRegister<UIBase> reg;
+            //static DerivedRegister<UIBase> reg;
             SDL_Texture* texture;
             
             
@@ -221,7 +221,7 @@ namespace rp
       void Draw() override;
       ~ButtonImage(){}
     private:
-        static DerivedRegister<ButtonImage> reg;
+        //static DerivedRegister<ButtonImage> reg;
     };
     
     class Button : public UIBase
@@ -241,7 +241,7 @@ namespace rp
             void SetFunction(void (*funptr)());
             static void empty(){}
         private:
-            static DerivedRegister<Button> reg;
+            //static DerivedRegister<Button> reg;
             UIText* txt;
             void (*funPtr)();
             
@@ -265,7 +265,7 @@ namespace rp
                 Background();
                 Background(std::string path);
             private:
-                static DerivedRegister<Background> reg;
+                //static DerivedRegister<Background> reg;
         };
         struct SimpleTextureSystem
         {

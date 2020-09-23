@@ -29,7 +29,7 @@ void SimpleTextureSystem::SimpleRender(UIBase& obj)
 }
 
 //Static definitions
-BaseFactory::map_type* BaseFactory::map = NULL;
+//BaseFactory::map_type* BaseFactory::map = NULL;
 
 //Rotation
 Rotation::Rotation(float _x, float _y, float _z)
@@ -482,7 +482,10 @@ void Button::Draw()
 
 
 //Registers
+//Lets forget that idea
+/*
 DerivedRegister<Button> Button::reg("Button");
 DerivedRegister<Background> Background::reg("Background");
 DerivedRegister<UIBase> UIBase::reg("UIBase");
 DerivedRegister<UIText> UIText::reg("UIText");
+*/
