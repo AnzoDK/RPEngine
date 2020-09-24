@@ -4,6 +4,7 @@ CXX := g++
 #OBJECTS := ./includes/RPAudio/libRPAudio.a
 OBJECTS := main.o rpengine.o rppng.o ui.o io.o scene.o scenescript.o
 LIB_OBJECTS := rpengine.o rppng.o ui.o io.o scene.o scenescript.o
+LIB_TARGETS := rpenginelib.o rppnglib.o uilib.o iolib.o scenelib.o scenescriptlib.o
 INCLUDES := -I./includes
 LIB_FLAGS := -fPIC
 CXX_FLAGS := -std=c++17 -Wall -pthread
@@ -24,11 +25,11 @@ ifeq ($(OS), Windows)
 	
 endif
 
-release: main.o tools
+release:$(OBJECTS) tools
 	$(CXX) $(PG) $(CXX_FLAGS) $(DEBUG_LEVEL) $(INCLUDES) $(SO_DIRS) -o rpengine $(OBJECTS) $(LINK)
 	make clean
 
-lib: $(LIB_OBJECTS) tools
+lib: $(LIB_TARGETS) tools
 	$(CXX) -fPIC -shared $(PG) $(CXX_FLAGS) $(DEBUG_LEVEL) $(INCLUDES) $(SO_DIRS) $(LIB_OBJECTS) -o rpengine$(EX) $(LINK) $(END_LIB_FLAGS)
 	make clean
 
@@ -63,8 +64,11 @@ rppnglib.o:
 	./dependency-builder.sh --use-dev --$(OS)
 	$(CXX) -c $(PG) $(CXX_FLAGS) $(LIB_FLAGS) $(DEBUG_LEVEL) $(INCLUDES) $(SO_DIRS) $(SRC)/RPPng.cpp -o rppng.o
 
-scenescript.o: 
+scenescriptlib.o: 
 	$(CXX) -c $(PG) $(CXX_FLAGS) $(LIB_FLAGS) $(DEBUG_LEVEL) $(INCLUDES) $(SO_DIRS) $(SRC)/RPSceneScript.cpp -o scenescript.o
+
+scenescript.o: 
+	$(CXX) -c $(PG) $(CXX_FLAGS) $(DEBUG_LEVEL) $(INCLUDES) $(SO_DIRS) $(SRC)/RPSceneScript.cpp -o scenescript.o
 tools:
 	#This is where all the tools are being build.
 	$(CXX) $(PG) $(CXX_FLAGS) $(DEBUG_LEVEL) $(INCLUDES) ./Tools/RPScriptLinker.cpp -o RPScriptLinker$(EXE_EX)
