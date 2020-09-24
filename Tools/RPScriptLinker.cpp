@@ -31,7 +31,7 @@ int main(int argc, char *argv[])
     std::ofstream of = std::ofstream(writePath, std::ios::app | std::ios::out);
     for(const auto & entry : fs::directory_iterator(scriptPath))
     {
-        if(std::string(entry.path().string()).find(".h") != std::string::npos || std::string(entry.path().string()).find(".cpp") != std::string::npos)) 
+        if(std::string(entry.path().string()).find(".h") != std::string::npos || std::string(entry.path().string()).find(".cpp") != std::string::npos) 
         {
             std::cout << "Linking " << entry.path() << " to RPEngine" << std::endl;
             of << "#include " << fs::absolute(entry.path()) << std::endl; //Only works on linux
