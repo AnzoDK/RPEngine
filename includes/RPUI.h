@@ -4,13 +4,13 @@
 #include <SDL2/SDL_ttf.h>
 #include <map>
 #include <memory>
-#include "RPSceneScript.h"
+//#include "RPSceneScript.h"
 #define defaultFontPath "Resources/fonts/default.ttf"
 #define defaultFontSize 24
 #define defaultBtnTexturePath "Resources/textures/btnDefault.png"
 namespace rp
 {
-    
+    class SceneScriptBase;
     enum CommonColor{White,Red,Green,Blue,Black};
     
     //I personally hate this - Due to SDL only supporting ints, you can not get decimal values in the modulator. I would love to have that
@@ -91,7 +91,7 @@ namespace rp
             };
             SceneScriptBase* GetScript(std::string name);
             SceneScriptBase* GetScript(int index);
-            void RunScripts();
+            std::vector<SceneScriptBase*> GetAllScripts() {return scripts;}
             void AddScript(SceneScriptBase* script){scripts.push_back(script);}
             bool IsEnabled();
             void SetEnabled(bool state);

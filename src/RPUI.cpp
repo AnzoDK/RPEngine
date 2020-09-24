@@ -1,9 +1,10 @@
+#include "../includes/RPSceneScript.h"
 #include "../includes/RPUI.h"
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL.h>
 #include "../includes/RPEngine.h"
-using namespace rp;
 
+using namespace rp;
 void SimpleTextureSystem::SimpleRender(UIBase& obj)
 {
     if(obj.IsEnabled())
@@ -121,17 +122,6 @@ SceneScriptBase* Base::GetScript(int index)
     }
     
 }
-void Base::RunScripts()
-{
-  for(unsigned int i = 0; i < scripts.size();i++)
-  {
-      if(scripts.at(i)->GetEnabled())
-      {
-        scripts.at(i)->Update();
-      }
-  }
-}
-
 
 //UIGraphic
 UIGraphic::UIGraphic()

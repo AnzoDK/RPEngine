@@ -1,3 +1,4 @@
+#include "../includes/RPSceneScript.h"
 #include "../includes/RPScene.h"
 #include "../includes/RPCppTools.h"
 #include "../includes/RPEngine.h"
@@ -70,7 +71,13 @@ void Scene::SceneUpdate()
         if(tmp.at(i)->IsEnabled())
         {
             std::cout << "Rendering object: " << tmp.at(i)->GetName() << " At Z index: " << tmp.at(i)->GetZ() << std::endl;
-            tmp.at(i)->RunScripts();
+            for(unsigned int u = 0; i < tmp.at(i)->GetAllScripts().size();u++)
+            {
+                if(tmp.at(i)->GetAllScripts().at(u)->GetEnabled())
+                {
+                    tmp.at(i)->GetAllScripts().at(u)->Update(*this);
+                }
+            }
             tmp.at(i)->Update();
             tmp.at(i)->Draw();
         }

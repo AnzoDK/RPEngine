@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 //#include "RPUI.h"
+#include "RPScene.h"
 namespace rp
 {
     class SceneScriptBase
@@ -8,7 +9,7 @@ namespace rp
         public:
             SceneScriptBase();
             virtual ~SceneScriptBase(){}
-            virtual void Update();
+            virtual void Update(Scene& currentScene){};
             void SetName(std::string _name);
             std::string GetName(){return name;}
             void SetEnabled(bool enableState){enabled = enableState;}
