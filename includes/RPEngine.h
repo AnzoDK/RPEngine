@@ -2,7 +2,7 @@
 Coded by AnzoDK (https://github.com/AnzoDK) for Rosenørn Productions (rosenoern-productions.dk) Please refer to the LICENCE file for more info about copying and sharing
 */
 
-#define RPEngineVersion "0.0.1.9" 
+#define RPEngineVersion "0.0.1.9.1" 
 #pragma once
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32)
 #define Windows
@@ -25,6 +25,7 @@ Coded by AnzoDK (https://github.com/AnzoDK) for Rosenørn Productions (rosenoern
 #include "RPScene.h"
 #include "RPRandom.h"
 #include <algorithm>
+#include "importedClasses.h"
 namespace rp{
 
 enum CharacterState{Default=0,Smiling,Crying,Annoyed,Sad,Suprised};

@@ -13,7 +13,9 @@ OS := Linux
 EX := .so
 PG:=
 END_LIB_FLAGS :=
+EXE_EX := 
 ifeq ($(OS), Windows)
+	EXE_EX := .exe
 	LIB_FLAGS +=  -DBUILDING_EXAMPLE_DLL
 	END_LIB_FLAGS := --shared -lstdc++ -Wl,--out-implib,librpengine.a
 	CXX := x86_64-w64-mingw32-g++
@@ -22,15 +24,15 @@ ifeq ($(OS), Windows)
 	
 endif
 
-release: main.o
+release: main.o tools
 	$(CXX) $(PG) $(CXX_FLAGS) $(DEBUG_LEVEL) $(INCLUDES) $(SO_DIRS) -o rpengine $(OBJECTS) $(LINK)
 	make clean
 
-lib: rpenginelib.o uilib.o iolib.o scenelib.o
+lib: rpenginelib.o uilib.o iolib.o scenelib.o tools
 	$(CXX) -fPIC -shared $(PG) $(CXX_FLAGS) $(DEBUG_LEVEL) $(INCLUDES) $(SO_DIRS) $(LIB_OBJECTS) -o rpengine$(EX) $(LINK) $(END_LIB_FLAGS)
 	make clean
 
-optimizedLib: rpenginelib.o uilib.o iolib.o scenelib.o
+optimizedLib: rpenginelib.o uilib.o iolib.o scenelib.o tools
 	$(CXX) -fPIC -shared $(PG) $(CXX_FLAGS) -O2 $(INCLUDES) $(SO_DIRS) $(LIB_OBJECTS) -o rpengine$(EX) $(LINK) $(END_LIB_FLAGS)
 	make clean
 
@@ -60,6 +62,12 @@ uilib.o:
 rppnglib.o:
 	./dependency-builder.sh --use-dev --$(OS)
 	$(CXX) -c $(PG) $(CXX_FLAGS) $(LIB_FLAGS) $(DEBUG_LEVEL) $(INCLUDES) $(SO_DIRS) $(SRC)/RPPng.cpp -o rppng.o
+
+
+tools:
+	#This is where all the tools are being build.
+	$(CXX) $(PG) $(CXX_FLAGS) $(DEBUG_LEVEL) $(INCLUDES) ./Tools/RPScriptLinker.cpp -o RPScriptLinker$(EXE_EX)
+
 
 clean:
 	-rm *.o

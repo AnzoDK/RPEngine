@@ -12,3 +12,5 @@ librpengine.a
 rpengine.dll
 gmon.out
 profileTest.txt
+RPScriptLinker
+RPScriptLinker.exe
