@@ -9,7 +9,7 @@ namespace rp
         public:
             SceneScriptBase();
             virtual ~SceneScriptBase(){}
-            virtual void Update(Scene& currentScene){};
+            virtual void Update(Scene& currentScene, Base& currObj){};
             void SetName(std::string _name);
             std::string GetName(){return name;}
             void SetEnabled(bool enableState){enabled = enableState;}

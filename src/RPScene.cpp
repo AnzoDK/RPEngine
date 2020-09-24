@@ -75,7 +75,7 @@ void Scene::SceneUpdate()
             {
                 if(tmp.at(i)->GetAllScripts().at(u)->GetEnabled())
                 {
-                    tmp.at(i)->GetAllScripts().at(u)->Update(*this);
+                    tmp.at(i)->GetAllScripts().at(u)->Update(*this,*tmp.at(i));
                 }
             }
             tmp.at(i)->Update();
