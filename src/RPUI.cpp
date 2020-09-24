@@ -94,6 +94,36 @@ float Base::GetZ()
     return z;
 }
 
+SceneScriptBase* Base::GetScript(std::string name)
+{
+    for(unsigned int i = 0; i < scripts.size();i++)
+    {
+        if(scripts.at(i).get()->GetName() == name)
+        {
+            return scripts.at(i).get();
+            
+        }
+        
+    }
+}
+SceneScriptBase* Base::GetScript(int index)
+{
+    if(index > scripts.size()-1)
+    {
+        /*Invalid Index*/
+        return nullptr;
+        
+    }
+    else
+    {
+        return scripts.at(index).get();
+        
+    }
+    
+}
+
+
+
 //UIGraphic
 UIGraphic::UIGraphic()
 {

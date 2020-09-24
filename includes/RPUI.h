@@ -3,6 +3,8 @@
 #include "RPPng.h"
 #include <SDL2/SDL_ttf.h>
 #include <map>
+#include <memory>
+#include "RPSceneScript.h"
 #define defaultFontPath "Resources/fonts/default.ttf"
 #define defaultFontSize 24
 #define defaultBtnTexturePath "Resources/textures/btnDefault.png"
@@ -74,8 +76,8 @@ namespace rp
     class Base : public PosBase
     {
         public:
-            Base(){enabled = true;z=0;name="";TexMod = TextureModulator();}
-            virtual ~Base(){}
+            Base(){enabled = true;z=0;name="";TexMod = TextureModulator();scripts = std::vector<std::shared_ptr<SceneScriptBase>>();}
+            virtual ~Base(){scripts.clear();}
             virtual void Update(){}
             virtual void Draw(){}
             virtual void Init(){}
@@ -87,6 +89,8 @@ namespace rp
                 }
                 
             };
+            SceneScriptBase* GetScript(std::string name);
+            SceneScriptBase* GetScript(int index);
             bool IsEnabled();
             void SetEnabled(bool state);
             std::string GetName();
@@ -106,7 +110,7 @@ namespace rp
             float z;
             bool enabled;
             std::string name;
-            
+            std::vector<std::shared_ptr<SceneScriptBase>> scripts;
         };
         
         /*template<typename T> Base * createT() { return new T; }
