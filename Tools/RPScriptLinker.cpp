@@ -34,7 +34,7 @@ int main(int argc, char *argv[])
         if(std::string(entry.path().string()).find(".h") != std::string::npos)
         {
             std::cout << "Linking " << entry.path() << " to RPEngine" << std::endl;
-            of << "#include " << '"' << entry.path().string() << '"' << std::endl;
+            of << "#include " << fs::absolute(entry.path()) << std::endl; //Only works on linux
             
         }
     }
