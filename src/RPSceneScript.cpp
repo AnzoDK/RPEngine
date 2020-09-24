@@ -4,6 +4,7 @@ using namespace rp;
 SceneScriptBase::SceneScriptBase()
 {
     SetName("New SceneScriptBase");
+    enabled = true;
 }
 void SceneScriptBase::SetName(std::string _name)
 {

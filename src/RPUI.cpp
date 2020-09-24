@@ -121,7 +121,16 @@ SceneScriptBase* Base::GetScript(int index)
     }
     
 }
-
+void Base::RunScripts()
+{
+  for(unsigned int i = 0; i < scripts.size();i++)
+  {
+      if(scripts.at(i)->GetEnabled())
+      {
+        scripts.at(i)->Update();
+      }
+  }
+}
 
 
 //UIGraphic

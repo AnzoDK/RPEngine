@@ -91,6 +91,7 @@ namespace rp
             };
             SceneScriptBase* GetScript(std::string name);
             SceneScriptBase* GetScript(int index);
+            void RunScripts();
             void AddScript(SceneScriptBase* script){scripts.push_back(script);}
             bool IsEnabled();
             void SetEnabled(bool state);
