@@ -9,7 +9,7 @@ namespace fs = std::filesystem;
 void WriteInitialSetup(std::string path)
 {
     std::ofstream of = std::ofstream(path, std::ios::out);
-    of << "#pragma once" << std::endl;
+    of << "#pragma once" << std::endl << "#include " << '"' << "RPEngine.h" << '"' << std::endl;
     of.close();
 }
 
@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
     {
         std::cout << "No arguement for 'scriptPath' was given" << std::endl
         << "USAGE: RPScriptLinker [scriptPath]" << std::endl;
-        return 0;
+        return 1;
     }
     std::string scriptPath = argv[1];
     std::string writePath = "../includes/importedClasses.h";
@@ -35,6 +35,7 @@ int main(int argc, char *argv[])
             
         }
     }
+    std::cout << "GameScript Linking Complete!" << std::endl;
     of.close();
     
     return 0;
