@@ -76,7 +76,7 @@ namespace rp
     class Base : public PosBase
     {
         public:
-            Base(){enabled = true;z=0;name="";TexMod = TextureModulator();scripts = std::vector<std::shared_ptr<SceneScriptBase>>();}
+            Base(){enabled = true;z=0;name="";TexMod = TextureModulator();scripts = std::vector<SceneScriptBase*>();}
             virtual ~Base(){scripts.clear();}
             virtual void Update(){}
             virtual void Draw(){}
@@ -91,6 +91,7 @@ namespace rp
             };
             SceneScriptBase* GetScript(std::string name);
             SceneScriptBase* GetScript(int index);
+            void AddScript(SceneScriptBase* script){scripts.push_back(script);}
             bool IsEnabled();
             void SetEnabled(bool state);
             std::string GetName();
@@ -110,7 +111,7 @@ namespace rp
             float z;
             bool enabled;
             std::string name;
-            std::vector<std::shared_ptr<SceneScriptBase>> scripts;
+            std::vector<SceneScriptBase*> scripts;
         };
         
         /*template<typename T> Base * createT() { return new T; }

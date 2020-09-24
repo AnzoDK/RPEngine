@@ -98,13 +98,13 @@ SceneScriptBase* Base::GetScript(std::string name)
 {
     for(unsigned int i = 0; i < scripts.size();i++)
     {
-        if(scripts.at(i).get()->GetName() == name)
+        if(scripts.at(i)->GetName() == name)
         {
-            return scripts.at(i).get();
+            return scripts.at(i);
             
         }
-        
     }
+    return nullptr;
 }
 SceneScriptBase* Base::GetScript(int index)
 {
@@ -116,7 +116,7 @@ SceneScriptBase* Base::GetScript(int index)
     }
     else
     {
-        return scripts.at(index).get();
+        return scripts.at(index);
         
     }
     
