@@ -26,6 +26,7 @@ int main(int argc, char *argv[])
     std::string writePath = "../includes/importedClasses.h";
     WriteInitialSetup(writePath);
     std::ofstream of = std::ofstream(writePath, std::ios::app | std::ios::out);
+    fs::create_directory(scriptPath); // <-- This is just to make sure that we don't access an nonexistant directory
     for(const auto & entry : fs::directory_iterator(scriptPath))
     {
         if(std::string(entry.path().string()).find(".h") != std::string::npos)
