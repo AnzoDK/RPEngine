@@ -106,11 +106,14 @@ mkdir -p ../../includes/RPAudio/oggvorbis/
 mkdir -p ../../includes/RPAudio/vorbis/
 mkdir -p ../../includes/RPAudio/libopenal/
 mkdir -p ../../includes/RPAudio/vorbisfile/
+mkdir -p ../../includes/RPAudio/libsndio/
 
 cp -f includes/oggvorbis/* ../../includes/RPAudio/oggvorbis/
 cp -f includes/vorbis/* ../../includes/RPAudio/vorbis/
 cp -f includes/libopenal/* ../../includes/RPAudio/libopenal/
 cp -f includes/vorbisfile/* ../../includes/RPAudio/vorbisfile/
+cp -f includes/libsndio/* ../../includes/RPAudio/libsndio/
+
 cd ../..
 rm -r -f tmp
 echo "Complete"
