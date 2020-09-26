@@ -68,10 +68,10 @@ void Scene::SceneUpdate()
     
     for(unsigned int i = 0; i < tmp.size();i++)
     {
-        if(tmp.at(i)->IsEnabled())
+        if(tmp.at(i)->IsEnabled()) //<--- Slightly stupid - but works as a safety net for now
         {
-            std::cout << "Rendering object: " << tmp.at(i)->GetName() << " At Z index: " << tmp.at(i)->GetZ() << std::endl;
-            for(unsigned int u = 0; i < tmp.at(i)->GetAllScripts().size();u++)
+            std::cout << "Rendering object: " << tmp.at(i)->GetName() << " At Z index: " << tmp.at(i)->GetZ() << std::endl; //<-- TODO Remove dis
+            for(unsigned int u = 0; u < tmp.at(i)->GetAllScripts().size();u++)
             {
                 if(tmp.at(i)->GetAllScripts().at(u)->GetEnabled())
                 {

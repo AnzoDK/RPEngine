@@ -76,7 +76,7 @@ namespace rp
     class Base : public PosBase
     {
         public:
-            Base(){enabled = true;z=0;name="";TexMod = TextureModulator();scripts = std::vector<SceneScriptBase*>();}
+            Base(){enabled = true;z=0;name="New Base";TexMod = TextureModulator();scripts = std::vector<SceneScriptBase*>();}
             virtual ~Base(){scripts.clear();}
             virtual void Update(){}
             virtual void Draw(){}
