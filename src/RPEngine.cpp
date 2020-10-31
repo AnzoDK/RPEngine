@@ -176,11 +176,11 @@ RosenoernEngine::RosenoernEngine(bool _debug,int buffers)
         g_settings->LoadConfig();
         g_logger->SetPath(g_settings->GetLogPath());
     }
-    catch(InvalidPathException e)
+    catch(InvalidPathException& e)
     {
         //Apply defaults and write new config
         g_logger->SetPath("engineLog.log");
-        g_logger->Log("[Settings Module] " + std::string(e.what()));
+        g_logger->Log("[Settings Module] " + std::string(e.what()),true);
         
     }
     audio = new RosenoernAudio(_debug,buffers);
