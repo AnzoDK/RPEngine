@@ -144,9 +144,9 @@ CharacterState CharacterObject::GetState()
 }
 
 //InputHandler
-SDL_MouseButtonEvent InputHandler::GetMouseButton()
+Uint8 InputHandler::GetMouseButton()
 {
-    return evt.button;
+    return evt.button.button;
 }
 SDL_KeyboardEvent InputHandler::GetKey()
 {
@@ -165,7 +165,14 @@ void InputHandler::SetKey(SDL_Event _evt)
 {
      evt = _evt;
 }
-
+bool InputHandler::MouseButtonDown()
+{
+    return down;
+}
+bool InputHandler::MouseButtonUp()
+{
+    return up;
+}
 
 //RosenoernEngine
 RosenoernEngine::RosenoernEngine(bool _debug,int buffers)
@@ -271,6 +278,12 @@ void RosenoernEngine::SDLHandle()
         
         case SDL_MOUSEBUTTONDOWN:
             RosenoernEngine::InHand->SetMouseButton(currEvent);
+            RosenoernEngine::InHand->SetDown();
+        break;
+        
+        case SDL_MOUSEBUTTONUP:
+            RosenoernEngine::InHand->SetMouseButton(currEvent);
+            RosenoernEngine::InHand->SetUp();
         break;
         
         case SDL_KEYDOWN:

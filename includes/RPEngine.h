@@ -164,13 +164,19 @@ class InputHandler
 {
     public:
         InputHandler(){}
-        SDL_MouseButtonEvent GetMouseButton();
+        Uint8 GetMouseButton();
+        bool MouseButtonDown();
+        bool MouseButtonUp();
         SDL_KeyboardEvent GetKey();
         void SetMouseButton(SDL_Event _evt);
         void SetKey(SDL_Event _evt);
         void Clear();
+        void SetUp(){up = true;}
+        void SetDown(){down = true;}
     private:
         SDL_Event evt;
+        bool up;
+        bool down;
 };
 
 class RosenoernEngine

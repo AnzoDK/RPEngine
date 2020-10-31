@@ -484,7 +484,7 @@ void Button::Update()
     {
         if(RosenoernEngine::mouseX > GetRect()->x && RosenoernEngine::mouseX < (GetRect()->w+GetRect()->x) && RosenoernEngine::mouseY > GetRect()->y && RosenoernEngine::mouseY < (GetRect()->h+ GetRect()->y))
         {
-            if(RosenoernEngine::InHand->GetMouseButton().button == SDL_BUTTON_LEFT)
+            if(RosenoernEngine::InHand->MouseButtonDown() && RosenoernEngine::InHand->GetMouseButton() == SDL_BUTTON_LEFT)
             {
                 //std::cout << "Clicked!" << std::endl;
                 (*funPtr)();
