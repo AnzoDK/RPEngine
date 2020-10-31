@@ -29,7 +29,7 @@ void EngineSettings::LoadConfig()
     stream.open(settingsPath);
     if(stream.fail())
     {
-        throw new InvalidPathException();
+        throw InvalidPathException();
     }
     else
     {
