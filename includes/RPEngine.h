@@ -2,7 +2,7 @@
 Coded by AnzoDK (https://github.com/AnzoDK) for Rosenørn Productions (rosenoern-productions.dk) Please refer to the LICENCE file for more info about copying and sharing
 */
 
-#define RPEngineVersion "0.0.1.9.1" 
+#define RPEngineVersion "0.0.1.9.4" 
 #pragma once
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32)
 #define Windows
@@ -26,11 +26,15 @@ Coded by AnzoDK (https://github.com/AnzoDK) for Rosenørn Productions (rosenoern
 #include "RPRandom.h"
 #include <algorithm>
 #include "importedClasses.h"
+#include "RPSettings.h"
 namespace rp{
 
 enum CharacterState{Default=0,Smiling,Crying,Annoyed,Sad,Suprised};
 enum AnimationState{Idle=0};
 enum RunningState{Stopped=0,Running=1};
+
+//Declare the only global variables we need
+static EngineSettings* g_settings;
 
 
 struct ScreenSize
@@ -93,12 +97,17 @@ class EngineLogger
 {
     public:
         EngineLogger(bool withticks=0);
+        EngineLogger(bool withticks, std::string path);
         EngineLogger(std::string path);
-        void Log(std::string strToLog);
+        void Log(std::string strToLog,bool toConsole=false);
         ~EngineLogger(){}
         void operator <<(std::string TextToLog)
         {
             Log(TextToLog);
+        }
+        void SetPath(std::string path)
+        {
+          logPath = path;  
         }
         
     private:
@@ -106,6 +115,7 @@ class EngineLogger
         bool withTicks;
 };
 
+static EngineLogger* g_logger; // our primary logger module
 
 class GameObject : public Base
 {

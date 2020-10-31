@@ -2,9 +2,9 @@ SO_DIRS := -Wl,-rpath,./includes/RPAudio -L./includes/RPAudio
 DEBUG_LEVEL := -g3
 CXX := g++
 #OBJECTS := ./includes/RPAudio/libRPAudio.a
-OBJECTS := main.o rpengine.o rppng.o ui.o io.o scene.o scenescript.o
-LIB_OBJECTS := rpengine.o rppng.o ui.o io.o scene.o scenescript.o
-LIB_TARGETS := rpenginelib.o rppnglib.o uilib.o iolib.o scenelib.o scenescriptlib.o
+OBJECTS := main.o rpengine.o rppng.o ui.o io.o scene.o scenescript.o settings.o
+LIB_OBJECTS := rpengine.o rppng.o ui.o io.o scene.o scenescript.o settings.o
+LIB_TARGETS := rpenginelib.o rppnglib.o uilib.o iolib.o scenelib.o scenescriptlib.o settingslib.o
 INCLUDES := -I./includes
 LIB_FLAGS := -fPIC
 CXX_FLAGS := -std=c++17 -Wall -pthread
@@ -49,6 +49,8 @@ rppng.o:
 	$(CXX) -c $(PG) $(CXX_FLAGS) $(DEBUG_LEVEL) $(INCLUDES) $(SO_DIRS) $(SRC)/RPPng.cpp -o rppng.o
 scene.o:
 	$(CXX) -c $(PG) $(CXX_FLAGS) $(DEBUG_LEVEL) $(INCLUDES) $(SO_DIRS) $(SRC)/RPScene.cpp -o scene.o
+settings.o:
+	$(CXX) -c $(PG) $(CXX_FLAGS) $(DEBUG_LEVEL) $(INCLUDES) $(SO_DIRS) $(SRC)/RPSettings.cpp -o settings.o
 
 rpenginelib.o: rppnglib.o
 	$(CXX) -c $(PG) $(CXX_FLAGS) $(LIB_FLAGS) $(DEBUG_LEVEL) $(INCLUDES) $(SO_DIRS) $(SRC)/RPEngine.cpp -o rpengine.o
@@ -59,6 +61,8 @@ scenelib.o:
 	$(CXX) -c $(PG) $(CXX_FLAGS) $(LIB_FLAGS) $(DEBUG_LEVEL) $(INCLUDES) $(SO_DIRS) $(SRC)/RPScene.cpp -o scene.o
 uilib.o:
 	$(CXX) -c $(PG) $(CXX_FLAGS) $(LIB_FLAGS) $(DEBUG_LEVEL) $(INCLUDES) $(SO_DIRS) $(SRC)/RPUI.cpp -o ui.o
+settingslib.o:
+	$(CXX) -c $(PG) $(CXX_FLAGS) $(LIB_FLAGS) $(DEBUG_LEVEL) $(INCLUDES) $(SO_DIRS) $(SRC)/RPSettings.cpp -o settings.o
 
 rppnglib.o:
 	./dependency-builder.sh --use-dev --$(OS)

@@ -3,6 +3,7 @@
 #include "../includes/RPIni.h"
 #include "../includes/RPIO.h"
 #include "../includes/RPScene.h"
+#include "../includes/RPExceptions.h"
 #include <thread>
 #include <functional>
 
@@ -169,6 +170,19 @@ void InputHandler::SetKey(SDL_Event _evt)
 //RosenoernEngine
 RosenoernEngine::RosenoernEngine(bool _debug,int buffers)
 {
+    g_settings = new EngineSettings();
+    g_logger = new EngineLogger(true);
+    try{
+        g_settings->LoadConfig();
+        g_logger->SetPath(g_settings->GetLogPath());
+    }
+    catch(InvalidPathException e)
+    {
+        //Apply defaults and write new config
+        g_logger->SetPath("engineLog.log");
+        g_logger->Log("[Settings Module] " + std::string(e.what()));
+        
+    }
     audio = new RosenoernAudio(_debug,buffers);
 }
 ScreenSize RosenoernEngine::GetScreenSize()
@@ -192,6 +206,8 @@ RosenoernEngine::~RosenoernEngine()
     IMG_Quit();
     TTF_Quit();
     SDL_Quit();
+    delete(g_logger);
+    delete(g_settings);
 }
 void RosenoernEngine::init()
 {
@@ -314,7 +330,7 @@ void RosenoernEngine::Update()
     if(frameDelay > frameTime)
     {
         SDL_Delay(frameDelay-frameTime);
-        std::cout << "Frame delayed" << std::endl;
+        //std::cout << "Frame delayed" << std::endl;
     }
 }
 
@@ -356,7 +372,12 @@ EngineLogger::EngineLogger(std::string path)
 {
     logPath = path;
 }
-void EngineLogger::Log(std::string strToLog)
+EngineLogger::EngineLogger(bool withticks, std::string path)
+{
+    logPath = path;
+    withTicks = withticks;
+}
+void EngineLogger::Log(std::string strToLog, bool toConsole)
 {
     std::string logStr = "";
     if(withTicks)
@@ -368,6 +389,10 @@ void EngineLogger::Log(std::string strToLog)
     out << logStr;
     out << std::endl;
     out.close();
+    if(toConsole)
+    {
+        std::cout << logStr << std::endl;
+    }
     
 }
 
