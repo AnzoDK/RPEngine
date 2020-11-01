@@ -41,6 +41,6 @@ struct GeneralSDLException: public std::exception
     }
     ~GeneralSDLException()
     {
-      delete(s);  
+      delete(GeneralSDLException::s);  
     }
 };
