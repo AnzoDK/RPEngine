@@ -237,6 +237,7 @@ void RosenoernEngine::init()
     fps_lasttime = SDL_GetTicks();
     fps_current = 0;
     fps_frames = 0;
+    std::cout << "Debug: " << (int)debug << std::endl;
     if(debug)
     {
       SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_WARNING,"RPEngine Debug Mode","RPEngine has been set into debug mode, please remember to launch the program through a terminal in order to get the full debug output",NULL);
