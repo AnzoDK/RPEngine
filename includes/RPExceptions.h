@@ -14,7 +14,7 @@ struct InvalidConfigException : public std::exception
         return "Config file contains invalid data";
     }
 };
-struct GeneralSDLError: public std::exception
+struct GeneralSDLException: public std::exception
 {
     const char* what() const throw (){
         std::string* s = new std::string("One or more SDL features failed a task. SDL_Error: " + std::string(SDL_GetError())); //Possible memleak
