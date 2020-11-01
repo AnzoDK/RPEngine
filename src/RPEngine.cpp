@@ -177,6 +177,7 @@ bool InputHandler::MouseButtonUp()
 //RosenoernEngine
 RosenoernEngine::RosenoernEngine(bool _debug,int buffers)
 {
+    debug = _debug;
     g_settings = new EngineSettings();
     g_logger = new EngineLogger(true);
     try{
@@ -225,6 +226,9 @@ void RosenoernEngine::init()
     currScene = new Scene();
     RosenoernEngine::FPS = 60;
     frameDelay = 1000/RosenoernEngine::FPS;
+    /*
+     * We are litterally just expecting SDL to work here... Not a good soluton
+     */
     SDL_Init(SDL_INIT_EVERYTHING);
     IMG_Init(IMG_INIT_PNG);
     TTF_Init(); // <<-- Important to remember...
@@ -233,6 +237,11 @@ void RosenoernEngine::init()
     fps_lasttime = SDL_GetTicks();
     fps_current = 0;
     fps_frames = 0;
+    if(debug)
+    {
+      SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_WARNING,"RPEngine Debug Mode","RPEngine has been set into debug mode, please remember to launch the program through a terminal in order to get the full debug output",NULL);  
+    }
+        
 }
 RosenoernAudio& RosenoernEngine::GetAudioController()
 {
