@@ -16,8 +16,31 @@ struct InvalidConfigException : public std::exception
 };
 struct GeneralSDLException: public std::exception
 {
+    std::string err;
+    static std::string* s;
+    GeneralSDLException(const char* info)
+    {
+        err = info;
+    }
+    GeneralSDLException()
+    {
+        err = "";
+    }
+    
     const char* what() const throw (){
-        std::string* s = new std::string("One or more SDL features failed a task. SDL_Error: " + std::string(SDL_GetError())); //Possible memleak
-        return s->c_str();
+        if(err == "")
+        {
+            s = new std::string("One or more SDL features failed a task. SDL_Error: " + std::string(SDL_GetError())); //Possible memleak
+            return s->c_str();
+        }
+        else
+        {
+            s = new std::string(err + std::string(SDL_GetError())); //Possible memleak
+            return s->c_str();
+        }
+    }
+    ~GeneralSDLException()
+    {
+      delete(s);  
     }
 };
