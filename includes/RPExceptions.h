@@ -18,9 +18,9 @@ struct GeneralSDLException: public std::exception
 {
     std::string err;
     static std::string* s;
-    GeneralSDLException(const char* info)
+    GeneralSDLException(std::string info)
     {
-        err = info;
+        err = info + " ";
     }
     GeneralSDLException()
     {
