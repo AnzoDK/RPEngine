@@ -195,7 +195,7 @@ RosenoernEngine::RosenoernEngine(bool _debug,int buffers)
 }
 ScreenSize RosenoernEngine::GetScreenSize()
 {
-  ScreenSize s = ScreenSize();
+  ScreenSize s = ScreenSize(); //Why not just use a fucking rect? or something else like for real this is dumb
   
   SDL_GetWindowSize(RosenoernEngine::mainWin,&s.width,&s.height);
   return s;
