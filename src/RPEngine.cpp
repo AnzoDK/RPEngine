@@ -229,7 +229,6 @@ void RosenoernEngine::init()
     /*
      * We are litterally just expecting SDL to work here... Not a good soluton
      */
-    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_WARNING,"RPEngine Debug Mode","RPEngine has been set into debug mode, please remember to launch the program through a terminal in order to get the full debug output",NULL);
     SDL_Init(SDL_INIT_EVERYTHING);
     IMG_Init(IMG_INIT_PNG);
     TTF_Init(); // <<-- Important to remember...
@@ -241,7 +240,10 @@ void RosenoernEngine::init()
     std::cout << "Debug: " << (int)debug << std::endl;
     if(debug)
     {
-      
+        if(SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_WARNING,"RPEngine Debug Mode","RPEngine has been set into debug mode, please remember to launch the program through a terminal in order to get the full debug output",NULL) != 0)
+        {
+            throw new GeneralSDLError();
+        }
     }
         
 }
