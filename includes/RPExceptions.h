@@ -30,12 +30,12 @@ struct GeneralSDLException: public std::exception
     const char* what() const throw (){
         if(err == "")
         {
-            s = new std::string("One or more SDL features failed a task. SDL_Error: " + std::string(SDL_GetError())); //Possible memleak
+            std::string* s = new std::string("One or more SDL features failed a task. SDL_Error: " + std::string(SDL_GetError())); //Possible memleak
             return s->c_str();
         }
         else
         {
-            s = new std::string(err + std::string(SDL_GetError())); //Possible memleak
+            std::string* s = new std::string(err + std::string(SDL_GetError())); //Possible memleak
             return s->c_str();
         }
     }
