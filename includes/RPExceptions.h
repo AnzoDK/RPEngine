@@ -39,8 +39,4 @@ struct GeneralSDLException: public std::exception
             return s->c_str();
         }
     }
-    ~GeneralSDLException()
-    {
-      delete(GeneralSDLException::s);  
-    }
 };
