@@ -85,7 +85,7 @@ struct Ini
             keys = std::vector<Key*>();
             Parse();
         }
-        void Parse()
+        void Parse() //Help - this function is scaring me... I completly forgot how it works....
         {
           std::ifstream in = std::ifstream(path);
           in.ignore( std::numeric_limits<std::streamsize>::max() );

@@ -68,7 +68,7 @@ std::vector<CharacterSprite*> AnimationSheet::ProcessSheet(FullPos2D frameSize=F
   {
     
   }
-      
+      return std::vector<CharacterSprite*>();
 }
 
 //SpriteAnimation
@@ -354,7 +354,7 @@ void RosenoernEngine::Update()
     if(FPScounter)
     {
         std::string newName = orgName;
-        newName += "[FPS: ";
+        newName += " [FPS: ";
         //newName += std::to_string(/*float(*/frameTime/*)*/);
         newName += std::to_string(/*float(*/fps_current/*)*/);
         newName += "]";
