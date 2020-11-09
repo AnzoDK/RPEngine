@@ -18,6 +18,10 @@ USE_LOCAL := 0
 DEPBUILD := echo "Not building local target for RPAudio - No need"
 END_LIB_FLAGS :=
 EXE_EX := 
+ifeq ($(USE_LOCAL), 1)
+	$DEPBUILD := ./dependency-builder.sh --use-dev --$(OS)
+	SO_DIRS := -Wl,-rpath,./includes/RPAudio -L./includes/RPAudio
+endif
 ifeq ($(OS), Windows)
 	EXE_EX := .exe
 	LIB_FLAGS +=  -DBUILDING_EXAMPLE_DLL
@@ -26,10 +30,6 @@ ifeq ($(OS), Windows)
 	EX := .dll
 	OS := Windows
 	
-endif
-ifeq ($(USE_LOCAL), 1)
-	$DEPBUILD := ./dependency-builder.sh --use-dev --$(OS)
-	SO_DIRS := -Wl,-rpath,./includes/RPAudio -L./includes/RPAudio
 endif
 
 release:$(OBJECTS) tools
