@@ -9,7 +9,7 @@ Coded by AnzoDK (https://github.com/AnzoDK) for Rosenørn Productions (rosenoern
 #else
 #define Linux
 #endif
-#include "RPAudio/rpaudio.h"
+#include <RPAudio/rpaudio.h>
 #include <filesystem>
 #if defined(_WIN32) || defined(WIN32)
 #include <windows.h>
