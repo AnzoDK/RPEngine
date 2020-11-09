@@ -149,10 +149,13 @@ Uint8 InputHandler::GetMouseButton()
 {
     return evt.button.button;
 }
-SDL_KeyboardEvent InputHandler::GetKey()
+SDL_KeyboardEvent InputHandler::GetKeyEvent()
 {
-    
-   return evt.key; 
+   return evt.key;
+}
+SDL_Keycode InputHandler::GetKey()
+{
+  return evt.key.keysym.sym;  
 }
 void InputHandler::SetMouseButton(SDL_Event _evt)
 {
@@ -160,7 +163,9 @@ void InputHandler::SetMouseButton(SDL_Event _evt)
 }
 void InputHandler::Clear()
 {
-  evt = SDL_Event();  
+  evt = SDL_Event();
+  up = false;
+  down = false;
 }
 void InputHandler::SetKey(SDL_Event _evt)
 {

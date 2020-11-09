@@ -167,7 +167,8 @@ class InputHandler
         Uint8 GetMouseButton();
         bool MouseButtonDown();
         bool MouseButtonUp();
-        SDL_KeyboardEvent GetKey();
+        SDL_KeyboardEvent GetKeyEvent();
+        SDL_Keycode GetKey();
         void SetMouseButton(SDL_Event _evt);
         void SetKey(SDL_Event _evt);
         void Clear();
