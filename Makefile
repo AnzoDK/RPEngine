@@ -1,4 +1,5 @@
-SO_DIRS := -Wl,-rpath,./includes/RPAudio -L./includes/RPAudio
+#SO_DIRS := -Wl,-rpath,/includes/RPAudio -L./includes/RPAudio
+SO_DIRS := 
 DEBUG_LEVEL := -g3
 CXX := g++
 #OBJECTS := ./includes/RPAudio/libRPAudio.a
@@ -13,6 +14,8 @@ SRC := ./src
 OS := Linux
 EX := .so
 PG:=
+USE_LOCAL := 0
+DEPBUILD := echo "Not building local target for RPAudio - No need"
 END_LIB_FLAGS :=
 EXE_EX := 
 ifeq ($(OS), Windows)
@@ -23,6 +26,10 @@ ifeq ($(OS), Windows)
 	EX := .dll
 	OS := Windows
 	
+endif
+ifeq ($(USE_LOCAL), 1)
+	$DEPBUILD := ./dependency-builder.sh --use-dev --$(OS)
+	SO_DIRS := -Wl,-rpath,./includes/RPAudio -L./includes/RPAudio
 endif
 
 release:$(OBJECTS) tools
@@ -65,7 +72,7 @@ settingslib.o:
 	$(CXX) -c $(PG) $(CXX_FLAGS) $(LIB_FLAGS) $(DEBUG_LEVEL) $(INCLUDES) $(SO_DIRS) $(SRC)/RPSettings.cpp -o settings.o
 
 rppnglib.o:
-	./dependency-builder.sh --use-dev --$(OS)
+	$(DEPBUILD)
 	$(CXX) -c $(PG) $(CXX_FLAGS) $(LIB_FLAGS) $(DEBUG_LEVEL) $(INCLUDES) $(SO_DIRS) $(SRC)/RPPng.cpp -o rppng.o
 
 scenescriptlib.o: 
