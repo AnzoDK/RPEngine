@@ -2,7 +2,7 @@
 Coded by AnzoDK (https://github.com/AnzoDK) for Rosenørn Productions (rosenoern-productions.dk) Please refer to the LICENCE file for more info about copying and sharing
 */
 
-#define RPEngineVersion "0.0.1.9.4" 
+#define RPEngineVersion "0.0.2.4.1" 
 #pragma once
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32)
 #define Windows
