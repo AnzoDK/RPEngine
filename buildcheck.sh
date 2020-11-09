@@ -1,6 +1,6 @@
 #!/bin/bash
 LOCAL=0
-echo -e "#include <RPAudio/RPAudio.h>\n int main(){return 0;}" >> check.cpp
+echo -e "#include <RPAudio/rpaudio.h>\n int main(){return 0;}" >> check.cpp
 g++ check.cpp -o test.o >> /dev/null
 if [ $? -ne 0 ]
 then
