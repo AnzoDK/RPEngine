@@ -19,7 +19,7 @@ DEPBUILD := echo "Not building local target for RPAudio - No need"
 END_LIB_FLAGS :=
 EXE_EX := 
 ifeq ($(USE_LOCAL), 1)
-	$DEPBUILD := ./dependency-builder.sh --use-dev --$(OS)
+	DEPBUILD := ./dependency-builder.sh --use-dev --$(OS)
 	SO_DIRS := -Wl,-rpath,./includes/RPAudio -L./includes/RPAudio
 endif
 ifeq ($(OS), Windows)
