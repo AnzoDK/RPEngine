@@ -23,6 +23,8 @@ ifeq ($(USE_LOCAL), 1)
 	SO_DIRS := -Wl,-rpath,./includes/RPAudio -L./includes/RPAudio
 endif
 ifeq ($(OS), Windows)
+	DEPBUILD := ./dependency-builder.sh --use-dev --$(OS)
+	SO_DIRS := -Wl,-rpath,./includes/RPAudio -L./includes/RPAudio	
 	EXE_EX := .exe
 	LIB_FLAGS +=  -DBUILDING_EXAMPLE_DLL
 	END_LIB_FLAGS := --shared -lstdc++ -Wl,--out-implib,librpengine.a
