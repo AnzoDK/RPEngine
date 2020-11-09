@@ -3,6 +3,7 @@
 
 namespace rp
 {
+    class Base;
     class Scene
     {
         public:
@@ -18,7 +19,6 @@ namespace rp
         private:
             void LogScene(std::vector<Base*>& tmp);
             std::vector<Base*> objsInScene;
-        
    
     };
 }

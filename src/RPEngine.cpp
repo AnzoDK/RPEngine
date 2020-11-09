@@ -3,12 +3,14 @@
 #include "../includes/RPIni.h"
 #include "../includes/RPIO.h"
 #include "../includes/RPScene.h"
+#include "../includes/RPExceptions.h"
 #include <thread>
 #include <functional>
 
 using namespace rp;
 namespace fs = std::filesystem;
 #define MR RosenoernEngine::mainRender
+#define _DEBUG_
 #include <fstream>
     //To fix some static declare issues
     SDL_Renderer* RosenoernEngine::mainRender = nullptr;
@@ -143,9 +145,9 @@ CharacterState CharacterObject::GetState()
 }
 
 //InputHandler
-SDL_MouseButtonEvent InputHandler::GetMouseButton()
+Uint8 InputHandler::GetMouseButton()
 {
-    return evt.button;
+    return evt.button.button;
 }
 SDL_KeyboardEvent InputHandler::GetKey()
 {
@@ -164,16 +166,37 @@ void InputHandler::SetKey(SDL_Event _evt)
 {
      evt = _evt;
 }
-
+bool InputHandler::MouseButtonDown()
+{
+    return down;
+}
+bool InputHandler::MouseButtonUp()
+{
+    return up;
+}
 
 //RosenoernEngine
 RosenoernEngine::RosenoernEngine(bool _debug,int buffers)
 {
+    debug = _debug;
+    g_settings = new EngineSettings();
+    g_logger = new EngineLogger(true);
+    try{
+        g_settings->LoadConfig();
+        g_logger->SetPath(g_settings->GetLogPath());
+    }
+    catch(InvalidPathException& e)
+    {
+        //Apply defaults and write new config
+        g_logger->SetPath("engineLog.log");
+        g_logger->Log("[Settings Module] " + std::string(e.what()),true);
+        
+    }
     audio = new RosenoernAudio(_debug,buffers);
 }
 ScreenSize RosenoernEngine::GetScreenSize()
 {
-  ScreenSize s = ScreenSize();
+  ScreenSize s = ScreenSize(); //Why not just use a fucking rect? or something else like for real this is dumb
   
   SDL_GetWindowSize(RosenoernEngine::mainWin,&s.width,&s.height);
   return s;
@@ -192,6 +215,8 @@ RosenoernEngine::~RosenoernEngine()
     IMG_Quit();
     TTF_Quit();
     SDL_Quit();
+    delete(g_logger);
+    delete(g_settings);
 }
 void RosenoernEngine::init()
 {
@@ -202,6 +227,9 @@ void RosenoernEngine::init()
     currScene = new Scene();
     RosenoernEngine::FPS = 60;
     frameDelay = 1000/RosenoernEngine::FPS;
+    /*
+     * We are litterally just expecting SDL to work here... Not a good soluton
+     */
     SDL_Init(SDL_INIT_EVERYTHING);
     IMG_Init(IMG_INIT_PNG);
     TTF_Init(); // <<-- Important to remember...
@@ -210,6 +238,16 @@ void RosenoernEngine::init()
     fps_lasttime = SDL_GetTicks();
     fps_current = 0;
     fps_frames = 0;
+    if(debug)
+    {
+        if(SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_WARNING,"RPEngine Debug Mode","RPEngine has been set into debug mode, please remember to launch the program through a terminal in order to get the full debug output",NULL) != 0)
+        {
+            #ifndef _DEBUG_
+            throw GeneralSDLException("Failed to spawn SDL_Messagebox - Messageboxes will be ignored");
+            #endif
+        }
+    }
+        
 }
 RosenoernAudio& RosenoernEngine::GetAudioController()
 {
@@ -255,6 +293,12 @@ void RosenoernEngine::SDLHandle()
         
         case SDL_MOUSEBUTTONDOWN:
             RosenoernEngine::InHand->SetMouseButton(currEvent);
+            RosenoernEngine::InHand->SetDown();
+        break;
+        
+        case SDL_MOUSEBUTTONUP:
+            RosenoernEngine::InHand->SetMouseButton(currEvent);
+            RosenoernEngine::InHand->SetUp();
         break;
         
         case SDL_KEYDOWN:
@@ -314,7 +358,7 @@ void RosenoernEngine::Update()
     if(frameDelay > frameTime)
     {
         SDL_Delay(frameDelay-frameTime);
-        std::cout << "Frame delayed" << std::endl;
+        //std::cout << "Frame delayed" << std::endl;
     }
 }
 
@@ -356,7 +400,12 @@ EngineLogger::EngineLogger(std::string path)
 {
     logPath = path;
 }
-void EngineLogger::Log(std::string strToLog)
+EngineLogger::EngineLogger(bool withticks, std::string path)
+{
+    logPath = path;
+    withTicks = withticks;
+}
+void EngineLogger::Log(std::string strToLog, bool toConsole)
 {
     std::string logStr = "";
     if(withTicks)
@@ -368,6 +417,10 @@ void EngineLogger::Log(std::string strToLog)
     out << logStr;
     out << std::endl;
     out.close();
+    if(toConsole)
+    {
+        std::cout << logStr << std::endl;
+    }
     
 }
 

@@ -6,6 +6,7 @@
 #include <memory>
 #include <any> //cpp 17
 #include <variant>
+#include <vector>
 /* Part of RPEngine - Simple InI parser */
 
 namespace rp{
@@ -54,6 +55,30 @@ struct Key
 struct Ini
 {
     public:
+        static void WriteKey(std::string path, std::string section_name ,std::string key_name, std::string key_value)
+        {
+            std::ofstream stream = std::ofstream(path,std::ios::app);
+            stream << std::endl;
+            stream << "[" + section_name + "]";
+            stream << std::endl;
+            stream << key_name;
+            stream << "=";
+            stream << key_value;
+        }
+        static void WriteKey(std::string path, std::string section_name, std::string* key_names, std::string* key_values, unsigned int length)
+        {
+            std::ofstream stream = std::ofstream(path,std::ios::app);
+            stream << std::endl;
+            stream << "[" + section_name + "]";
+            for(unsigned int i = 0; i < length;i++)
+            {   
+                stream << std::endl;
+                stream << key_names[i];
+                stream << "=";
+                stream << key_values[i];
+                
+            }
+        }
         Ini(std::string _path)
         {
             path = _path;
@@ -174,10 +199,15 @@ struct Ini
         {
             
         }
-        ~Ini(){keys.clear();}
+        ~Ini()
+        {
+            keys.clear();
+            
+        }
+        
         Key* GetKey(std::string name)
         {
-            for(int i = 0; i < keys.size();i++)
+            for(unsigned int i = 0; i < keys.size();i++)
             {
                 if(keys.at(i)->name == name)
                 {

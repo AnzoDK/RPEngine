@@ -1,9 +1,10 @@
+#include "../includes/RPSceneScript.h"
 #include "../includes/RPUI.h"
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL.h>
 #include "../includes/RPEngine.h"
-using namespace rp;
 
+using namespace rp;
 void SimpleTextureSystem::SimpleRender(UIBase& obj)
 {
     if(obj.IsEnabled())
@@ -29,7 +30,7 @@ void SimpleTextureSystem::SimpleRender(UIBase& obj)
 }
 
 //Static definitions
-BaseFactory::map_type* BaseFactory::map = NULL;
+//BaseFactory::map_type* BaseFactory::map = NULL;
 
 //Rotation
 Rotation::Rotation(float _x, float _y, float _z)
@@ -92,6 +93,34 @@ void rp::Base::SetZ(float _z)
 float Base::GetZ()
 {
     return z;
+}
+
+SceneScriptBase* Base::GetScript(std::string name)
+{
+    for(unsigned int i = 0; i < scripts.size();i++)
+    {
+        if(scripts.at(i)->GetName() == name)
+        {
+            return scripts.at(i);
+            
+        }
+    }
+    return nullptr;
+}
+SceneScriptBase* Base::GetScript(int index)
+{
+    if(index > scripts.size()-1)
+    {
+        /*Invalid Index*/
+        return nullptr;
+        
+    }
+    else
+    {
+        return scripts.at(index);
+        
+    }
+    
 }
 
 //UIGraphic
@@ -455,7 +484,7 @@ void Button::Update()
     {
         if(RosenoernEngine::mouseX > GetRect()->x && RosenoernEngine::mouseX < (GetRect()->w+GetRect()->x) && RosenoernEngine::mouseY > GetRect()->y && RosenoernEngine::mouseY < (GetRect()->h+ GetRect()->y))
         {
-            if(RosenoernEngine::InHand->GetMouseButton().button == SDL_BUTTON_LEFT)
+            if(RosenoernEngine::InHand->MouseButtonUp() && RosenoernEngine::InHand->GetMouseButton() == SDL_BUTTON_LEFT)
             {
                 //std::cout << "Clicked!" << std::endl;
                 (*funPtr)();
@@ -482,7 +511,10 @@ void Button::Draw()
 
 
 //Registers
+//Lets forget that idea
+/*
 DerivedRegister<Button> Button::reg("Button");
 DerivedRegister<Background> Background::reg("Background");
 DerivedRegister<UIBase> UIBase::reg("UIBase");
 DerivedRegister<UIText> UIText::reg("UIText");
+*/

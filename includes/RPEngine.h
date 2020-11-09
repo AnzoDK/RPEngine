@@ -1,13 +1,15 @@
 /*
-Coded by AnzoDK (https://github.com/AnzoDK) for Rosenørn Productions (rosenoern-productions.dk) Please refer to the LICENCE.md file for more info about copying and sharing
+Coded by AnzoDK (https://github.com/AnzoDK) for Rosenørn Productions (rosenoern-productions.dk) Please refer to the LICENCE file for more info about copying and sharing
 */
+
+#define RPEngineVersion "0.2.4.2" 
 #pragma once
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32)
 #define Windows
 #else
 #define Linux
 #endif
-#include "RPAudio/rpaudio.h"
+#include <RPAudio/rpaudio.h>
 #include <filesystem>
 #if defined(_WIN32) || defined(WIN32)
 #include <windows.h>
@@ -23,11 +25,16 @@ Coded by AnzoDK (https://github.com/AnzoDK) for Rosenørn Productions (rosenoern
 #include "RPScene.h"
 #include "RPRandom.h"
 #include <algorithm>
+#include "importedClasses.h"
+#include "RPSettings.h"
 namespace rp{
 
 enum CharacterState{Default=0,Smiling,Crying,Annoyed,Sad,Suprised};
 enum AnimationState{Idle=0};
 enum RunningState{Stopped=0,Running=1};
+
+//Declare the only global variables we need
+static EngineSettings* g_settings;
 
 
 struct ScreenSize
@@ -90,12 +97,17 @@ class EngineLogger
 {
     public:
         EngineLogger(bool withticks=0);
+        EngineLogger(bool withticks, std::string path);
         EngineLogger(std::string path);
-        void Log(std::string strToLog);
+        void Log(std::string strToLog,bool toConsole=false);
         ~EngineLogger(){}
         void operator <<(std::string TextToLog)
         {
             Log(TextToLog);
+        }
+        void SetPath(std::string path)
+        {
+          logPath = path;  
         }
         
     private:
@@ -103,6 +115,7 @@ class EngineLogger
         bool withTicks;
 };
 
+static EngineLogger* g_logger; // our primary logger module
 
 class GameObject : public Base
 {
@@ -151,13 +164,19 @@ class InputHandler
 {
     public:
         InputHandler(){}
-        SDL_MouseButtonEvent GetMouseButton();
+        Uint8 GetMouseButton();
+        bool MouseButtonDown();
+        bool MouseButtonUp();
         SDL_KeyboardEvent GetKey();
         void SetMouseButton(SDL_Event _evt);
         void SetKey(SDL_Event _evt);
         void Clear();
+        void SetUp(){up = true;}
+        void SetDown(){down = true;}
     private:
         SDL_Event evt;
+        bool up;
+        bool down;
 };
 
 class RosenoernEngine
@@ -201,6 +220,7 @@ class RosenoernEngine
     Uint32 fps_lasttime;
     Uint32 fps_current;
     Uint32 fps_frames;
+    bool debug;
     
 };
 
