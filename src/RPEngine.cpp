@@ -10,6 +10,7 @@
 using namespace rp;
 namespace fs = std::filesystem;
 #define MR RosenoernEngine::mainRender
+#define _DEBUG_
 #include <fstream>
     //To fix some static declare issues
     SDL_Renderer* RosenoernEngine::mainRender = nullptr;
@@ -241,7 +242,9 @@ void RosenoernEngine::init()
     {
         if(SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_WARNING,"RPEngine Debug Mode","RPEngine has been set into debug mode, please remember to launch the program through a terminal in order to get the full debug output",NULL) != 0)
         {
+            #ifndef _DEBUG_
             throw GeneralSDLException("Failed to spawn SDL_Messagebox - Messageboxes will be ignored");
+            #endif
         }
     }
         
