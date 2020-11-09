@@ -2,11 +2,11 @@
 SO_DIRS := 
 DEBUG_LEVEL := -g3
 CXX := g++
+INCLUDES :=
 #OBJECTS := ./includes/RPAudio/libRPAudio.a
 OBJECTS := main.o rpengine.o rppng.o ui.o io.o scene.o scenescript.o settings.o
 LIB_OBJECTS := rpengine.o rppng.o ui.o io.o scene.o scenescript.o settings.o
 LIB_TARGETS := rpenginelib.o rppnglib.o uilib.o iolib.o scenelib.o scenescriptlib.o settingslib.o
-INCLUDES := -I./includes
 LIB_FLAGS := -fPIC
 CXX_FLAGS := -std=c++17 -Wall -pthread
 LINK := -lrpaudio -lSDL2 -lSDL2_image -lSDL2_ttf
@@ -19,10 +19,12 @@ DEPBUILD := echo "Not building local target for RPAudio - No need"
 END_LIB_FLAGS :=
 EXE_EX := 
 ifeq ($(USE_LOCAL), 1)
+	INCLUDES := -I./includes
 	DEPBUILD := ./dependency-builder.sh --use-dev --$(OS)
 	SO_DIRS := -Wl,-rpath,./includes/RPAudio -L./includes/RPAudio
 endif
 ifeq ($(OS), Windows)
+	INCLUDES := -I./includes
 	DEPBUILD := ./dependency-builder.sh --use-dev --$(OS)
 	SO_DIRS := -Wl,-rpath,./includes/RPAudio -L./includes/RPAudio	
 	EXE_EX := .exe
