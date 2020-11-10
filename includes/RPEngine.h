@@ -2,7 +2,7 @@
 Coded by AnzoDK (https://github.com/AnzoDK) for Rosenørn Productions (rosenoern-productions.dk) Please refer to the LICENCE file for more info about copying and sharing
 */
 
-#define RPEngineVersion "0.2.4.4" 
+#define RPEngineVersion "0.2.4.5" 
 #pragma once
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32)
 #define Windows
@@ -29,15 +29,7 @@ Coded by AnzoDK (https://github.com/AnzoDK) for Rosenørn Productions (rosenoern
 #include "RPSettings.h"
 namespace rp{
 
-SDL_Rect* CreateRect(int x, int y, int w, int h)
-{
-  SDL_Rect* r = new SDL_Rect(); 
-  r->x = x;
-  r->y = y;
-  r->w = w;
-  r->h = h;
-  return r;
-}
+SDL_Rect* CreateRect(int x, int y, int w, int h);
 
 enum CharacterState{Default=0,Smiling,Crying,Annoyed,Sad,Suprised};
 enum AnimationState{Idle=0};

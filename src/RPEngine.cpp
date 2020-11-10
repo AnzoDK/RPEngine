@@ -430,6 +430,17 @@ void EngineLogger::Log(std::string strToLog, bool toConsole)
 }
 
 
+//Easy Rect Creation
+SDL_Rect* CreateRect(int x, int y, int w, int h)
+{
+  SDL_Rect* r = new SDL_Rect(); 
+  r->x = x;
+  r->y = y;
+  r->w = w;
+  r->h = h;
+  return r;
+}
+
 
 //More UIstuff - mainly drawing
 
