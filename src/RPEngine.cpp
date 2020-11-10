@@ -345,7 +345,7 @@ void RosenoernEngine::Update()
     SDL_RenderPresent(MR);
     
     auto end = std::chrono::high_resolution_clock::now();
-    auto dur = end-start;
+    auto dur = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
     m_fRealFrameTime = dur.count();
     frameTime = SDL_GetTicks() - frameStart;
     //std::cout << "Frametime: " << std::to_string(frameTime) << std::endl;
