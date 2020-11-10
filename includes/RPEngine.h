@@ -209,6 +209,7 @@ class RosenoernEngine
   static InputHandler* InHand;
   void Log(std::string strToLog);
   static Uint32 GetTicks();
+  Uint32 DeltaTime();
   Uint32 GetCurrFps();
   bool FPScounter = 0;
   private:
@@ -224,6 +225,7 @@ class RosenoernEngine
     Uint32 fps_current;
     Uint32 fps_frames;
     bool debug;
+    int frameTime = 0;
     
 };
 

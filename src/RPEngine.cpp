@@ -332,7 +332,6 @@ void RosenoernEngine::Update()
     #else
     u_int32_t frameStart = 0;
     #endif
-    int frameTime = 0;
     frameStart = SDL_GetTicks();
     SDL_GetMouseState(&mouseX,&mouseY);
     //std::bind(&RosenoernEngine::SDLHandle,this);
@@ -394,6 +393,11 @@ Base* RosenoernEngine::GetSceneObject(std::string name)
 Uint32 RosenoernEngine::GetTicks()
 {
     return SDL_GetTicks();  
+}
+
+Uint32 RosenoernEngine::DeltaTime()
+{
+    return frameTime;
 }
 
 EngineLogger::EngineLogger(bool withticks)
