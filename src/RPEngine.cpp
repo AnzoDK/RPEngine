@@ -6,6 +6,7 @@
 #include "../includes/RPExceptions.h"
 #include <thread>
 #include <functional>
+#include <chrono>
 
 using namespace rp;
 namespace fs = std::filesystem;
@@ -269,6 +270,7 @@ int RosenoernEngine::CreateMainWindow(std::string windowName, Uint32 flags,bool 
         SDL_SetRenderDrawColor(RosenoernEngine::mainRender,255,255,255,255);
         SDL_GetWindowSize(RosenoernEngine::mainWin,&RosenoernEngine::width,&RosenoernEngine::height);
         isRunning = 1;
+        return 1;
     }
     else
     {
@@ -333,6 +335,7 @@ void RosenoernEngine::Update()
     u_int32_t frameStart = 0;
     #endif
     frameStart = SDL_GetTicks();
+    auto start = std::chrono::high_resolution_clock::now();
     SDL_GetMouseState(&mouseX,&mouseY);
     //std::bind(&RosenoernEngine::SDLHandle,this);
     SDLHandle();
@@ -340,7 +343,10 @@ void RosenoernEngine::Update()
     SDL_RenderClear(MR);
     currScene->SceneUpdate();
     SDL_RenderPresent(MR);
-
+    
+    auto end = std::chrono::high_resolution_clock::now();
+    auto dur = end-start;
+    m_fRealFrameTime = dur.count();
     frameTime = SDL_GetTicks() - frameStart;
     //std::cout << "Frametime: " << std::to_string(frameTime) << std::endl;
     fps_frames++;
@@ -395,9 +401,9 @@ Uint32 RosenoernEngine::GetTicks()
     return SDL_GetTicks();  
 }
 
-int RosenoernEngine::DeltaTime()
+float RosenoernEngine::DeltaTime()
 {
-    return frameTime;
+    return m_realFrameTime;
 }
 
 EngineLogger::EngineLogger(bool withticks)
