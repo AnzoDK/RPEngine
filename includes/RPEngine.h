@@ -225,7 +225,7 @@ class RosenoernEngine
     Uint32 fps_current;
     Uint32 fps_frames;
     bool debug;
-    int frameTime = 0;
+    float frameTime = 0;
     
 };
 
