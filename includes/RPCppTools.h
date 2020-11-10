@@ -79,5 +79,14 @@ namespace rp
         //tmpArr = reinterpret_cast<unsigned char*>(input);
         return tmpArr;
     }
+    static SDL_Rect* CreateRect(int x, int y, int w, int h)
+    {
+        SDL_Rect* r = new SDL_Rect(); 
+        r->x = x;
+        r->y = y;
+        r->w = w;
+        r->h = h;
+        return r;
+    }
     };
 }

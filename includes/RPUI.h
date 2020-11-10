@@ -10,6 +10,7 @@
 #define defaultBtnTexturePath "Resources/textures/btnDefault.png"
 namespace rp
 {
+    
     class SceneScriptBase;
     enum CommonColor{White,Red,Green,Blue,Black};
     

@@ -508,7 +508,16 @@ void Button::Draw()
         GetUIText()->Draw();
     }  
 }
-
+/*
+SDL_Rect* rp::CreateRect(int x, int y, int w, int h)
+{
+    SDL_Rect* r = new SDL_Rect(); 
+    r->x = x;
+    r->y = y;
+    r->w = w;
+    r->h = h;
+    return r;
+}*/
 
 //Registers
 //Lets forget that idea

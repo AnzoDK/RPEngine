@@ -29,7 +29,6 @@ Coded by AnzoDK (https://github.com/AnzoDK) for Rosenørn Productions (rosenoern
 #include "RPSettings.h"
 namespace rp{
 
-SDL_Rect* CreateRect(int x, int y, int w, int h);
 
 enum CharacterState{Default=0,Smiling,Crying,Annoyed,Sad,Suprised};
 enum AnimationState{Idle=0};
