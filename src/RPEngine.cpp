@@ -344,9 +344,7 @@ void RosenoernEngine::Update()
     currScene->SceneUpdate();
     SDL_RenderPresent(MR);
     
-    auto end = std::chrono::high_resolution_clock::now();
-    auto dur = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
-    m_fRealFrameTime = dur.count()/1000;
+
     frameTime = SDL_GetTicks() - frameStart;
     //std::cout << "Frametime: " << std::to_string(frameTime) << std::endl;
     fps_frames++;
@@ -370,6 +368,9 @@ void RosenoernEngine::Update()
         SDL_Delay(frameDelay-frameTime);
         //std::cout << "Frame delayed" << std::endl;
     }
+    auto end = std::chrono::high_resolution_clock::now();
+    auto dur = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+    m_fRealFrameTime = (float)dur.count()/1000;
 }
 
 Uint32 RosenoernEngine::GetCurrFps()
