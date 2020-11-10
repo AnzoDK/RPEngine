@@ -395,7 +395,7 @@ Uint32 RosenoernEngine::GetTicks()
     return SDL_GetTicks();  
 }
 
-Uint32 RosenoernEngine::DeltaTime()
+int RosenoernEngine::DeltaTime()
 {
     return frameTime;
 }

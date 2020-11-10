@@ -209,7 +209,7 @@ class RosenoernEngine
   static InputHandler* InHand;
   void Log(std::string strToLog);
   static Uint32 GetTicks();
-  Uint32 DeltaTime();
+  int DeltaTime();
   Uint32 GetCurrFps();
   bool FPScounter = 0;
   private:
