@@ -403,7 +403,7 @@ Uint32 RosenoernEngine::GetTicks()
 
 float RosenoernEngine::DeltaTime()
 {
-    return m_realFrameTime;
+    return m_fRealFrameTime;
 }
 
 EngineLogger::EngineLogger(bool withticks)
