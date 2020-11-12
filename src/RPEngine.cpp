@@ -165,8 +165,10 @@ void InputHandler::SetMouseButton(SDL_Event _evt)
 void InputHandler::Clear()
 {
   evt = SDL_Event();
-  up = false;
-  down = false;
+  m_bKeyUp = false;
+  m_bKeyDown = false;
+  m_bMouseDown = false;
+  m_bMouseUp = false;
 }
 void InputHandler::SetKey(SDL_Event _evt)
 {
@@ -174,11 +176,11 @@ void InputHandler::SetKey(SDL_Event _evt)
 }
 bool InputHandler::MouseButtonDown()
 {
-    return down;
+    return m_bMouseDown;
 }
 bool InputHandler::MouseButtonUp()
 {
-    return up;
+    return m_bMouseUp;
 }
 
 //RosenoernEngine
@@ -300,18 +302,22 @@ void RosenoernEngine::SDLHandle()
         
         case SDL_MOUSEBUTTONDOWN:
             RosenoernEngine::InHand->SetMouseButton(currEvent);
-            RosenoernEngine::InHand->SetDown();
+            RosenoernEngine::InHand->SetMouseDown();
         break;
         
         case SDL_MOUSEBUTTONUP:
             RosenoernEngine::InHand->SetMouseButton(currEvent);
-            RosenoernEngine::InHand->SetUp();
+            RosenoernEngine::InHand->SetMouseUp();
         break;
         
         case SDL_KEYDOWN:
             RosenoernEngine::InHand->SetKey(currEvent);
+             RosenoernEngine::InHand->SetKeyDown();
         
         default:
+        case SDL_KEYUP:
+             RosenoernEngine::InHand->SetKey(currEvent);
+              RosenoernEngine::InHand->SetKeyUp();
         break;
     }
 

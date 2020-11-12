@@ -173,12 +173,16 @@ class InputHandler
         void SetMouseButton(SDL_Event _evt);
         void SetKey(SDL_Event _evt);
         void Clear();
-        void SetUp(){up = true;}
-        void SetDown(){down = true;}
+        void SetMouseUp(){m_bMouseUp = true;}
+        void SetMouseDown(){m_bMouseDown = true;}
+        void SetKeyUp(){m_bKeyUp = true;}
+        void SetKeyDown(){m_bKeyUp = true;}
     private:
         SDL_Event evt;
-        bool up;
-        bool down;
+        bool m_bMouseUp;
+        bool m_bMouseDown;
+        bool m_bKeyUp;
+        bool m_bKeyDown;
 };
 
 class RosenoernEngine
