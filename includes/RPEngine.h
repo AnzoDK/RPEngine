@@ -177,6 +177,8 @@ class InputHandler
         void SetMouseDown(){m_bMouseDown = true;}
         void SetKeyUp(){m_bKeyUp = true;}
         void SetKeyDown(){m_bKeyUp = true;}
+        bool KeyUp(){return m_bKeyUp;}
+        bool KeyDown(){return m_bKeyDown;}
     private:
         SDL_Event evt;
         bool m_bMouseUp;
