@@ -312,14 +312,17 @@ void RosenoernEngine::SDLHandle()
         
         case SDL_KEYDOWN:
             RosenoernEngine::InHand->SetKey(currEvent);
-             RosenoernEngine::InHand->SetKeyDown();
-        
-        default:
+            RosenoernEngine::InHand->SetKeyDown();
+        break;
         case SDL_KEYUP:
              RosenoernEngine::InHand->SetKey(currEvent);
-              RosenoernEngine::InHand->SetKeyUp();
+             RosenoernEngine::InHand->SetKeyUp();
+        break;
+             
+        default:
         break;
     }
+
 
 }
 }
