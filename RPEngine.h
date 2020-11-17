@@ -9,10 +9,60 @@ struct DoubleItem
 {
     DoubleItem(T1 t1, T2 t2){item1 = t1; item2 = t2;}
     bool operator==(DoubleItem di2){if(di2.item1 == item1 && di2.item2 == item2){return true;}else{return false;}}
-    void operator=(DoubleItem di2){item1 = di2.item1;item2 = di2.item2;}
+    DoubleItem& operator=(DoubleItem di2){item1 = di2.item1;item2 = di2.item2; return **this;}
     ~DoubleItem(){}
     T1 item1;
     T2 item2;
+};
+
+template <typename T>
+struct Vector2D
+{
+    T x,y;
+    Vector2D(T X, T Y)
+    {
+        x = X;
+        y = Y;
+    }
+    
+    void Add(Vector2D v2)
+    {
+        x += v2.x;
+        y += v2.y;
+    }
+    
+    void Subtract(Vector2D v2)
+    {
+        x -= v2.x;
+        y -= v2.y;
+    }
+    
+    Vector2D operator+(Vector2D v2)
+    {
+        return Vector2D(x+v2.x,y+v2.y);
+    }
+    
+    Vector2D operator-(Vector2D v2)
+    {
+        return Vector2D(x-v2.x,y-v2.y);
+    }
+    
+    Vector2D& operator+=(Vector2D v2)
+    {
+        x += v2.x;
+        y += v2.y;
+        return **this;
+    }
+    
+    Vector2D& operator-=(Vector2D v2)
+    {
+        x -= v2.x;
+        y -= v2.y;
+        return **this;
+    }
+    
+    
+    
 };
 
 struct Rect
