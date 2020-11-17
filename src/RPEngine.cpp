@@ -156,7 +156,7 @@ SDL_KeyboardEvent InputHandler::GetKeyEvent()
 }
 SDL_Keycode InputHandler::GetKey()
 {
-  return evt.key.keysym.sym;  
+   return evt.key.keysym.sym;  
 }
 void InputHandler::SetMouseButton(SDL_Event _evt)
 {
@@ -286,45 +286,45 @@ void RosenoernEngine::SDLHandle()
     InHand->Clear();
     while(SDL_PollEvent(&currEvent))
     {
-    switch (currEvent.type) 
-    {
-        case SDL_WINDOWEVENT:
-            switch(currEvent.window.event)
-            {
-                default:
-                break;
+        switch (currEvent.type) 
+        {
+            case SDL_WINDOWEVENT:
+                switch(currEvent.window.event)
+                {
+                    default:
+                    break;
                 
-                case SDL_WINDOWEVENT_CLOSE:
-                    Quit();
-                break;
-            }
-        break;
+                    case SDL_WINDOWEVENT_CLOSE:
+                        Quit();
+                    break;
+                }
+            break;
         
-        case SDL_MOUSEBUTTONDOWN:
-            RosenoernEngine::InHand->SetMouseButton(currEvent);
-            RosenoernEngine::InHand->SetMouseDown();
-        break;
+            case SDL_MOUSEBUTTONDOWN:
+                RosenoernEngine::InHand->SetMouseButton(currEvent);
+                RosenoernEngine::InHand->SetMouseDown();
+            break;
         
-        case SDL_MOUSEBUTTONUP:
-            RosenoernEngine::InHand->SetMouseButton(currEvent);
-            RosenoernEngine::InHand->SetMouseUp();
-        break;
+            case SDL_MOUSEBUTTONUP:
+                RosenoernEngine::InHand->SetMouseButton(currEvent);
+                RosenoernEngine::InHand->SetMouseUp();
+            break;
         
-        case SDL_KEYDOWN:
-            RosenoernEngine::InHand->SetKey(currEvent);
-            RosenoernEngine::InHand->SetKeyDown();
-        break;
-        case SDL_KEYUP:
-             RosenoernEngine::InHand->SetKey(currEvent);
-             RosenoernEngine::InHand->SetKeyUp();
-        break;
+            case SDL_KEYDOWN:
+                RosenoernEngine::InHand->SetKey(currEvent);
+                RosenoernEngine::InHand->SetKeyDown();
+            break;
+            
+            case SDL_KEYUP:
+                RosenoernEngine::InHand->SetKey(currEvent);
+                RosenoernEngine::InHand->SetKeyUp();
+            break;
+            
              
-        default:
-        break;
+            default:
+            break;
+        }
     }
-
-
-}
 }
 void RosenoernEngine::SetScene(Scene* s)
 {
