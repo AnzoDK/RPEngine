@@ -19,9 +19,10 @@ class Game : public RPEngine
             {
                 std::cout << "Frame " << m_iFrameCounter << std::endl;
             }
-            Fill(Color(255,0,0));
-            DrawLine(0,0,480,480);
-            
+            //Fill(Color(255,0,0));
+            //DrawLine(0,0,480,480);
+            Point2D points[6] = {Point2D(0,0),Point2D(60,80),Point2D(100,60),Point2D(200,40),Point2D(400,0),Point2D(500,34)};
+            DrawShape(points,6);
             m_iFrameCounter++;
             
         }
