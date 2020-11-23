@@ -14,3 +14,4 @@ gmon.out
 profileTest.txt
 RPScriptLinker
 RPScriptLinker.exe
+*.out
