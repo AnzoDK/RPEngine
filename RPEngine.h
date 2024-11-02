@@ -1,14 +1,18 @@
 #pragma once
 #include <iostream>
 #include <filesystem>
-
+#include <chrono>
+#include <thread>
 /*The (hopefully) only place to check OS and lib requirements*/ /*Yea no*/
 #if defined(_WIN32)
 #include <windows.h>
+#include <RPCommon.h>
 #endif
 
 #if defined(__linux__) || defined(__MINGW32__)
 #include <X11/X.h>
+#include <unistd.h>
+#include <RPCommon/RPCommon.h>
 #include <X11/Xlib.h>
 #define X11
 #endif
@@ -43,7 +47,9 @@ struct BadFunctionPtr : public std::exception
 
 /*-----------Enums Start------------*/
 
-enum EngineMode{FunctionMode,ClassMode};
+enum EngineMode{FunctionMode,ClassMode}; //Function mode is pretty useless
+enum LogType{Warning,Error,Info};
+enum LogMode{Terminal,File};
 
 /*------------Enums End-------------*/
 
@@ -141,18 +147,17 @@ struct Vector2D
     
 };
 
-struct Rect
-{
-  Rect(){}
-  Rect(float X, float Y, float W, float H){x = X; y = Y; w = W; h = H;}
-  float x,y,w,h;  
-};
+
 
 
 struct Point2D
 {
-    Point2D(float X, float Y){x = X; y = Y;}
+    Point2D(float X, float Y) : x(X), y(Y){}
     Point2D(){}
+    /*Point2D operator()(float _x, float _y)
+    {
+        return Point2D(_x,_y);
+    }*/
     float x,y;
 };
 
@@ -171,6 +176,31 @@ struct Color
   uint8_t r,g,b;  
 };
 
+struct Shape
+{
+    Point2D* points;
+    int iPointCount; 
+    Shape(Point2D* pointArr, int length) : points(ArrayCopy(pointArr,length)), iPointCount(length)
+    {
+        //points = ArrayCopy(pointArr,length);
+        
+        //iPointCount = length;
+    }
+    Shape(std::initializer_list<Point2D> pointArr)
+    {
+        size_t size = 0;
+        points = InitilizerToArray(pointArr,size);
+        iPointCount = size;
+        
+    }
+};
+struct Rect
+{
+  Rect(){}
+  Rect(float X, float Y, float W, float H){x = X; y = Y; w = W; h = H;}
+  Shape ToShape(){return Shape({Point2D(x,y),Point2D(x+w,y),Point2D(x+w,y+h),Point2D(x,y+h)});};
+  float x,y,w,h;  
+};
 
 class RPEngine
 {
@@ -182,10 +212,15 @@ class RPEngine
         void DrawLine(Point2D point1, Point2D point2);
         void DrawLine(float x1, float y1, float x2, float y2);
         void DrawShape(Point2D points[], int length);
+        void DrawShape(Shape shape);
+        void DrawShape(Rect rect);
+        void ClearScreen();
         void Fill(Color c);
         void Fill(uint8_t R, uint8_t G, uint8_t B);
-        virtual void Run(){}
-        virtual void Init(){}
+        float GetDeltaTime();
+        void Log(std::string msg, LogType type);
+        virtual void UserLoop(){}
+        virtual void UserInit(){}
         virtual ~RPEngine();
     private:
         DoubleItem<int, int>* m_screenSize;
@@ -200,11 +235,25 @@ class RPEngine
         void(*m_funcUpdatePtr)();
         void (*m_funcInitPtr)();
         void m_StartLoop();
+        void m_init();
         bool m_bRunning;
+        float m_fDeltaTime;
         EngineMode m_mode;
         Color* m_colorInUse;
+        LogMode logMode;
 };
 
+class Base2D
+{
+public:
+    Base2D(){};
+    Base2D(Point2D pos) : m_position(pos){};
+    Point2D GetPos(){return Point2D(m_position.x,m_position.y);};
+    virtual void Update(){};
+    virtual void Draw(RPEngine& renderEngine){};
+protected:
+    Point2D m_position = {0,0};
+};
 RPEngine::RPEngine(int width, int height)
 {
     
@@ -232,6 +281,12 @@ RPEngine::~RPEngine()
     XFree(m_context);
     #endif
 }
+
+void RPEngine::m_init()
+{
+    logMode = LogMode::Terminal;
+}
+
 void RPEngine::Start()
 {
     #ifdef X11
@@ -262,6 +317,7 @@ void RPEngine::Start()
 void RPEngine::m_StartLoop()
 {
   m_bRunning = true;
+  m_init(); //Engine Init
   
   if(m_mode == EngineMode::FunctionMode)
   {
@@ -270,18 +326,40 @@ void RPEngine::m_StartLoop()
       while(m_bRunning)
       {
           //Do events n stuff
+          std::chrono::time_point startT = std::chrono::high_resolution_clock::now();
           m_funcUpdatePtr(); //User Update
+          std::chrono::time_point endT = std::chrono::high_resolution_clock::now();
+          std::chrono::milliseconds diff = std::chrono::duration_cast<std::chrono::milliseconds>(endT-startT);
+          m_fDeltaTime = diff.count();
+          std::this_thread::sleep_for(std::chrono::seconds(1));
+          XFlush(m_xDisplay);
       }
       
   }
   else
   {
-      Init();
+      UserInit();
       
       while(m_bRunning)
       {
+
+          std::chrono::time_point startT = std::chrono::high_resolution_clock::now();
+          UserLoop(); //UserUpdate
+          std::chrono::time_point endT = std::chrono::high_resolution_clock::now();
+          std::chrono::milliseconds diff = std::chrono::duration_cast<std::chrono::milliseconds>(endT-startT);
+          if(diff.count() == 0)
+          {
+              m_fDeltaTime = 0.1/1000;
+              Log("TOO FAST - Clock can't keep up! - Setting fDeltaTime to 0.0001 seconds", LogType::Warning);
+          }
+          else
+          {
+              m_fDeltaTime = diff.count();
+          }
+          std::this_thread::sleep_for(std::chrono::milliseconds(100));
+          //std::this_thread::sleep_for(diff);
           
-          Run();
+          
       }
   }
   
@@ -330,6 +408,56 @@ void RPEngine::DrawShape(Point2D points[], int length)
         
     }
 }
+void RPEngine::DrawShape(Shape shape)
+{
+    Point2D prevPoint = Point2D(0,0);
+    for(int i = 0; i < shape.iPointCount;i++)
+    {
+        if(i == 0)
+        {
+            prevPoint = shape.points[i];
+        }
+
+        else if(i == shape.iPointCount-1)
+        {
+            DrawLine(prevPoint, shape.points[i]);
+            prevPoint = shape.points[i];
+            DrawLine(prevPoint, shape.points[0]);
+        }
+        else
+        {
+            DrawLine(prevPoint, shape.points[i]);
+            prevPoint = shape.points[i];
+        }
+        
+    }
+}
+
+void RPEngine::DrawShape(Rect rect)
+{
+    Shape shape = rect.ToShape();
+    Point2D prevPoint = Point2D(0,0);
+    for(int i = 0; i < shape.iPointCount;i++)
+    {
+        if(i == 0)
+        {
+            prevPoint = shape.points[i];
+        }
+
+        else if(i == shape.iPointCount-1)
+        {
+            DrawLine(prevPoint, shape.points[i]);
+            prevPoint = shape.points[i];
+            DrawLine(prevPoint, shape.points[0]);
+        }
+        else
+        {
+            DrawLine(prevPoint, shape.points[i]);
+            prevPoint = shape.points[i];
+        }
+        
+    }
+}
 
 void RPEngine::Fill(Color c)
 {
@@ -340,6 +468,44 @@ void RPEngine::Fill(uint8_t R, uint8_t G, uint8_t B)
 {
     m_colorInUse = new Color(R,G,B);
 }
+
+float RPEngine::GetDeltaTime()
+{
+    return m_fDeltaTime;
+}
+void RPEngine::ClearScreen()
+{
+    #ifdef X11
+    XClearWindow(m_xDisplay,m_xWindow);
+    #endif
+}
+
+void RPEngine::Log(std::string msg, LogType type)
+{
+    std::string logTypeString = "";
+    switch(type)
+    {
+        case LogType::Warning:
+            logTypeString = "[WARNING] ";
+        break;
+        case LogType::Error:
+            logTypeString = "[ERROR] ";
+        break;
+        case LogType::Info:
+            logTypeString = "[INFO] ";
+        break;
+        default:
+            logTypeString = "[UNKNOWN] ";
+        break;
+            
+    }
+    if(logMode == LogMode::Terminal)
+    {
+        std::cout << logTypeString << msg << std::endl;
+    }
+    
+}
+
 
 
 
